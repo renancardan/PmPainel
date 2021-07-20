@@ -40,8 +40,11 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [activeChat, setActiveChat] = useState(null);
       const [Vizul, setVizul] = useState('');
       const [Varia, setVaria] = useState('');
-      const [Loc, setLoc] = useState({ lat: -4.2093422, lng: -44.7892419 });
-      const [VirModal, setVirModal] = useState(false)
+      const [Loc, setLoc] = useState({});
+      const [VirModal, setVirModal] = useState(false);
+      const [Cont, setCont] = useState([]);
+      const [NomeCond, setNomeCond] = useState('');
+      const [AtuaMaps, setAtuaMaps] = useState(false);
       useEffect(() => {
           LevarTemp();
       }, [])
@@ -55,8 +58,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
    
 
    useEffect(() => {
-     
-  }, [Forms])
+   
+      console.log(Cont);
+   
+  }, [Cont])
 
   useEffect(() => {
     CondPegar();
@@ -67,7 +72,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
    Vizuali();
 }, [Vizul ,activeChat]);
 
-      
+     
 
      const LevarTemp = async ()=>{
       await Api.VariacaoTemp();
@@ -80,8 +85,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
      const CondPegar = ()=>{
        if(activeChat !== null){
-         console.log("Entrando Active");
-        Api.PegarCond(activeChat, setForms);
+        Api.PegarCond(activeChat, setForms, setLoc);
        }
         
      }
@@ -96,10 +100,15 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
     
 
       const AbrirMaps = ()=>{
+        setAtuaMaps(true);
         setMapsCaixa(!MapsCaixa);
+       
       }
 
       const Verconversa = async (id, nome, Quant)=>{
+        setVirModal(false);
+        setMapsCaixa(false);
+        setAtuaMaps(false);
         await setForms([]);
         await setNome(nome);
         await setActiveChat(id);
@@ -110,15 +119,28 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
       const Vizuali = ()=>{
         if(Vizul !== '' && activeChat !== null) {
-          console.log(Vizul);
-          console.log(activeChat);
           Api.MsgLida(activeChat, Vizul);
         }
       }
 
-      const closeModal = ()=>{
-        setVirModal(false);
-    }
+      const TirarCond = async (Vale, tipo)=>{
+        await setNomeCond(tipo)
+        await setCont([...Forms.filter((item, index) => item.id !== Vale)]);
+        await setAlert("oK");
+        await setAlertTipo("Excluir");
+        
+      }
+
+      const Cancelar = ()=>{
+        setAlert(" ");
+       setAlertTipo("");
+      }
+
+      const CondGuard = ()=>{
+        Api.ExcluirCondi(activeChat, Cont, setAlertTipo, setAlert);
+        setAlert(" ");
+        setAlertTipo("");
+      }
 
       
   
@@ -130,14 +152,21 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             
            
             <div className="content-wrapper">
-            <Modal visible={VirModal} width="300" height="500" effect="fadeInUp" onClickAway={() =>closeModal()}>
-                      <Condic
-                      Forms={Forms}
-                      setForms={setForms}
-                      activeChat={activeChat}
-                      setVirModal={setVirModal}
-                      />
-                </Modal>
+            { Alert !== " " && AlertTipo === "Excluir" &&
+              <SweetAlert
+              warning
+              showCancel
+              confirmBtnText="Sim"
+              cancelBtnText="Não"
+              confirmBtnBsStyle="danger"
+              onConfirm={()=>CondGuard()}
+              onCancel={()=>Cancelar()}
+              focusCancelBtn
+            >
+              Tem certeza que deseja Excluir a Condicional {NomeCond}
+            </SweetAlert>
+            }
+            
               <HeaderPage
               Avisando={Avisando} 
               Titulo={Titulo}
@@ -210,10 +239,13 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         Varia={Varia}
                         setVizul={setVizul}
                         />
-                        <Maps 
-                        MapsCaixa={MapsCaixa}
-                        Loc={Loc}
-                        />
+                        {AtuaMaps === true &&
+                         <Maps 
+                         MapsCaixa={MapsCaixa}
+                         Loc={Loc}
+                         />
+                        }
+                       
                         </>
                        }
                         {activeChat === null &&
@@ -225,37 +257,52 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
                             </div>
                             {activeChat !== null &&
-                            <div className="formularioCond">
-                                  <div className="card card-info">
-                                <div className="card-header">
-                                  <h3 className="card-title">Condicionais Preenchidas</h3>
-                                </div>
-                              
-                                {/* /.card-header */}
-                                <div className="card-body">
-                                    {Forms.map((item,key)=>(
-                                      <>
-                                   <string> {item.nome}</string><br/>
-                                      </>
-                                     ))
-            
-                                  }
-
-                                <Butao 
-                                    style={"btn .btn-sm btn-info"}
-                                    titulo={"Add Condicionais"}
-                                    onClick={()=>AdicionaCond()}
-                                    />  
-                                   
+                            <>
+                              {VirModal === false ?
+                                      <div className="formularioCond">
+                                      <div className="card card-info">
+                                    <div className="card-header">
+                                      <h3 className="card-title">Condicionais Preenchidas</h3>
                                     </div>
-                                {/* /.card-body */}
-                              </div>
-                             
- 
-                          
+                                  
+                                    {/* /.card-header */}
+                                    <div className="card-body">
+                                        {Forms.map((item,key)=>(
+                                          <>
+                                          <div className="listCond">
+                                          <string> {item.nome}</string>
+                                          <div className="chatWindow--btn2"
+                                            onClick={()=>TirarCond(item.id, item.nome)}
+                                            >
+                                                <p className="textButao" >EXCLUIR</p>
+                                            </div>
+                                          </div>
+                                       <br/>
+                                          </>
+                                         ))
+                
+                                      }
     
-
-                            </div>
+                                    <Butao 
+                                        style={"btn .btn-sm btn-info"}
+                                        titulo={"Add Condicionais"}
+                                        onClick={()=>AdicionaCond()}
+                                        />  
+                                       
+                                        </div>
+                                    {/* /.card-body */}
+                                  </div>
+                                </div>
+                                :
+                                <Condic
+                                Forms={Forms}
+                                setForms={setForms}
+                                activeChat={activeChat}
+                                setVirModal={setVirModal}
+                                />
+                              }
+                              </>
+                    
    }
                         </div>                            
                     </div>

@@ -41,6 +41,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
           {id:4, select:"Verde"},
 
       ]);
+      const [MsgApp, setMsgApp] = useState("Enter...");
+      const [AvApp, setAvApp] = useState("");
       
       
       useEffect(() => {
@@ -54,8 +56,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       }, [])
 
       useEffect(() => {
-      
-       }, [Msg])
+      AvisosAppPega();
+       }, [])
 
       useEffect(() => {
       
@@ -65,6 +67,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
        useEffect(() => {
         Listando();
        }, [Offset])
+
+       const AvisosAppPega = ()=>{
+         Api.PegarAvisoApp(AvApp, setAvApp);
+       }
      
        const CriandoTelefone = async ()=>{
         if(Telefone !=="" && Telefone  !==" " && Telefone  !=="  " && Telefone  !=="   " && Telefone  !=="    " && Telefone  !=="     " && Telefone  !=="      "
@@ -296,6 +302,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                 const DesativarAviso = ()=>{
                     Api.DesativandoAviso(Dados, IdAviso, setAlertTipo, setAlert)
                 }
+                const CriandoAvisoApp = ()=>{
+                  Api.CriandoAvisoApp(Dados, MsgApp, setAlertTipo, setAlert );
+                }
 
     
       
@@ -377,7 +386,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
  {/* general form elements disabled */}
 <div className="card card-warning">
   <div className="card-header">
-    <h3 className="card-title">Criar Avisos</h3>
+    <h3 className="card-title">Criar Avisos Para Polícia</h3>
   </div>
   {/* /.card-header */}
   <div className="card-body">
@@ -448,6 +457,58 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 </div>
 {/* /.card */}
 {/* general form elements disabled */}
+<div className="card card-success">
+  <div className="card-header">
+    <h3 className="card-title">Criar Avisos Para o App Cliente</h3>
+  </div>
+  {/* /.card-header */}
+  <div className="card-body">
+    
+      <div className="row">
+        <div className="col-sm-6">
+          {/* textarea */}
+          <div className="form-group">
+            <label>Digite a Mensagem</label>
+            
+            <TextArea 
+            placeholder={MsgApp}
+            value={MsgApp}
+            onChange={e=>setMsgApp(e.target.value)}
+            />
+            </div>
+         
+        </div>
+        <div className="col-sm-6">
+          <div className="form-group">
+            
+            <div style={{height:"50px", width:"500px", display:"flex",  justifyContent:"center" }}>
+         
+             <div style={{marginTop:"4px",width:"250px"}}>
+
+                 {AvApp[0] ?
+                    <Butao 
+                    style={"btn btn-sm btn-danger"}
+                    titulo={"Excluir"}
+                    onClick={()=>DesativarAviso()}
+                    />
+                    :
+                    <Butao 
+                    style={"btn btn-sm btn-success"}
+                    titulo={"Criar Aviso"}
+                    onClick={()=>CriandoAvisoApp()}
+                    />
+                 }
+                
+                        
+                        </div>
+                        </div>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+  {/* /.card-body */}
+</div>
 
                     <div className="card card-info">
                         <strong style={{marginTop:"10px", marginLeft:"10px"}}>Cadastre um Telefone:</strong><br />

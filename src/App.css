@@ -13,6 +13,16 @@
     border-right: 1px solid #DDD;
   }
 
+  .listCond {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #DDD;
+
+  }
+
   .topo {
     height: 60px;
     display: flex;
@@ -195,6 +205,12 @@
  
   height: 100%;
   width: 25%;
+  overflow-y: auto;
+}
+.formularioCond1 {
+ 
+  height: 100%;
+  width: 100%;
   overflow-y: auto;
 }
 

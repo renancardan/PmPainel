@@ -1303,6 +1303,25 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
       });
     },
 
+    CriandoAvisoApp: async(Dados, MsgApp, setAlertTipo, setAlert)=> {
+     
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+      const Setor = "";
+      await db.collection("avisoAppVit").add({
+        ativo:true,
+        body: MsgApp,
+        cidade: Dados.cidade,
+        estado:  Dados.estado,
+        instituicao: Dados.instituicao,
+      }).then((docRef) => {
+        setAlert("Criado com Sucesso");
+        setAlertTipo("success");
+    })
+
+  
+    },
+
     DesativandoAviso: async(Dados, IdAviso, setAlertTipo, setAlert)=> {
       const autenticado =  await Auth.currentUser;
       const id = await autenticado.uid;
@@ -1385,6 +1404,43 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         });
         
     },
+
+    PegarAvisoApp: async(AvApp, setAvApp)=> {
+      await Auth.onAuthStateChanged( async function(user) {
+        if (user) {
+        const ID = user.uid;
+        const dados = await db.collection('users')
+        .doc(ID).
+        get()
+        .then(async(dados)=>{
+          const result = await dados.data();
+              console.log(result);
+              await db.collection("avisoAppVit")
+              .where("estado", "==", result.estado)
+              .where("cidade", "==", result.cidade)
+              .where("instituicao", "==", result.instituicao)
+              .where("ativo", "==", true)
+              .onSnapshot((querySnapshot) => {
+                
+                const res = [];
+    
+                  querySnapshot.forEach((doc) => {
+                    res.push({
+                      id: doc.id,
+                      body: doc.data().body,
+                    });             
+                  });
+                 
+                setAvApp(res);
+                console.log(res);
+                  
+                });
+            });
+          }
+        });
+        
+    },
+
     EnviarAudio: async (Som) => {
       let now = new Date();
       const uploadUri = Som;
@@ -1621,6 +1677,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     });   
       
     },
+
     AddCondi: async(activeChat, Forms)=> {
       const autenticado =  await Auth.currentUser;
       const id = await autenticado.uid;
@@ -1637,14 +1694,34 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         console.error("Error updating document: ", error);
     });   
     },
+
+    ExcluirCondi: async(activeChat, Cont, setAlertTipo, setAlert )=> {
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+       await db.collection('ocorrencia')
+       .doc(activeChat)
+       .update({
+        condicionais: Cont,
+    })
+    .then(() => {
+      setAlert(" ");
+      setAlertTipo("");
+       
+    })
+    .catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });   
+    },
       
 
 
-    PegarCond: async(activeChat, setForms)=> {
+    PegarCond: async(activeChat, setForms, setLoc)=> {
  
       await db.collection('ocorrencia')
       .doc(activeChat)
       .onSnapshot((doc) => {
+        setLoc(doc.data().localizacao);
         if(doc.data().condicionais) {
           setForms(doc.data().condicionais);
         } else {

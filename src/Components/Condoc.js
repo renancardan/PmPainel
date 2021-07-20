@@ -10,7 +10,9 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
 
     const [Condicao, setCondicao] = useState([]);
     const [Pesquisa, setPesquisa] = useState('');
-    const [CondVer, setCondVer] = useState([]);
+    const [CondVer, setCondVer] = useState(Forms);
+    
+
 
     useEffect(() => {
         if(activeChat !== null) {
@@ -19,22 +21,25 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
        
     }, [activeChat]);
 
-    useEffect(()=>{
-        console.log(CondVer);
-    }, [CondVer])
+  
 
     const addCond = (value, chek)=>{
-        if(chek === true){
-          setForms([...Forms.filter((item, index) => item.id !== value.id)]);
-        }else {
-          setForms([... Forms, value]);
-        }
+      let mast = Forms.filter(item => item.id.includes(value.id));
+          if(mast.length === 0){
+            if(chek === true){
+              setForms([...Forms.filter((item, index) => item.id !== value.id)]);
+            }else {
+              
+              setForms([... Forms, value]);
+            
+            }
+          }
+       
         
        
       }
 
     const PegarCondi = async ()=> {
-        await Api.PegarCondForms(activeChat, setCondVer);
         await Api.PegarCondicionais(Condicao, setCondicao);
        
     }
@@ -44,7 +49,12 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
         setVirModal(false);
        }
 
+       const FecharCond = ()=>{
+        setVirModal(false);
+       }
+
         return (
+            <div className="formularioCond">
             <div className="card card-warning">
             <div className="card-header">
               <h3 className="card-title">Condicionais da Ocorrência</h3>
@@ -67,7 +77,12 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
             style={"btn .btn-sm btn-info"}
             titulo={"Salvar"}
             onClick={()=>AdicionaCond()}
-            />  
+            />
+             <Butao 
+            style={"btn .btn-sm btn-danger"}
+            titulo={"Fechar"}
+            onClick={()=>FecharCond()}
+            />    
             </div>
           </div>
             
@@ -83,9 +98,9 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
               <CheckboxCond
               key={key} 
               label={item.nome}
-              Forms={CondVer}
+              Forms={Forms}
               id={item.id} 
-              res={CondVer.filter(p => p.nome.includes(item.nome))}
+              res={false}
               activeChat={activeChat}
               onChange={(value, chek)=>{addCond(value, chek)}} 
               /> <br />  
@@ -94,7 +109,7 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
                 </div>
             {/* /.card-body */}
           </div>
-            
+            </div>
 
  
         );
