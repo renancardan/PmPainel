@@ -65,7 +65,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               ValorNoti={"New"}
               />
             <MenuLink 
-              Linkto={"/serv"}
+              Linkto={"/ocorrencia"}
               Icon={"nav-icon fas fa-taxi"}
               Titulo={"OCORRÊNCIAS"}
               Notificacao={false}

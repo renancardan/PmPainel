@@ -274,6 +274,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
             <Modal visible={Visible} width="500" height="500" effect="fadeInUp" onClickAway={() =>closeModal()}>
                     <div>
                     <video width="500" height="500" controls
+                    preload="auto"
                 source src={Body} type="video/mp4" type="video/ogg"
                 >
 

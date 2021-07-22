@@ -7,6 +7,7 @@ import Contas from '../../Pages/Serv/ContasServ';
 import Permissoes from '../../Pages/Serv/Permissoes';
 import Config from '../../Pages/Serv/ConfigServ';
 import Chat from '../../Pages/Serv/ChatServ';
+import Ocorrencia from '../../Pages/Serv/Ocorrencia';
 
 
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo, setAlertTipo, Avisando, setAvisando }) => {
@@ -100,6 +101,20 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             </Route>
             <Route exact path= "/chat">
                 <Chat
+                    Dados={Dados}
+                    setDados={setDados}
+                    Loading={Loading}
+                    setLoading={setLoading}
+                    Alert={Alert}
+                    setAlert={setAlert}
+                    AlertTipo={AlertTipo}
+                    setAlertTipo={setAlertTipo}
+                    Avisando={Avisando}
+                    setAvisando={setAvisando}
+                />
+            </Route>
+            <Route exact path= "/ocorrencia">
+                <Ocorrencia
                     Dados={Dados}
                     setDados={setDados}
                     Loading={Loading}

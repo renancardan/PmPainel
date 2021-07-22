@@ -938,6 +938,58 @@ export default {
     
   },
 
+  ListOcorr: async(Dados, setQuant, setUsuariosContServ)=> {
+   
+    await Auth.onAuthStateChanged( async function(user) {
+      if (user) {
+      const ID = user.uid;
+      const Setor = "Lista Grupos Serv";
+      const dados = await db.collection('users')
+      .doc(ID).
+      get()
+      .then(async(dados)=>{
+        const result = await dados.data();
+
+          await db.collection("ocorrencia")
+          .where("estado", "==", result.estado)
+          .where("cidade", "==", result.cidade)
+          .where("instituicao", "==", result.instituicao)
+            .onSnapshot((querySnapshot) => {
+            setQuant(querySnapshot.size);
+            var res = []; 
+            querySnapshot.forEach((doc) => {
+                res.push({
+                  id: doc.id,
+                  date: doc.data().dataInicio.seconds,
+                  ativo: doc.data().ativo,  
+                });      
+            });
+
+            res.sort((a,b)=>{
+              if(a.date < b.date) {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
+            console.log(res);
+            setUsuariosContServ(res);
+            
+    
+              });
+
+          
+        
+   
+       }); 
+     
+      } 
+  
+    });
+    
+    
+  },
+
 DadosGruposServ: async(Dados, Id, setInfor)=> {
   const autenticado =  await Auth.currentUser;
   const id = await autenticado.uid;
@@ -1307,18 +1359,44 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
      
       const autenticado =  await Auth.currentUser;
       const id = await autenticado.uid;
-      const Setor = "";
-      await db.collection("avisoAppVit").add({
+      await db.collection("avisoAppVit")
+      .where("estado", "==", Dados.estado)
+      .where("cidade", "==", Dados.cidade)
+      .where("instituicao", "==", Dados.instituicao)
+      .get()
+      .then((querySnapshot) => {
+       
+          
+        if(querySnapshot.size === 0){
+    
+      db.collection("avisoAppVit").add({
         ativo:true,
         body: MsgApp,
         cidade: Dados.cidade,
         estado:  Dados.estado,
         instituicao: Dados.instituicao,
       }).then((docRef) => {
-        setAlert("Criado com Sucesso");
+        setAlert("Ativado com Sucesso");
         setAlertTipo("success");
-    })
+       })
+        }else {
 
+          querySnapshot.forEach((doc) => {
+            db.collection("avisoAppVit").doc(doc.id).update({
+              "ativo": true,
+              "body":  MsgApp,
+             }).then(()=>{
+              setAlert("Ativado com Sucesso");
+              setAlertTipo("success");
+            });
+
+          });
+
+
+        }
+
+
+      });
   
     },
 
@@ -1343,6 +1421,17 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
           idSofrer:IdAviso,
           })
   
+      });
+    },
+
+    DesativandoAvisoApp: async(AppAvi, setAlertTipo, setAlert)=> {
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+      await db.collection("avisoAppVit").doc(AppAvi).update({
+       "ativo":false, 
+      }).then(()=>{
+        setAlert("Desativado com Sucesso");
+        setAlertTipo("success");
       });
     },
 
@@ -1428,11 +1517,11 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
                     res.push({
                       id: doc.id,
                       body: doc.data().body,
+                      ativo: doc.data().ativo,
                     });             
                   });
                  
                 setAvApp(res);
-                console.log(res);
                   
                 });
             });

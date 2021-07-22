@@ -43,12 +43,18 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       ]);
       const [MsgApp, setMsgApp] = useState("Enter...");
       const [AvApp, setAvApp] = useState("");
+      const [AppAvi, setAppAvi] = useState('')
       
       
       useEffect(() => {
-        PegAvisando();
-            
+        PegAvisando();    
        }, [Avisando])
+
+       useEffect(() => {
+        if(AvApp[0]){
+          setMsgApp(AvApp[0].body);
+        }
+       }, [AvApp])
       
 
       useEffect(() => {
@@ -70,6 +76,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
        const AvisosAppPega = ()=>{
          Api.PegarAvisoApp(AvApp, setAvApp);
+         
        }
      
        const CriandoTelefone = async ()=>{
@@ -302,8 +309,21 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                 const DesativarAviso = ()=>{
                     Api.DesativandoAviso(Dados, IdAviso, setAlertTipo, setAlert)
                 }
-                const CriandoAvisoApp = ()=>{
+                const CriarAvisoApp = ()=>{
                   Api.CriandoAvisoApp(Dados, MsgApp, setAlertTipo, setAlert );
+                }
+                const DesativarAvisoApp = async ()=>{
+                 await  setAlert(" ");
+                 await  setAlertTipo(" "); 
+                await Api.DesativandoAvisoApp(AppAvi, setAlertTipo, setAlert)
+
+                }
+
+                const DesApp = (value)=>{
+                  setAppAvi(value);
+                  setAlert("ok");
+                  setAlertTipo("DesativarApp");
+                  
                 }
 
     
@@ -318,6 +338,21 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             {Alert !== " " && AlertTipo === "danger" &&
                   <SweetAlert  danger title={Alert} confirmBtnBsStyle="danger" onConfirm={confirma} onCancel={cancelar} />
                 }
+
+               { Alert !== " " && AlertTipo === "DesativarApp" &&
+              <SweetAlert
+              warning
+              showCancel
+              confirmBtnText="Sim"
+              cancelBtnText="Não"
+              confirmBtnBsStyle="danger"
+              onConfirm={()=>DesativarAvisoApp()}
+              onCancel={cancelar}
+              focusCancelBtn
+            >
+              Tem certeza que deseja Desativar o Aviso nos Apps dos Usuários
+            </SweetAlert>
+            }
 
 
             { Alert !== " " && AlertTipo === "Desativar" &&
@@ -334,6 +369,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               Tem certeza que deseja Desativar o Telefone {Nome}
             </SweetAlert>
             }
+            
             { Alert !== " " && AlertTipo === "ativar" &&
               <SweetAlert
               warning
@@ -486,17 +522,27 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
              <div style={{marginTop:"4px",width:"250px"}}>
 
                  {AvApp[0] ?
+                 <>
+                 { AvApp[0].ativo === true ?
                     <Butao 
-                    style={"btn btn-sm btn-danger"}
-                    titulo={"Excluir"}
-                    onClick={()=>DesativarAviso()}
+                    style={"btn btn-sm btn-secondary"}
+                    titulo={"Desativar"}
+                    onClick={()=>DesApp(AvApp[0].id)}
                     />
                     :
                     <Butao 
                     style={"btn btn-sm btn-success"}
-                    titulo={"Criar Aviso"}
-                    onClick={()=>CriandoAvisoApp()}
+                    titulo={"Ativar"}
+                    onClick={()=>CriarAvisoApp()}
                     />
+                 }  
+                   </>
+                   :
+                   <Butao 
+                   style={"btn btn-sm btn-success"}
+                   titulo={"Ativar"}
+                   onClick={()=>CriarAvisoApp()}
+                   />
                  }
                 
                         
