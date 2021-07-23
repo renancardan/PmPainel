@@ -8,7 +8,7 @@ import Butao from '../../Components/Butao_list';
 import Select from '../../Components/Select';
 import Pagination from '../../Components/Pagination';
 import CriarGrupo from './CriarGrupo';
-import EditarGrupo from './EditarGrupo';
+import VizualizaOc from './VizualizarOcorr';
 import DataTime from '../../Components/DateFormat';
 import Api from '../../Api';
 
@@ -143,11 +143,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                  setPag1(true);
                }
 
-               const Pagina2 = async (id , nome)=>{
+               const Pagina2 = async (id)=>{
                 await setId(id);
-                await setNome(nome);
                 await setPag1(true);
-                await setPag2(true);
 
               }
 
@@ -316,7 +314,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
-                                    onClick={()=>Pagina2(item.list.id, item.list.nome)}
+                                    onClick={()=>Pagina2(item.list.id)}
                                     />
                                                              
                                                            
@@ -358,28 +356,16 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
         </div>
         :
         <>
-        {Pag2 === false ?
-          <CriarGrupo
-          setAlert={setAlert}
-          setAlertTipo={setAlertTipo}
-          Avisando={Avisando}
-          Fechar={Fechar}
-          Dados={Dados}
-          Id={Id}
-          Nome={Nome}
-            
-            />
-          :
-          <EditarGrupo 
+          <VizualizaOc 
             setAlert={setAlert}
             setAlertTipo={setAlertTipo}
             Avisando={Avisando}
             Fechar={Fechar}
             Dados={Dados}
             Id={Id}
-            Nome={Nome}
+            Alert={Alert}
+            AlertTipo={AlertTipo}
             />
-        }
         </>
         
          }

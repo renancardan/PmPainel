@@ -812,6 +812,20 @@ export default {
     
   },
 
+  VizualizandoOcorren: async(Id, Dados, setInfor)=> {
+    const autenticado =  await Auth.currentUser;
+    const id = await autenticado.uid;
+    const Setor = "Vizualizar Conta Serv";
+    await db.collection("ocorrencia").doc(Id)
+    .onSnapshot((doc) => {
+      console.log(doc.data());
+        setInfor(doc.data());
+    });
+
+ 
+    
+  },
+
   BloqueandoContas: async(Dados, Id, setAlertTipo, setAlert)=> {
     const autenticado =  await Auth.currentUser;
     const id = await autenticado.uid;
@@ -972,7 +986,7 @@ export default {
                 return -1;
               }
             });
-            console.log(res);
+          
             setUsuariosContServ(res);
             
     

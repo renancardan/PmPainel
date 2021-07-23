@@ -25,7 +25,7 @@ function Map() {
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default ({MapsCaixa, Loc}) => {
-
+    console.log(Loc);
       Localiza = Loc;
         return (
                 
