@@ -975,7 +975,8 @@ export default {
                 res.push({
                   id: doc.id,
                   date: doc.data().dataInicio.seconds,
-                  ativo: doc.data().ativo,  
+                  ativo: doc.data().ativo, 
+                  dateIn: doc.data().dataInicio.seconds*1000, 
                 });      
             });
 
@@ -986,7 +987,7 @@ export default {
                 return -1;
               }
             });
-          
+           
             setUsuariosContServ(res);
             
     

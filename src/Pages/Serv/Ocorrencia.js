@@ -11,6 +11,10 @@ import CriarGrupo from './CriarGrupo';
 import VizualizaOc from './VizualizarOcorr';
 import DataTime from '../../Components/DateFormat';
 import Api from '../../Api';
+import 'moment/locale/pt-br.js';
+import { DatePicker, DatePickerInput } from 'rc-datepicker';
+import 'rc-datepicker/lib/style.css';
+
 
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo,
    setAlertTipo, Avisando, setAvisando}) => {
@@ -28,6 +32,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Id, setId] = useState("");
       const [Nome, setNome] = useState("");
       const [Telefone, setTelefone] = useState("");
+      const [DataP, setDataP] = useState(new Date());
+      const [DataA, setDataA] = useState(new Date());
+      const [VerA, setVerA] = useState(false);
+      const [VerD, setVerD] = useState(false);
      
       
 
@@ -36,7 +44,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       }, [])
 
       useEffect(() => {
-       
+       console.log(Lista)
        }, [Lista])
 
       useEffect(() => {
@@ -201,6 +209,55 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
                 }
 
+                const date = new Date() // or Date or Moment.js
+
+            const datando = async (jsDate, dateString)=>{
+                setDataP(jsDate)
+                let DatA = new Date(DataA).getTime();
+                let Dat = new Date(jsDate).getTime();
+                if(DatA > Dat){
+                  setVerD(true);
+                  let listanha = [];
+                  for(let i in UsuariosContServ ) {
+                    
+                    if( UsuariosContServ[i].dateIn > Dat ) {
+                      if( UsuariosContServ[i].dateIn < DatA ) {
+                        listanha.push({
+                          id: UsuariosContServ[i].id, 
+                          date: UsuariosContServ[i].date,
+                          ativo: UsuariosContServ[i].ativo, 
+                          dateIn: UsuariosContServ[i].dateIn,   
+                      });   
+                      }
+                     
+                    }
+                   
+                }
+               await  setQuant(listanha.length);
+                await setUsuariosContServ(listanha);
+
+                } else {
+                  setAlert("A data Depois tem que ser menor que a de Antes");
+                  setAlertTipo("danger");
+                }
+               
+            }
+
+            const DatandoA = (jsDate, dateString)=>{
+              setDataA(jsDate)
+              setVerA(true);
+              setDataP(jsDate)
+            }
+
+            const LimpandoPesq = ()=>{
+              setDataP(new Date());
+              setDataA(new Date());
+              setVerD(false);
+              setVerA(false);
+              ListOc();
+            }
+             
+           
               
                
       
@@ -264,15 +321,43 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         :
                         <>
+                    
                     <div className="card card-primary">
-                        <div style={{margin:"10px", width:"250px"}}>
-                        <Butao 
-                        style={"btn btn-sm btn-success"}
-                        titulo={"Criar Grupo"}
-                        onClick={()=>Pagina1()}
+                    <div className="row" style={{margin:"10px"}}>
+                    <div style={{margin:"10px", width:"250px"}}>
+                      <string>Antes</string>
+                    <DatePickerInput
+                      onChange={DatandoA}
+                      value={DataA}
+                      className='my-custom-datepicker-component'
+                      disabled={VerA}
+                      
+                    />
+                    
+                    </div>
+                    <div style={{margin:"10px", width:"250px"}}>
+                    <string>Depois</string>
+                    <DatePickerInput
+                      onChange={datando}
+                      value={DataP}
+                      className='my-custom-datepicker-component'
+                      disabled={VerD}
+                      
+                    />
+                    
+                    </div>
+                    <div style={{margin:"10px", width:"250px", paddingTop:"25px"}}>
+                    <Butao 
+                        style={"btn btn-sm btn-secondary"}
+                        titulo={"Limpar Pesquisa"}
+                        onClick={()=>LimpandoPesq()}
                         />
+                    </div>
+                    
+                    </div>
+                   
 
-                        </div>
+                     {/* <DatePicker locale='pt-br'  onChange={null} value={date} /> */}
                     
                       <div className="card-header">
                       
