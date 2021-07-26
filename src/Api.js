@@ -976,7 +976,8 @@ export default {
                   id: doc.id,
                   date: doc.data().dataInicio.seconds,
                   ativo: doc.data().ativo, 
-                  dateIn: doc.data().dataInicio.seconds*1000, 
+                  dateIn: doc.data().dataInicio.seconds*1000,
+                  condi: doc.data().condicionais,
                 });      
             });
 
@@ -987,7 +988,7 @@ export default {
                 return -1;
               }
             });
-           
+           console.log(res);
             setUsuariosContServ(res);
             
     
@@ -1763,6 +1764,8 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
      
    
     },
+
+
     ConcluirOc: async(data)=> {
       const autenticado =  await Auth.currentUser;
       const id = await autenticado.uid;
@@ -1778,6 +1781,28 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     .catch((error) => {
         // The document probably doesn't exist.
         console.error("Error updating document: ", error);
+    });   
+      
+    },
+
+    EnviarLocali: async(activeChat, la, ln, setAlert, setAlertTipo  )=> {
+      console.log(la);
+      console.log(ln);
+      console.log(activeChat);
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+       await db.collection('ocorrencia')
+       .doc(activeChat)
+       .update({
+        "localizacao":{lat: la, lng: ln},
+    })
+    .then(() => {
+       setAlertTipo("success");
+       setAlert("Endereço enviado com sucesso");
+    })
+    .catch((error) => {
+      setAlertTipo("danger");
+      setAlert("Endereço não enviado, Houve algum erro");
     });   
       
     },

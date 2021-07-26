@@ -112,7 +112,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
                         />
                 </div>
           </li> 
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <div className="input_cadatro">
                         <Butao 
                           onClick={CriarDados}
@@ -135,7 +135,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
                           text={"Desbloquear"}
                         />
                 </div>
-          </li> 
+          </li>  */}
 
         </ul>
       </nav>

@@ -16,6 +16,7 @@ import Modal from 'react-awesome-modal';
 import Api from '../Api';
 
 
+
 let recorder = '';
 
 export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Varia, setAlert, setAlertTipo, Alert, AlertTipo, setActiveChat}) => {

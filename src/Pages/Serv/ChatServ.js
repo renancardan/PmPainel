@@ -20,8 +20,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import Modal from 'react-awesome-modal';
 import Condic from '../../Components/Condoc';
+import Geocoder from 'react-native-geocoding';
 
-
+let timer = '';
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo,
    setAlertTipo, Avisando, setAvisando}) => {
      
@@ -45,6 +46,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Cont, setCont] = useState([]);
       const [NomeCond, setNomeCond] = useState('');
       const [AtuaMaps, setAtuaMaps] = useState(false);
+      const [PesEnd, setPesEnd] = useState(false);
+      const [DigEnd, setDigEnd] = useState('');
+      const [Result, setResult] = useState([]);
+   
       useEffect(() => {
           LevarTemp();
       }, [])
@@ -53,7 +58,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
     }, [])
 
     useEffect(() => {
-    }, [Chatlist]);
+      Geocoder.init('AIzaSyBVYpwN6IT9kjonTs76bq1G9aSxYRhYU7U', {language:'pt-br'});
+    }, []);
 
    
 
@@ -71,6 +77,33 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
   useEffect(() => {
    Vizuali();
 }, [Vizul ,activeChat]);
+
+useEffect(() => {
+  if(DigEnd) {
+    if(timer){
+      clearTimeout(timer);
+    }
+    timer = setTimeout( async ()=>{
+
+      const geo = await Geocoder.from(DigEnd);
+      if(geo.results.length > 0){
+        let tmpResults = []
+        for(let i in geo.results){
+          tmpResults.push({
+            address:geo.results[i].formatted_address,
+            latitude:geo.results[i].geometry.location.lat,
+            longitude:geo.results[i].geometry.location.lng,
+          });
+
+        }
+        setResult(tmpResults);
+
+      }
+
+    }, 500);
+  }
+ 
+}, [DigEnd]);
 
      
 
@@ -100,7 +133,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
     
 
       const AbrirMaps = ()=>{
-        setAtuaMaps(true);
+        setAtuaMaps(!AtuaMaps);
         setMapsCaixa(!MapsCaixa);
        
       }
@@ -141,7 +174,40 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
         setAlert(" ");
         setAlertTipo("");
       }
+      const AbrirPesEnd = ()=>{
+        setMapsCaixa(false);
+        setPesEnd(true);
+      }
 
+      const FecharPesEnd = ()=>{
+        setMapsCaixa(true);
+        setPesEnd(false);
+        setDigEnd('');
+        setResult([]);
+      }
+
+      const enviarLoc = (lat, lng)=>{
+        let la = lat;
+        let ln = lng;
+        Api.EnviarLocali(activeChat, la, ln, setAlert, setAlertTipo );
+        setMapsCaixa(false);
+        setPesEnd(false);
+        setAtuaMaps(false);
+        setDigEnd('');
+        setResult([]);
+
+      }
+      function confirma() {
+        setAlert(" ");
+        setAlertTipo(" ");
+       
+       
+      }
+      function cancelar() {
+        setAlert(" ");
+        setAlertTipo(" ");
+      
+      }
       
   
                
@@ -152,6 +218,13 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             
            
             <div className="content-wrapper">
+            {Alert !== " " && AlertTipo === "success" &&
+                  <SweetAlert  success title={Alert} onConfirm={confirma} onCancel={cancelar} />
+                }
+
+            {Alert !== " " && AlertTipo === "danger" &&
+                  <SweetAlert  danger title={Alert} confirmBtnBsStyle="danger" onConfirm={confirma} onCancel={cancelar} />
+                }
             { Alert !== " " && AlertTipo === "Excluir" &&
               <SweetAlert
               warning
@@ -189,18 +262,11 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             <div className="contatos">
                                 <div className="topo">
                 
-                                        <div className="topo--buttons">
-                                            <div className="topo--btn" >
-                                            <DonutLargeIcon style={{color: '#5d0bf7'}} /> 
-                                            </div>
-                                                <div className="topo--btn" 
-                                                >
-                                                    <ChatIcon  style={{color: '#5d0bf7'}} />
-                                                </div>
-                                                <div className="topo--btn">
-                                                <MoreVertIcon style={{color: '#5d0bf7'}} />
-                                                </div>
-                                        </div>
+                                <div className="chatWindow--btn1"
+                                onClick={null}
+                                >
+                                  <p className="textButao" >INICIAR UMA OCORRENCIA</p>
+                              </div>
                                 </div>
                                 <div className="busca">
                                 <div className="busca-input">
@@ -240,10 +306,56 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         setVizul={setVizul}
                         />
                         {AtuaMaps === true &&
+                         <>
+                         {PesEnd === false ?
+                           <div className="CaixaDeMaps">
+                           <div className="chatWindow--btn1"
+                           onClick={()=>AbrirPesEnd()}
+                           >
+                               <p className="textButao" >PROCURAR ENDEREÇO</p>
+                           </div>
+                           </div>
+                         :
+                         <div className="CaixaDeMapsPes">
+                           <div className="CaixaInputPes" >
+                            
+                            <div  onClick={()=>FecharPesEnd()} className="chatWindow--btn">
+                           <string>X</string>
+                              </div>
+                              <input
+                                          className="chatWindow--input1"
+                                          type="text"
+                                          placeholder="Digite a Rua, Número, Cidade-Estado."
+                                          value={DigEnd}
+                                          onChange={e=>setDigEnd(e.target.value)}
+                                        
+                                          // onKeyUp={handleInputKeyUp}
+                                        
+                                      />    
+                              
+                              </div>
+                              {Result.map((item, key)=>(
+                                 <div className="CaixaEndPes" >
+                                 <string>{item.address}</string>
+                                 <div className="chatWindow--btn1"
+                                  onClick={()=>enviarLoc(item.latitude, item.longitude)}
+                                  >
+                               <p className="textButao" >ENVIAR</p>
+                                </div>
+                                 </div>
+                              ))}
+                             
+                            
+                              
+                              </div>
+                         }
+                         
+                         
                          <Maps 
                          MapsCaixa={MapsCaixa}
                          Loc={Loc}
                          />
+                         </>
                         }
                        
                         </>

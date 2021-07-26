@@ -25,11 +25,10 @@ function Map() {
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default ({MapsCaixa, Loc}) => {
-    console.log(Loc);
       Localiza = Loc;
         return (
                 
-            <div className="maps-contener"  style={{height: MapsCaixa ? '50%' : '0%'}}>
+            <div className="maps-contener"  style={{height: MapsCaixa ? '45%' : '0%'}}>
                 {/* <div className="maps--header">
                     </div> */}
                    
