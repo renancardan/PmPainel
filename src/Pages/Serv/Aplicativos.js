@@ -28,7 +28,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Id, setId] = useState("");
       const [Nome, setNome] = useState("");
       const [Telefone, setTelefone] = useState("");
-      
+     
 
       useEffect(() => {
        ListApp();     

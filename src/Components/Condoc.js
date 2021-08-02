@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 
 
-export default ({Forms, setForms, activeChat, setVirModal}) => {
+export default ({Forms, setForms, activeChat, setVirModal, setAlert, setAlertTipo }) => {
 
     const [Condicao, setCondicao] = useState([]);
     const [Pesquisa, setPesquisa] = useState('');
@@ -21,32 +21,16 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
        
     }, [activeChat]);
 
-  
-
-    const addCond = (value, chek)=>{
-      let mast = Forms.filter(item => item.id.includes(value.id));
-          if(mast.length === 0){
-            if(chek === true){
-              setForms([...Forms.filter((item, index) => item.id !== value.id)]);
-            }else {
-              
-              setForms([... Forms, value]);
-            
-            }
-          }
-       
-        
-       
-      }
 
     const PegarCondi = async ()=> {
         await Api.PegarCondicionais(Condicao, setCondicao);
        
     }
 
-    const AdicionaCond = ()=>{
-        Api.AddCondi(activeChat, Forms);
-        setVirModal(false);
+    const AdicionaCond = (va, jane)=>{
+      let id = va;
+      let nome = jane;
+        Api.AddCon(activeChat, id, nome, setAlertTipo, setAlert);
        }
 
        const FecharCond = ()=>{
@@ -73,11 +57,7 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
             <div className="card-body">
             <div className="row no-print">
             <div className="col-12">
-            <Butao 
-            style={"btn .btn-sm btn-info"}
-            titulo={"Salvar"}
-            onClick={()=>AdicionaCond()}
-            />
+           
              <Butao 
             style={"btn .btn-sm btn-danger"}
             titulo={"Fechar"}
@@ -95,7 +75,22 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
               }).map((item, key)=>(
             
                 <>
-              <CheckboxCond
+                {Forms.filter(te => te.id.includes(item.id)).length === 0 &&
+                   <>
+                   <div className="CaixaEndPes" >
+                   <string>{item.nome}</string>
+                   <div className="chatWindow--btn1"
+                   onClick={()=>AdicionaCond(item.id, item.nome)}
+                   >
+                   <p className="textButao" >Add</p>
+                   </div>
+                   </div>
+                    <br /> 
+                  </> 
+                }
+               
+               
+              {/* <CheckboxCond
               key={key} 
               label={item.nome}
               Forms={Forms}
@@ -103,7 +98,8 @@ export default ({Forms, setForms, activeChat, setVirModal}) => {
               res={false}
               activeChat={activeChat}
               onChange={(value, chek)=>{addCond(value, chek)}} 
-              /> <br />  
+              />  */}
+             
                 </>
               ))}
                 </div>

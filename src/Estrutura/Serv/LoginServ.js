@@ -86,12 +86,12 @@ export default ({setConta, setEmail, Email, Senha, setSenha,
    
     return (
         <div>
-           <Header
+           {/* <Header
             setAparercer={setVerManual} 
             Aparercer={VerManual} 
             setVerContato={setVerContato}
             VerContato={VerContato} 
-            />
+            /> */}
            
           {VerManual === true &&
            <>
@@ -120,11 +120,8 @@ export default ({setConta, setEmail, Email, Senha, setSenha,
                   
                   { CadasPag === false &&
                   <>
-                    <img className='imagem_top' src='../../assets/cityhandserv.png' style={{ }} alt="" />
-                    <img className='imagem_aviao' src='../../assets/aviao.png' style={{ }} alt="" /> 
-                    <img className='imagem_ambulancia' src='../../assets/ambulanciabranca.png' style={{ }} alt="" />
-                    <img className='imagem_bombeiro' src='../../assets/bombeirobranco.png' style={{ }} alt="" />
-                    <img className='imagem_policia' src='../../assets/policiabranca.png' style={{ }} alt="" />
+                   <img className='imagem_top' src='../../assets/logoapp.jpeg' style={{ }} alt="" />
+                    
                   <div className="quadroAcesso" >
                     <div className="caixaAcesso">  
                       <h3 className="tituloQuadro" >LOGIN</h3>
@@ -177,11 +174,8 @@ export default ({setConta, setEmail, Email, Senha, setSenha,
 
                     { CadasPag === true &&
                       <>
-                        <img className='imagem_top' src='../../assets/cityhandserv.png' style={{ }} alt="" />
-                        <img className='imagem_aviao' src='../../assets/aviao.png' style={{ }} alt="" /> 
-                        <img className='imagem_ambulancia' src='../../assets/ambulanciabranca.png' style={{ }} alt="" />
-                        <img className='imagem_bombeiro' src='../../assets/bombeirobranco.png' style={{ }} alt="" />
-                        <img className='imagem_policia' src='../../assets/policiabranca.png' style={{ }} alt="" />
+                        <img className='imagem_top' src='../../assets/logoapp.jpeg' style={{ }} alt="" />
+                      
                         <div className="quadro_site" >
                             <div className="Titulo_pag">
                             <h3 className="tituloQuadro" >CADASTRO</h3>
@@ -310,13 +304,13 @@ export default ({setConta, setEmail, Email, Senha, setSenha,
                        </div>
                       </>
                     }
-                    <div className='painel_login' >
+                    {/* <div className='painel_login' >
                         <Butao 
                           text={"Painel Admin"}
                           onClick={Entrarpainel}
                         />
                         
-                      </div>
+                      </div> */}
                 </div>
                 
             }

@@ -972,13 +972,16 @@ export default {
             setQuant(querySnapshot.size);
             var res = []; 
             querySnapshot.forEach((doc) => {
+              if(doc.data().dataInicio){
                 res.push({
                   id: doc.id,
                   date: doc.data().dataInicio.seconds,
                   ativo: doc.data().ativo, 
                   dateIn: doc.data().dataInicio.seconds*1000,
                   condi: doc.data().condicionais,
-                });      
+                });    
+              }
+                  
             });
 
             res.sort((a,b)=>{
@@ -988,7 +991,7 @@ export default {
                 return -1;
               }
             });
-           console.log(res);
+          
             setUsuariosContServ(res);
             
     
@@ -1578,17 +1581,19 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
               const res = [];
        
                querySnapshot.forEach((doc) => {
-
-                 res.push({
-                   id: doc.data().ultimaMsg.id,
-                   nome: doc.data().nomevitima,
-                   data: doc.data().ultimaMsg.data,
-                   msg: doc.data().ultimaMsg.msg,
-                   idOc:doc.id,
-                   dataIn: doc.data().dataInicio.seconds,
-                   QuantMsg: doc.data().mensagem.length,
-                   Vizualizar: doc.data().vizualS,
-                 });             
+                if(doc.data().dataInicio) {
+                  res.push({
+                    id: doc.data().ultimaMsg.id,
+                    nome: doc.data().nomevitima,
+                    data: doc.data().ultimaMsg.data,
+                    msg: doc.data().ultimaMsg.msg,
+                    idOc:doc.id,
+                    dataIn: doc.data().dataInicio.seconds,
+                    QuantMsg: doc.data().mensagem.length,
+                    Vizualizar: doc.data().vizualS,
+                  });    
+                }
+                         
                });
 
                res.sort((a,b)=>{
@@ -1612,6 +1617,62 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     
       });
         
+    },
+
+    AddOcorrencia: async(Dados, came,  Varia, setAlert, setAlertTipo)=> {
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+      let temp = new Date().getTime();
+      let now = temp + (Varia*1000);
+      await db.collection("ocorrencia")
+      .add({
+      ativo:true,
+      cidade: Dados.cidade,
+      estado: Dados.estado,
+      instituicao:"Polícia Militar",
+      nomevitima: came,
+      idvitima: id,
+      localizacao:{lat: 0, lng: 0},
+      userChat:[
+        { id: id,
+          nome: Dados.nome,}],
+      mensagem:[{
+        autor:id,
+        nome: Dados.nome,
+        body:"Ocorrência criada pelo sistema",
+        date: now,
+        type:"text"
+      }],     
+      dataInicio:firebase.firestore.FieldValue.serverTimestamp(),
+      ultimaMsg:{id:id, nome: came, data:now, msg:"Ocorrência criada pelo sistema"},
+      DigiS:false,
+      DigiV:false,
+      vizualS:0,
+      vizualV:1,
+      vtr: "",
+      atendenteCopom: "",
+      componentesVtr: "",
+      periodo: "",
+      rua: "",
+      numero: "",
+      bairro: "",
+      conduzidos:"",
+      vitimas:"",
+      objetosApre:"",
+      grupoOcrr:"",
+      Ocorr:"",
+      resultado: "",
+      relato:"",
+      providencias:"",
+      
+      }).then(async (doc)=>{
+       setAlert("Ocorrência Cirada Com sucesso");
+       setAlertTipo("success");
+       
+      }).catch((error) => {
+        setAlert("Ocorrência não Foi Cirada Com sucesso");
+        setAlertTipo("danger");
+      });  
     },
 
     sendMessage: async(data, text, nome, TemUmlt, Varia)=> {
@@ -1644,17 +1705,26 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         //   }
       }).catch((error) => {
          
-      });
-       
+      });   
+    },
+
+    AddCon: async(activeChat, id, nome, setAlertTipo, setAlert)=> {
+      const autenticado =  await Auth.currentUser;
     
-           
-           
      
-        
-       
-    
-      
-        
+         await db.collection("ocorrencia")
+         .doc(activeChat).update({
+           condicionais: firebase.firestore.FieldValue.arrayUnion ({
+             id:id,
+             nome: nome,
+           }), 
+       }).then((doc)=>{
+        setAlert("Adicionado com sucesso");
+        setAlertTipo("success");
+      }).catch((error) => {
+        setAlert("Ocorreu erro na adição");
+        setAlertTipo("danger");
+      });   
     },
 
     PesquisarConversa: async(data, Dados, setList, setUser, setTemUmlt, setDateIni)=> {
@@ -1673,12 +1743,14 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
               const res = [];
        
                querySnapshot.forEach((doc) => {
-
-                 res.push({
-                   id: doc.id,
-                   nome: doc.data().mensagem,
-                   dataIni: doc.data().dataInicio.seconds,
-                 });             
+                if(doc.data().dataInicio){
+                  res.push({
+                    id: doc.id,
+                    nome: doc.data().mensagem,
+                    dataIni: doc.data().dataInicio.seconds,
+                  });      
+                }
+                       
                });
                
                setList(res);
@@ -1695,6 +1767,46 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
 
       
         
+    },
+
+    EnviVtr: async (data, Vtr, AtenCop, CompVt, Periodo, Rua, Numero, Bairro, Cidade, Estado, Lat, Lng) => {   
+      console.log(data);
+      console.log(Vtr);
+      console.log(AtenCop);
+      console.log(CompVt);
+      console.log(Periodo);
+      await db.collection('ocorrencia')
+      .doc(data)
+      .update({
+        vtr: Vtr,
+        atendenteCopom: AtenCop,
+        componentesVtr: CompVt,
+        periodo: Periodo,
+        rua: Rua,
+        numero: Numero,
+        bairro: Bairro,
+        cidade: Cidade,
+        estado: Estado,
+      })
+           
+    },
+
+    DadosForm: async (data, setVtr, setAtenCop, setCompVt, setRua, setNumero, setBairro, setCidade, setEstado, setLat, setLng ) => {   
+      await db.collection('ocorrencia')
+      .doc(data)
+      .get()
+      .then((doc) => {
+        setVtr(doc.data().vtr);
+        setAtenCop(doc.data().atendenteCopom);
+        setCompVt(doc.data().componentesVtr);
+        setRua(doc.data().rua);
+        setNumero(doc.data().numero);
+        setBairro(doc.data().bairro);
+        setEstado(doc.data().estado)
+        setCidade(doc.data().cidade)
+      });
+       
+           
     },
 
 

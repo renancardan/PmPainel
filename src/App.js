@@ -33,7 +33,7 @@ function App() {
     const [Dados, setDados] = useState(EstruServJson.Estrut);
     const [Avisando, setAvisando] = useState([]);
    
-
+    
 
               useEffect(async () => {
                 ObtendoDados();                        

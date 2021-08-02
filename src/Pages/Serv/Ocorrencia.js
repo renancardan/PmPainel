@@ -37,14 +37,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [VerA, setVerA] = useState(false);
       const [VerD, setVerD] = useState(false);
      
-      
+     
 
       useEffect(() => {
        ListOc();     
       }, [])
 
       useEffect(() => {
-       console.log(Lista)
+     
        }, [Lista])
 
       useEffect(() => {

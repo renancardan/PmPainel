@@ -9,7 +9,8 @@ import Select from '../../Components/Select';
 import Pagination from '../../Components/Pagination';
 import ChatListItem from '../../Components/ChatListItem';
 import ChatIntro from '../../Components/ChatIntro';
-import ChatWindow from '../../Components/ChatWindow'
+import ChatWindow from '../../Components/ChatWindow';
+import ChatFormulario from '../../Components/ChatFormulario';
 import Vizualizacao from './VizualizarApp';
 import AtivarApp from './AtivarApp';
 import Api from '../../Api';
@@ -49,11 +50,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [PesEnd, setPesEnd] = useState(false);
       const [DigEnd, setDigEnd] = useState('');
       const [Result, setResult] = useState([]);
-   
+      const [Pesq1, setPesq1] = useState("");
+      const [Formu, setFormu] = useState(true);
+      
       useEffect(() => {
           LevarTemp();
       }, [])
       useEffect(() => {
+        console.log("chatlist");
         PegarList();
     }, [])
 
@@ -63,13 +67,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
    
 
-   useEffect(() => {
-   
-      console.log(Cont);
-   
-  }, [Cont])
-
   useEffect(() => {
+   
     CondPegar();
  }, [activeChat])
  
@@ -135,6 +134,9 @@ useEffect(() => {
       const AbrirMaps = ()=>{
         setAtuaMaps(!AtuaMaps);
         setMapsCaixa(!MapsCaixa);
+        setPesEnd(false);
+        setDigEnd('');
+        setResult([]);
        
       }
 
@@ -142,6 +144,7 @@ useEffect(() => {
         setVirModal(false);
         setMapsCaixa(false);
         setAtuaMaps(false);
+        setFormu(true);
         await setForms([]);
         await setNome(nome);
         await setActiveChat(id);
@@ -175,8 +178,9 @@ useEffect(() => {
         setAlertTipo("");
       }
       const AbrirPesEnd = ()=>{
-        setMapsCaixa(false);
+       
         setPesEnd(true);
+        
       }
 
       const FecharPesEnd = ()=>{
@@ -206,6 +210,17 @@ useEffect(() => {
       function cancelar() {
         setAlert(" ");
         setAlertTipo(" ");
+      
+      }
+      const PergCriarOc = ()=>{
+          setAlertTipo("IniciarOc");
+          setAlert("Ok")
+      }
+      const AddOc = (nome)=>{
+        setAlert(" ");
+        setAlertTipo(" ");
+        let came = `${nome}`+" Via Sist"
+        Api.AddOcorrencia(Dados, came, Varia, setAlert, setAlertTipo);
       
       }
       
@@ -239,6 +254,20 @@ useEffect(() => {
               Tem certeza que deseja Excluir a Condicional {NomeCond}
             </SweetAlert>
             }
+
+              { Alert !== " " && AlertTipo === "IniciarOc" &&
+             <SweetAlert
+             input
+             showCancel
+             cancelBtnBsStyle="light"
+             title="Criando A Ocorrência"
+             placeHolder="Digite o Nome da Ocorrência"
+             onConfirm={(reponse)=>AddOc(reponse)}
+             onCancel={()=>Cancelar()}
+           >
+             Digite o Nome da Ocorrência
+           </SweetAlert>
+            }   
             
               <HeaderPage
               Avisando={Avisando} 
@@ -263,19 +292,22 @@ useEffect(() => {
                                 <div className="topo">
                 
                                 <div className="chatWindow--btn1"
-                                onClick={null}
+                                onClick={()=>PergCriarOc()}
                                 >
                                   <p className="textButao" >INICIAR UMA OCORRENCIA</p>
                               </div>
                                 </div>
                                 <div className="busca">
-                                <div className="busca-input">
-                                <SearchIcon fontSize="small" style={{color: '#919191'}} />
-                                <input type="search" placeholder="Procurar ou começar uma nova conversa" />
-                                </div>
+                         
                                 </div>
                                 <div className="chatlist">
-                                {Chatlist.map((item, key)=>(
+                                {Chatlist.filter((val)=>{
+                                  if (Pesq1 == "") {
+                                    return val;
+                                  }else if (val.nome.toLowerCase().includes(Pesq1.toLowerCase())) {
+                                    return val;
+                                  }
+                                }).map((item, key)=>(
                                         <ChatListItem 
                                         key={key}
                                         data={item}
@@ -290,9 +322,26 @@ useEffect(() => {
                              {/* //18 - colocando o qual pagina vai mostrar  no contentarea*/}
                         {activeChat !== null &&
                         <>
-                        <ChatWindow
+                        {Formu === true ?
+                           <ChatWindow
+                           data={activeChat}
+                           setActiveChat={setActiveChat}
+                           setAlert={setAlert}
+                           setAlertTipo={setAlertTipo}
+                           Alert={Alert}
+                           AlertTipo={AlertTipo}
+                           AbrirMaps={AbrirMaps} 
+                           MapsCaixa={MapsCaixa}
+                           Nome={Nome} 
+                           Dados={Dados} 
+                           Vizul={Vizul}
+                           Varia={Varia}
+                           setVizul={setVizul}
+                           setFormu={setFormu}
+                           />
+                        :
+                        <ChatFormulario
                         data={activeChat}
-                        setActiveChat={setActiveChat}
                         setAlert={setAlert}
                         setAlertTipo={setAlertTipo}
                         Alert={Alert}
@@ -301,10 +350,11 @@ useEffect(() => {
                         MapsCaixa={MapsCaixa}
                         Nome={Nome} 
                         Dados={Dados} 
-                        Vizul={Vizul}
-                        Varia={Varia}
-                        setVizul={setVizul}
+                        setFormu={setFormu}
                         />
+
+                        }
+                       
                         {AtuaMaps === true &&
                          <>
                          {PesEnd === false ?
@@ -351,10 +401,18 @@ useEffect(() => {
                          }
                          
                          
+                         {Loc.lng !== 0 ?
                          <Maps 
                          MapsCaixa={MapsCaixa}
                          Loc={Loc}
                          />
+                         :
+                         <>
+                         <p>Não Existe Endereço Registrado.</p>
+                         </>
+
+                         }
+                        
                          </>
                         }
                        
@@ -407,6 +465,8 @@ useEffect(() => {
                                 </div>
                                 :
                                 <Condic
+                                setAlert={setAlert}
+                                setAlertTipo={setAlertTipo}
                                 Forms={Forms}
                                 setForms={setForms}
                                 activeChat={activeChat}
@@ -415,7 +475,7 @@ useEffect(() => {
                               }
                               </>
                     
-   }
+                         }
                         </div>                            
                     </div>
                         }

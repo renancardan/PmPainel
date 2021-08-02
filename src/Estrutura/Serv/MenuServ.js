@@ -14,9 +14,9 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
   <div>
   <aside className="main-sidebar sidebar-dark-primary elevation-4">
     {/* Brand Logo */}
-    <a href="index3.html" className="brand-link">
-      <img src="assets/logoapp.png" alt="15º Batalhão Logo"  style={{opacity: '1', width: 60, marginRight: 20, marginLeft:20 }} />
-      <span className="brand-text font-weight-light">15º Batalhão </span>
+    <a href="index3.html" className="brand-link" style={{backgroundColor: "#fff"}}>
+      <img src="assets/logoapp.jpeg" alt="15º Batalhão Logo"  style={{opacity: '1', width: 60, marginRight: 20, marginLeft:20 }} />
+      <span className="brand-text font-weight-light" style={{color: "#000"}} >15º Batalhão </span>
     </a>
     {/* Sidebar */}
     <div className="sidebar">

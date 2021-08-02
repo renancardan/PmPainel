@@ -13,17 +13,17 @@ export default ({Dados}) => {
         <a className="nav-link" data-widget="pushmenu" href="#"><i className="fas fa-bars" /></a>
       </li>
       <li className="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" className="nav-link">{Dados.instituicao}</a>
+        <a href="#" className="nav-link">{Dados.instituicao}</a>
       </li>
       <li className="nav-item d-none d-sm-inline-block">
         <a href="#" className="nav-link">{Dados.cidade}</a>
       </li>
       <li className="nav-item d-none d-sm-inline-block">
-        <a href="#" className="nav-link">{Dados.estadow}</a>
+        <a href="#" className="nav-link">{Dados.estado}</a>
       </li>
     </ul>
-    <ul className="navbar-nav ml-auto">
-      {/* Messages Dropdown Menu */}
+  {/*  <ul className="navbar-nav ml-auto">
+      
       <li className="nav-item dropdown">
         <a className="nav-link" data-toggle="dropdown" href="#">
           <i className="far fa-comments" />
@@ -31,7 +31,7 @@ export default ({Dados}) => {
         </a>
         <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" className="dropdown-item">
-            {/* Message Start */}
+           
             <div className="media">
               <img src="dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle" />
               <div className="media-body">
@@ -43,11 +43,11 @@ export default ({Dados}) => {
                 <p className="text-sm text-muted"><i className="far fa-clock mr-1" /> 4 Hours Ago</p>
               </div>
             </div>
-            {/* Message End */}
+            
           </a>
           <div className="dropdown-divider" />
           <a href="#" className="dropdown-item">
-            {/* Message Start */}
+          
             <div className="media">
               <img src="dist/img/user8-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
               <div className="media-body">
@@ -59,11 +59,11 @@ export default ({Dados}) => {
                 <p className="text-sm text-muted"><i className="far fa-clock mr-1" /> 4 Hours Ago</p>
               </div>
             </div>
-            {/* Message End */}
+           
           </a>
           <div className="dropdown-divider" />
           <a href="#" className="dropdown-item">
-            {/* Message Start */}
+            
             <div className="media">
               <img src="dist/img/user3-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
               <div className="media-body">
@@ -75,13 +75,13 @@ export default ({Dados}) => {
                 <p className="text-sm text-muted"><i className="far fa-clock mr-1" /> 4 Hours Ago</p>
               </div>
             </div>
-            {/* Message End */}
+           
           </a>
           <div className="dropdown-divider" />
           <a href="#" className="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-      {/* Notifications Dropdown Menu */}
+     
       <li className="nav-item dropdown">
         <a className="nav-link" data-toggle="dropdown" href="#">
           <i className="far fa-bell" />
@@ -113,7 +113,7 @@ export default ({Dados}) => {
           <i className="fas fa-th-large" />
         </a>
       </li>
-    </ul>
+    </ul> */}
   </nav>
   {/* /.navbar */}
 </div>

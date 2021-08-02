@@ -19,7 +19,7 @@ import Api from '../Api';
 
 let recorder = '';
 
-export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Varia, setAlert, setAlertTipo, Alert, AlertTipo, setActiveChat}) => {
+export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Varia, setAlert, setAlertTipo, Alert, AlertTipo, setActiveChat, setFormu}) => {
     const body = useRef();
     let recognition = null;
     let SpeechRecognition = window.AudioContext || window.webkitAudioContext;
@@ -253,6 +253,12 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
         setAlert(" ");
         setAlertTipo(" ");
       }
+
+
+      const  AbrirFormu = ()=>{
+        
+        setFormu(false);
+      }
       
     
 
@@ -260,11 +266,11 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
         <div className="chatWindow" style={{height: MapsCaixa ? '50%' : '100%'}}>
              { Alert !== " " && AlertTipo === "Concluir" &&
               <SweetAlert
-              warning
+              success
               showCancel
               confirmBtnText="Sim"
               cancelBtnText="Não"
-              confirmBtnBsStyle="danger"
+              confirmBtnBsStyle="success"
               onConfirm={()=>ConclusaoOc()}
               onCancel={cancelar}
               focusCancelBtn
@@ -294,16 +300,12 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
             </div>
             </div>
             <div className="chatWindow--headerbuttons">
-                    <div className="chatWindow--btn2"
-                     onClick={null}
-                    >
-                        <p className="textButao" >EXCLUIR</p>
-                    </div>
+
                    
                     <div className="chatWindow--btn1"
-                     onClick={Concluir}
+                     onClick={()=>AbrirFormu()}
                     >
-                        <p className="textButao" >CONCLUIDO</p>
+                        <p className="textButao" >FORMULARIO</p>
                     </div>
                     
                     <div className="chatWindow--btn"
