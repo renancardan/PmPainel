@@ -409,40 +409,40 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         :
                         <>
-                    
-                    <div className="card card-primary">
-                    <div className="row" style={{margin:"10px"}}>
-                    <div style={{margin:"10px", width:"250px"}}>
-                      <string>Antes</string>
-                    <DatePickerInput
-                      onChange={DatandoA}
-                      value={DataA}
-                      className='my-custom-datepicker-component'
-                      disabled={VerA}
-                      
-                    />
-                    
+                        <div className="card card-warning">
+                    <div className="card-header">
+                        <h3 className="card-title">Filtros para pesquisa</h3>
                     </div>
-                    <div style={{margin:"10px", width:"250px"}}>
-                    <string>Depois</string>
-                    <DatePickerInput
-                      onChange={datando}
-                      value={DataP}
-                      className='my-custom-datepicker-component'
-                      disabled={VerD}
-                      
-                    />
-                    
-                    </div>
-                    <div style={{margin:"10px", width:"250px", paddingTop:"25px"}}>
-                    <Butao 
-                      style={"btn btn-sm btn-secondary"}
-                      titulo={"Limpar Pesquisa"}
-                      onClick={()=>LimpandoPesq()}
-                      />
-                    </div>
-                    <div style={{margin:"10px", width:"250px"}}>
-                    <string>Pesquisar Por Rersultado Final</string>
+                    {/* /.card-header */}
+                    <div className="card-body">
+                    <div className="row" >
+                    <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Antes</label>
+                                <DatePickerInput
+                                  onChange={DatandoA}
+                                  value={DataA}
+                                  className='my-custom-datepicker-component'
+                                  disabled={VerA}
+                                  
+                                />
+                            </div>
+                            </div>
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Depois</label>
+                                <DatePickerInput
+                                onChange={datando}
+                                value={DataP}
+                                className='my-custom-datepicker-component'
+                                disabled={VerD}
+                                
+                              />
+                            </div>
+                            </div> 
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Resultado Final</label>
                                 <select className="form-control"
                                 value={Resu}
                                 onChange={t=>setResu(t.target.value)} 
@@ -455,39 +455,150 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 <option>Ocorrência computada</option>
                                 <option>Outros</option>
                                 </select>
-                    
+                                
+                              
+                            </div>
+                            </div>
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Rua</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite a Rua "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>  
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Bairro de Bacabal</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite o Bairro"
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                                
+                            </div>
+                            </div> 
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Vtr</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite A Vtr"
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div> 
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Atendente Copom</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite o Atendente"
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div> 
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Componentes da Vtr</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite os Componentes "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Conduzidos</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite os Conduzidos "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>  
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Vítimas</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite as Vítimas "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>  
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Objetos Ap.</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite os objetos apreendidos "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>  
+                          
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                                <label>Ocorrência</label>
+                                <input 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite as Ocorrências "
+                                value={Bairro}
+                                onChange={t=>setBairro(t.target.value)}
+                                />
+                            </div>
+                            </div>  
+                            {PesqBtn === false ?
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                            <Butao 
+                              style={"btn btn-sm btn-primary"}
+                              titulo={"Pesquisar"}
+                              onClick={()=>Pesquivar()}
+                              />
+                                
+                            </div>
+                            </div> 
+                            :
+                            <div className="col-sm-2">
+                            <div className="form-group">
+                            <Butao 
+                            style={"btn btn-sm btn-secondary"}
+                            titulo={"Limpar Pesquisa"}
+                            onClick={()=>LimpandoPesq()}
+                            />
+                            </div>
+                            </div> 
+                            }
+                          
+                                   
                     </div>
-                    <div style={{margin:"10px", width:"250px"}}>
-                    <string>Pesquisar Por Bairro</string>
-                    <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Digite o Bairro"
-                    value={Bairro}
-                    onChange={t=>setBairro(t.target.value)}
-                    />
-                    
+                       
                     </div>
-                    <div style={{margin:"10px", width:"250px", paddingTop:"25px"}}>
-                      {PesqBtn === false ?
-                        <Butao 
-                        style={"btn btn-sm btn-primary"}
-                        titulo={"Pesquisar"}
-                        onClick={()=>Pesquivar()}
-                        />
-                      :
-                      <Butao 
-                      style={"btn btn-sm btn-secondary"}
-                      titulo={"Limpar Pesquisa"}
-                      onClick={()=>LimpandoPesq()}
-                      />
-
-                      }
-                  
+                    {/* /.card-body */}
                     </div>
-                    
-                    </div>
-                   
+                    <div className="card card-primary">
 
                      {/* <DatePicker locale='pt-br'  onChange={null} value={date} /> */}
                     
