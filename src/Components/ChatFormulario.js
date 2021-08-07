@@ -8,8 +8,8 @@ import Api from '../Api';
 
 
 let recorder = '';
-
-export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTipo, Alert, AlertTipo,  setFormu}) => {
+let timer = '';
+export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTipo, Alert, AlertTipo,  setFormu, Forms, setActiveChat}) => {
    
     const [User, setUser] = useState('');
     const [list, setList] = useState([]);
@@ -35,6 +35,13 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
     const [Estado, setEstado] = useState("");
     const [Lat, setLat] = useState("");
     const [Lng, setLng] = useState("");
+    const [End, setEnd] = useState("");
+    const [Conduz, setConduz] = useState("");
+    const [Viti, setViti] = useState("");
+    const [ObjAp, setObjAp] = useState("");
+    const [ResulOc, setResulOc] = useState("");
+    const [Relato, setRelato] = useState("");
+    const [Prov, setProv] = useState("");
     
     
 
@@ -67,6 +74,38 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
       useEffect(()=>{
         tempo();
     }, [DateIni]);
+
+    useEffect(()=>{
+        MotarEnd();
+    }, [Rua, Numero, Bairro, Cidade, Estado]);
+
+    useEffect(() => {
+        if(End) {
+          if(timer){
+            clearTimeout(timer);
+          }
+          timer = setTimeout( async ()=>{
+      
+            const geo = await Geocoder.from(End);
+            if(geo.results.length > 0){
+              let tmpResults = []
+              for(let i in geo.results){
+                tmpResults.push({
+                  address:geo.results[i].formatted_address,
+                  latitude:geo.results[i].geometry.location.lat,
+                  longitude:geo.results[i].geometry.location.lng,
+                });
+      
+              }
+              setLat(tmpResults[0].latitude);
+              setLng(tmpResults[0].longitude);
+      
+            }
+      
+          }, 500);
+        }
+       
+      }, [End]);
 
     const tempo = ()=>{
         let currentDate = '';
@@ -169,14 +208,12 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
 
   
 
-    const PegDados = ()=> {
-       
-        Api.DadosForm(data, setVtr, setAtenCop, setCompVt, setRua, setNumero, setBairro, setCidade, setEstado, setLat, setLng );
+    const PegDados = ()=> {  
+        Api.DadosForm(data, setVtr, setAtenCop, setCompVt, setRua, setNumero, setBairro, setCidade, setEstado, setLat, setLng, setConduz, setViti, setObjAp, setResulOc, setRelato, setProv);
     }
 
-    const EnviandoVtr = ()=> {
-        console.log(AtenCop); 
-        Api.EnviVtr(data, Vtr, AtenCop, CompVt, Periodo, Rua, Numero, Bairro, Cidade, Estado, Lat, Lng);
+    const EnviandoVtr = ()=> { 
+        Api.EnviVtr(data, Vtr, AtenCop, CompVt, Periodo, Rua, Numero, Bairro, Cidade, Estado, Lat, Lng, Conduz, Viti, ObjAp, ResulOc, Relato, Prov);
     }
 
    
@@ -185,6 +222,11 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
 
     const PegandoList = ()=>{
         Api.PesquisarConversa(data, Dados, setList, setUser, setTemUmlt, setDateIni);
+    }
+
+    const MotarEnd = ()=>{
+        let endereco = Rua + ", " + Numero + " - "+ Bairro + ", "+Cidade+ " - "+ Estado;
+        setEnd(endereco);
     }
 
     
@@ -213,6 +255,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
         setAlert(" ");
         setAlertTipo(" ");
         Api.ConcluirOc(data);
+        setActiveChat(null);
     }
 
     function cancelar() {
@@ -230,7 +273,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
         <div className="chatWindow" style={{height: MapsCaixa ? '50%' : '100%'}}>
              { Alert !== " " && AlertTipo === "Concluir" &&
               <SweetAlert
-              success
+              warning
               showCancel
               confirmBtnText="Sim"
               cancelBtnText="Não"
@@ -265,7 +308,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
             </div>
             <div className="chatWindow--headerbuttons">
                     <div className="chatWindow--btn3"
-                     onClick={null}
+                     onClick={()=>Concluir()}
                     >
                         <p className="textButao" >CONCLUIDO</p>
                     </div>
@@ -423,6 +466,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                                 <label>Rua</label>
                                 <input 
                                 type="text"
+                                autocomplete="off"
                                  className="form-control" 
                                  placeholder="Digite o Nome da Rua, ou Avenida..." 
                                  value={Rua}
@@ -436,6 +480,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                                 <label>Número</label>
                                 <input 
                                 type="text" 
+                                autocomplete="off"
                                 className="form-control" 
                                 placeholder="Digite o Número da Casa..." 
                                 value={Numero}
@@ -449,6 +494,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                                 <label>Bairro</label>
                                 <input 
                                 type="text" 
+                                autocomplete="off"
                                 className="form-control" 
                                 placeholder="Digite o Bairro..." 
                                 value={Bairro}
@@ -462,6 +508,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                                 <label>Cidade</label>
                                 <input 
                                 type="text" 
+                                autocomplete="off"
                                 className="form-control" 
                                 placeholder="Digite a Cidade..." 
                                 value={Cidade}
@@ -475,6 +522,8 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                                 <label>Estado</label>
                                 <input 
                                 type="text" 
+                                autocomplete="off"
+                                
                                 className="form-control" 
                                 placeholder="Digite o Estado..." 
                                 value={Estado}
@@ -528,19 +577,43 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                     <div className="col-sm-12">
                             <div className="form-group">
                                 <label>Conduzidos</label>
-                                <textarea className="form-control" rows={3} placeholder="Digite as Informações dos Conduzidos..." defaultValue={""} />
+                                <textarea 
+                                className="form-control" 
+                                rows={3}
+                                 placeholder="Digite as Informações dos Conduzidos..." 
+                                 defaultValue={""}
+                                 value={Conduz}
+                                 onChange={t=>setConduz(t.target.value)}
+                                 onBlur={()=>EnviandoVtr()}
+                                 />
                             </div>
                             </div>
                             <div className="col-sm-12">
                             <div className="form-group">
                                 <label>Vítimas</label>
-                                <textarea className="form-control" rows={3} placeholder="Digite as Informações das Vitimas..."  defaultValue={""} />
+                                <textarea 
+                                className="form-control" 
+                                rows={3} 
+                                placeholder="Digite as Informações das Vitimas..."  
+                                defaultValue={""} 
+                                value={Viti}
+                                onChange={t=>setViti(t.target.value)}
+                                onBlur={()=>EnviandoVtr()}
+                                />
                             </div>
                             </div>
                             <div className="col-sm-12">
                             <div className="form-group">
                                 <label>Objetos Apreendidos</label>
-                                <textarea className="form-control" rows={3} placeholder="Digite os objetos apreendidos..."  defaultValue={""} />
+                                <textarea 
+                                className="form-control" 
+                                rows={3} 
+                                placeholder="Digite os objetos apreendidos..."  
+                                defaultValue={""} 
+                                value={ObjAp}
+                                onChange={t=>setObjAp(t.target.value)}
+                                onBlur={()=>EnviandoVtr()}
+                                />
                             </div>
                             </div>
                            
@@ -559,47 +632,62 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                     <div className="row">
                     <div className="col-sm-6">
                             <div className="form-group">
-                                <label>Grupo da Ocorrência</label>
-                                <select className="form-control">
-                                <option>Contra Pessoa</option>
-                                <option>Contra Patrimônio</option>
-                                <option>Contra Paz Pública</option>
-                                <option>Diversos</option>
-                                </select>
-                            </div>
-                            </div>
-                            <div className="col-sm-6">
-                            <div className="form-group">
                                 <label>Ocorrência</label>
-                                <select className="form-control">
-                                <option>Atrito Familiar</option>
-                                <option>Furto</option>
-                                <option>Achado de Cadáver</option>
-                                <option>Ameaça</option>
-                                </select>
+                                {Forms.map((item,key)=>(
+                                          <>
+                                          <div className="listCond1">
+                                          <string> {item.nome}</string>
+                                          </div>
+                                            <br/>
+                                          </>
+                                         ))
+                
+                                      }
                             </div>
                             </div>
                             <div className="col-sm-6">
                             <div className="form-group">
                                 <label>Resultado</label>
-                                <select className="form-control">
-                                <option>Resolvido No Local</option>
-                                <option>Nada Constatado</option>
+                                <select className="form-control"
+                                value={ResulOc}
+                                onChange={t=>setResulOc(t.target.value)}
+                                onBlur={()=>EnviandoVtr()}
+                                >
+                                <option>Condução ao DP</option>
+                                <option>Resolvido no local</option>
                                 <option>Evadiu-se</option>
-                                <option>Conduzido a DRPC</option>
+                                <option>Nada constatado</option>
+                                <option>Ocorrência computada</option>
+                                <option>Outros</option>
                                 </select>
                             </div>
                             </div>
                             <div className="col-sm-12">
                             <div className="form-group">
                                 <label>Relato da Ocorrência</label>
-                                <textarea className="form-control" rows={10} placeholder="Digite o relato da Ocorrência..."  defaultValue={""} />
+                                <textarea 
+                                className="form-control" 
+                                rows={10} 
+                                placeholder="Digite o relato da Ocorrência..."  
+                                defaultValue={""} 
+                                value={Relato}
+                                onChange={t=>setRelato(t.target.value)}
+                                onBlur={()=>EnviandoVtr()}
+                                />
                             </div>
                             </div>
                             <div className="col-sm-12">
                             <div className="form-group">
                                 <label>Providências Tomadas</label>
-                                <textarea className="form-control" rows={10} placeholder="Digite as providências tomadas.."  defaultValue={""} />
+                                <textarea 
+                                className="form-control" 
+                                rows={10} 
+                                placeholder="Digite as providências tomadas.."  
+                                defaultValue={""}
+                                value={Prov}
+                                onChange={t=>setProv(t.target.value)}
+                                onBlur={()=>EnviandoVtr()} 
+                                />
                             </div>
                             </div>
                            
@@ -610,6 +698,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
                     {/* /.card-body */}
                     </div>
                     </div>
+                    
 {/* /.card */}
 {/* general form elements disabled */}
                    

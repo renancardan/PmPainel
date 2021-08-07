@@ -54,7 +54,7 @@ export default ({data, user, setBody, setVisible}) => {
                {data.type === "text" &&
                     <>
                   <div className="messageText">{data.body} </div>
-                  <div className="messageDate">{time}</div>
+                  {/* <div className="messageDate">{time}</div> */}
                   </>
                }
                {data.type === "audio" &&
@@ -63,7 +63,7 @@ export default ({data, user, setBody, setVisible}) => {
                 source src={data.body} type="audio/mp4"
                 >  
                 </audio>
-                  <div className="messageDate">{time}</div>
+                  {/* <div className="messageDate">{time}</div> */}
                   </>
                }
 
@@ -73,7 +73,7 @@ export default ({data, user, setBody, setVisible}) => {
                  src={data.body} 
                 />  
                 
-                  <div className="messageDate">{time}</div>
+                  {/* <div className="messageDate">{time}</div> */}
                   </>
                }
 
@@ -87,7 +87,7 @@ export default ({data, user, setBody, setVisible}) => {
                     </div>
                 {/*  */}
                 
-                  <div className="messageDate">{time}</div>
+                  {/* <div className="messageDate">{time}</div> */}
                   </>
                }
               

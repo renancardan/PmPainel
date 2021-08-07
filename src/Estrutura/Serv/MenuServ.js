@@ -72,6 +72,14 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+               <MenuLink 
+              Linkto={"/noticia"}
+              Icon={"nav-icon fas fa-newspaper"}
+              Titulo={"NOTÍCIAS"}
+              Notificacao={false}
+              NotiEstilo={"right badge badge-danger"}
+              ValorNoti={"New"}
+              />
             <MenuLink 
               Linkto={"/permissoes"}
               Icon={"nav-icon fas fa-check-square"}
@@ -88,14 +96,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
-               {/* <MenuLink 
-              Linkto={"/serv"}
-              Icon={"nav-icon fas fa-envelope"}
-              Titulo={"MENSAGENS"}
-              Notificacao={false}
-              NotiEstilo={"right badge badge-danger"}
-              ValorNoti={"New"}
-              /> */}
+              
               <MenuLink 
               Linkto={"/config"}
               Icon={"nav-icon fas  fa-cogs"}

@@ -342,6 +342,7 @@ useEffect(() => {
                         :
                         <ChatFormulario
                         data={activeChat}
+                        setActiveChat={setActiveChat}
                         setAlert={setAlert}
                         setAlertTipo={setAlertTipo}
                         Alert={Alert}
@@ -351,6 +352,7 @@ useEffect(() => {
                         Nome={Nome} 
                         Dados={Dados} 
                         setFormu={setFormu}
+                        Forms={Forms}
                         />
 
                         }

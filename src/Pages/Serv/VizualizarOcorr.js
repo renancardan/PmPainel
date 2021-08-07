@@ -28,9 +28,7 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, Alert, Ale
  Vizualizar();
  }, []);
 
- useEffect(() => {
-listandoGrupos();
-  }, []);
+ 
 
   const MsgBloque = ()=>{
       setAlert("Ok");
@@ -100,6 +98,8 @@ listandoGrupos();
                     <address>
                       <strong>Nome da Vítima:</strong><br />
                       {Infor.nomevitima}<br />
+                      <strong>Endereço</strong><br />
+                      {Infor.rua}, {Infor.numero} - {Infor.bairro}<br />
                       <strong>Cidade:</strong><br />
                       {Infor.cidade}<br />
                       <strong>Estado:</strong><br />
@@ -119,6 +119,11 @@ listandoGrupos();
                       }
                      
                       <br />
+                      {Infor.Ocorr !== "" &&
+                      <>
+                      <a href={Infor.Ocorr} target="_blank">Link do B.O</a> <br />
+                      </>
+                      }
                      
                     </address>
                   </div>
@@ -126,17 +131,19 @@ listandoGrupos();
                   <div className="col-sm-4 invoice-col">
                    
                        <address>
-                      <strong>Condicionais</strong><br />
-                      {Infor.condicionais &&
-                      <>
-                         {Infor.condicionais.map((item, key)=>(
-                          <>
-                          <string>{item.nome}</string> <br />
-                          </>
-         
-                        ))}
-                      </>
-                      }
+                       <strong>Vtr:</strong><br />
+                      {Infor.vtr}<br />
+                      <strong>Atendente Copom</strong><br />
+                      {Infor.atendenteCopom}<br />
+                      <strong>Componentes da Vrt</strong><br />
+                      {Infor.componentesVtr}<br />
+                      <strong>Conduzidos</strong><br />
+                      {Infor.conduzidos}<br />
+                      <strong>Vítimas</strong><br />
+                      {Infor.vitimas}<br />
+                      <strong>Objetos Apreendidos</strong><br />
+                      {Infor.objetosApre}<br />
+
                      
                       
                       
@@ -147,7 +154,24 @@ listandoGrupos();
                   {/* /.col */}
                   <div className="col-sm-4 invoice-col">
                     <address>
-                     
+                  
+                      <strong>Ocorrencia</strong><br />
+                      {Infor.condicionais &&
+                      <>
+                         {Infor.condicionais.map((item, key)=>(
+                          <>
+                          <string>{item.nome}</string> <br />
+                          </>
+         
+                        ))}
+                      </>
+                      }
+                       <strong>Resultado</strong><br />
+                      {Infor.resultado}<br />
+                      <strong>Relato da Ocorrência</strong><br />
+                      {Infor.relato}<br />
+                      <strong>Providencias Tomadas</strong><br />
+                      {Infor.providencias}<br />
                       
                     </address>
                   </div>

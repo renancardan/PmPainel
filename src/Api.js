@@ -979,6 +979,8 @@ export default {
                   ativo: doc.data().ativo, 
                   dateIn: doc.data().dataInicio.seconds*1000,
                   condi: doc.data().condicionais,
+                  bairro: doc.data().bairro,
+                  resultado:doc.data().resultado,
                 });    
               }
                   
@@ -1769,12 +1771,63 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         
     },
 
-    EnviVtr: async (data, Vtr, AtenCop, CompVt, Periodo, Rua, Numero, Bairro, Cidade, Estado, Lat, Lng) => {   
-      console.log(data);
-      console.log(Vtr);
-      console.log(AtenCop);
-      console.log(CompVt);
-      console.log(Periodo);
+    EnviOcSalvar: async (Id, Vtr, AtenCop, CompVt,  Conduz, Viti, ObjAp, ResulOc, Relato, Prov, setAlert, setAlertTipo, Arq, Pdf,  setVisi2) => {   
+      console.log(Arq);
+      if(Arq !== "" ){
+          const fileName = await Date.now() + Arq.name;
+          const storageRef = storage.ref();
+          const fileRef = storageRef.child(`arquivo/${fileName}`);
+          await fileRef.put(Arq).then((doc)=> {
+            
+          });
+          const Url =  await fileRef.getDownloadURL();
+          await db.collection('ocorrencia')
+          .doc(Id)
+          .update({
+            vtr: Vtr,
+            atendenteCopom: AtenCop,
+            componentesVtr: CompVt,
+            conduzidos:Conduz,
+            vitimas:Viti,
+            objetosApre:ObjAp,
+            grupoOcrr:"",
+            Ocorr:Url,
+            resultado: ResulOc,
+            relato:Relato,
+            providencias:Prov,
+          }).then(()=>{
+            setVisi2(false);
+            setAlertTipo("success");
+            setAlert("Editado com sucesso");
+          });
+
+      } else {
+        
+        await db.collection('ocorrencia')
+        .doc(Id)
+        .update({
+          vtr: Vtr,
+          atendenteCopom: AtenCop,
+          componentesVtr: CompVt,
+          conduzidos:Conduz,
+          vitimas:Viti,
+          objetosApre:ObjAp,
+          grupoOcrr:"",
+          Ocorr:Pdf,
+          resultado: ResulOc,
+          relato:Relato,
+          providencias:Prov,
+        }).then(()=>{
+          setVisi2(false);
+          setAlertTipo("success");
+          setAlert("Editado com sucesso");
+        });
+      }
+     
+           
+    },
+
+    EnviVtr: async (data, Vtr, AtenCop, CompVt, Periodo, Rua, Numero, Bairro, Cidade, Estado, Lat, Lng, Conduz, Viti, ObjAp, ResulOc, Relato, Prov) => {   
       await db.collection('ocorrencia')
       .doc(data)
       .update({
@@ -1787,11 +1840,20 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         bairro: Bairro,
         cidade: Cidade,
         estado: Estado,
+        localizacao:{lat: Lat, lng:Lng},
+        conduzidos:Conduz,
+        vitimas:Viti,
+        objetosApre:ObjAp,
+        grupoOcrr:"",
+        Ocorr:"",
+        resultado: ResulOc,
+        relato:Relato,
+        providencias:Prov,
       })
            
     },
 
-    DadosForm: async (data, setVtr, setAtenCop, setCompVt, setRua, setNumero, setBairro, setCidade, setEstado, setLat, setLng ) => {   
+    DadosForm: async (data, setVtr, setAtenCop, setCompVt, setRua, setNumero, setBairro, setCidade, setEstado, setLat, setLng, setConduz, setViti, setObjAp, setResulOc, setRelato, setProv ) => {   
       await db.collection('ocorrencia')
       .doc(data)
       .get()
@@ -1802,8 +1864,16 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         setRua(doc.data().rua);
         setNumero(doc.data().numero);
         setBairro(doc.data().bairro);
-        setEstado(doc.data().estado)
-        setCidade(doc.data().cidade)
+        setEstado(doc.data().estado);
+        setCidade(doc.data().cidade);
+        setLat(doc.data().localizacao.lat);
+        setLng(doc.data().localizacao.lng);
+        setConduz(doc.data().conduzidos);
+        setViti(doc.data().vitimas);
+        setObjAp(doc.data().objetosApre);
+        setResulOc(doc.data().resultado);
+        setRelato(doc.data().relato);
+        setProv(doc.data().providencias);
       });
        
            
@@ -1943,6 +2013,25 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
        .doc(activeChat)
        .update({
         condicionais: Cont,
+    })
+    .then(() => {
+      setAlert(" ");
+      setAlertTipo("");
+       
+    })
+    .catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });   
+    },
+
+    ExcluirCondiRev: async(Id, cond, setAlertTipo, setAlert )=> {
+      const autenticado =  await Auth.currentUser;
+      const id = await autenticado.uid;
+       await db.collection('ocorrencia')
+       .doc(Id)
+       .update({
+        condicionais: cond,
     })
     .then(() => {
       setAlert(" ");

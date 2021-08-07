@@ -9,6 +9,7 @@ import Select from '../../Components/Select';
 import Pagination from '../../Components/Pagination';
 import CriarGrupo from './CriarGrupo';
 import VizualizaOc from './VizualizarOcorr';
+import EditOc from './EditarOcrr';
 import DataTime from '../../Components/DateFormat';
 import Api from '../../Api';
 import 'moment/locale/pt-br.js';
@@ -36,6 +37,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [DataA, setDataA] = useState(new Date());
       const [VerA, setVerA] = useState(false);
       const [VerD, setVerD] = useState(false);
+      const [Resu, setResu] = useState("");
+      const [Bairro, setBairro] = useState("");
+      const [PesqBtn, setPesqBtn] = useState(false);
      
      
 
@@ -147,13 +151,15 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
          
 
-               const Pagina1 = ()=>{
-                 setPag1(true);
+               const Pagina1 = (id)=>{
+                setId(id);
+                setPag1(true);
                }
 
                const Pagina2 = async (id)=>{
-                await setId(id);
-                await setPag1(true);
+                setId(id);
+                setPag1(true);
+                setPag2(true);
 
               }
 
@@ -226,7 +232,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                           id: UsuariosContServ[i].id, 
                           date: UsuariosContServ[i].date,
                           ativo: UsuariosContServ[i].ativo, 
-                          dateIn: UsuariosContServ[i].dateIn,   
+                          dateIn: UsuariosContServ[i].dateIn,
+                          bairro:  UsuariosContServ[i].bairro,
+                          resultado: UsuariosContServ[i].resultado,
+                          condi: UsuariosContServ[i].condi,  
                       });   
                       }
                      
@@ -254,8 +263,87 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               setDataA(new Date());
               setVerD(false);
               setVerA(false);
+              setPesqBtn(false);
               ListOc();
+              setBairro("");
+              setResu("");
             }
+
+            const Pesquivar = ()=> {
+              if(Bairro !== "" && Resu === ""){
+                let listra = [];
+                for(let i in UsuariosContServ ) {
+                  
+                    if( UsuariosContServ[i].bairro.toLowerCase() == Bairro.toLowerCase() ) {
+                      listra.push({
+                        id: UsuariosContServ[i].id, 
+                        date: UsuariosContServ[i].date,
+                        ativo: UsuariosContServ[i].ativo, 
+                        dateIn: UsuariosContServ[i].dateIn,
+                        bairro: UsuariosContServ[i].bairro,
+                        resultado: UsuariosContServ[i].resultado,
+                        condi: UsuariosContServ[i].condi,  
+                    });   
+                    }
+                   
+                  }
+                   setQuant(listra.length);
+                  setUsuariosContServ(listra);
+                  setPesqBtn(true);
+              }
+              if(Bairro === "" && Resu !== ""){
+                let listra = [];
+                for(let i in UsuariosContServ ) {
+                  
+                    if( UsuariosContServ[i].resultado == Resu ) {
+                      listra.push({
+                        id: UsuariosContServ[i].id, 
+                        date: UsuariosContServ[i].date,
+                        ativo: UsuariosContServ[i].ativo, 
+                        dateIn: UsuariosContServ[i].dateIn,
+                        bairro: UsuariosContServ[i].bairro,
+                        resultado: UsuariosContServ[i].resultado,
+                        condi: UsuariosContServ[i].condi,  
+                    });   
+                    }
+                   
+                  }
+                   setQuant(listra.length);
+                  setUsuariosContServ(listra);
+                  setPesqBtn(true);
+              }
+           
+
+              if(Bairro !== "" && Resu !== ""){
+                let listra = [];
+                for(let i in UsuariosContServ ) {
+                  
+                    if( UsuariosContServ[i].resultado == Resu ) {
+                      if( UsuariosContServ[i].bairro.toLowerCase() == Bairro.toLowerCase() ) {
+                      listra.push({
+                        id: UsuariosContServ[i].id, 
+                        date: UsuariosContServ[i].date,
+                        ativo: UsuariosContServ[i].ativo, 
+                        dateIn: UsuariosContServ[i].dateIn,
+                        bairro: UsuariosContServ[i].bairro,
+                        resultado: UsuariosContServ[i].resultado,
+                        condi: UsuariosContServ[i].condi,  
+                    }); 
+                  }  
+                    }
+                   
+                  }
+                   setQuant(listra.length);
+                  setUsuariosContServ(listra);
+                  setPesqBtn(true);
+              }
+          
+
+            }
+            
+               
+                
+            
              
            
               
@@ -348,10 +436,54 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     </div>
                     <div style={{margin:"10px", width:"250px", paddingTop:"25px"}}>
                     <Butao 
-                        style={"btn btn-sm btn-secondary"}
-                        titulo={"Limpar Pesquisa"}
-                        onClick={()=>LimpandoPesq()}
+                      style={"btn btn-sm btn-secondary"}
+                      titulo={"Limpar Pesquisa"}
+                      onClick={()=>LimpandoPesq()}
+                      />
+                    </div>
+                    <div style={{margin:"10px", width:"250px"}}>
+                    <string>Pesquisar Por Rersultado Final</string>
+                                <select className="form-control"
+                                value={Resu}
+                                onChange={t=>setResu(t.target.value)} 
+                                >
+                                <option>Pesquisar</option>
+                                <option>Condução ao DP</option>
+                                <option>Resolvido no local</option>
+                                <option>Evadiu-se</option>
+                                <option>Nada constatado</option>
+                                <option>Ocorrência computada</option>
+                                <option>Outros</option>
+                                </select>
+                    
+                    </div>
+                    <div style={{margin:"10px", width:"250px"}}>
+                    <string>Pesquisar Por Bairro</string>
+                    <input 
+                    type="text" 
+                    className="form-control" 
+                    placeholder="Digite o Bairro"
+                    value={Bairro}
+                    onChange={t=>setBairro(t.target.value)}
+                    />
+                    
+                    </div>
+                    <div style={{margin:"10px", width:"250px", paddingTop:"25px"}}>
+                      {PesqBtn === false ?
+                        <Butao 
+                        style={"btn btn-sm btn-primary"}
+                        titulo={"Pesquisar"}
+                        onClick={()=>Pesquivar()}
                         />
+                      :
+                      <Butao 
+                      style={"btn btn-sm btn-secondary"}
+                      titulo={"Limpar Pesquisa"}
+                      onClick={()=>LimpandoPesq()}
+                      />
+
+                      }
+                  
                     </div>
                     
                     </div>
@@ -369,8 +501,11 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             <thead>
                               <tr>
                                 <th>Data</th>
+                                <th>Bairro</th>
+                                <th>Resultado</th>
                                 <th>Status</th>
                                 <th>Ações</th>
+                               
                               </tr>
                             </thead>
                             
@@ -384,6 +519,12 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                       <DataTime 
                                       DateIni={item.list.date}
                                       />
+                                      </td>
+                                      <td >
+                                      {item.list.bairro}
+                                      </td>
+                                      <td >
+                                      {item.list.resultado}
                                       </td>
                                     {item.list.ativo === false ?
                                        <td>Concluido</td>
@@ -399,6 +540,12 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
+                                    onClick={()=>Pagina1(item.list.id)}
+                                    />
+
+                                    <Butao 
+                                    style={"btn btn-xs btn-success"}
+                                    titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id)}
                                     />
                                                              
@@ -441,7 +588,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
         </div>
         :
         <>
-          <VizualizaOc 
+        {Pag2 === false ?
+        <>
+         <VizualizaOc 
             setAlert={setAlert}
             setAlertTipo={setAlertTipo}
             Avisando={Avisando}
@@ -451,6 +600,24 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             Alert={Alert}
             AlertTipo={AlertTipo}
             />
+        </>
+
+        :
+        <>
+         <EditOc
+            setAlert={setAlert}
+            setAlertTipo={setAlertTipo}
+            Avisando={Avisando}
+            Fechar={Fechar}
+            Dados={Dados}
+            Id={Id}
+            Alert={Alert}
+            AlertTipo={AlertTipo}
+            />
+        </>
+
+        }
+         
         </>
         
          }
