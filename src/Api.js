@@ -952,7 +952,7 @@ export default {
     
   },
 
-  ListOcorr: async(Dados, setQuant, setUsuariosContServ)=> {
+  ListOcorr: async(Dados, setQuant, setUsuariosContServ, setCarreg)=> {
    
     await Auth.onAuthStateChanged( async function(user) {
       if (user) {
@@ -981,13 +981,77 @@ export default {
                   condi: doc.data().condicionais,
                   bairro: doc.data().bairro,
                   resultado:doc.data().resultado,
+                  rua:doc.data().rua,
+                  vtr:doc.data().vtr,
+                  atendenteCopom:doc.data().atendenteCopom,
+                  componentesVtr: doc.data().componentesVtr,
+                  conduzidos: doc.data().conduzidos,
+                  vitimas: doc.data().vitimas,
+                  objetosApre: doc.data().objetosApre,
+
                 });    
               }
-                  
+              setCarreg(false);    
             });
 
             res.sort((a,b)=>{
               if(a.date < b.date) {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
+          
+            setUsuariosContServ(res);
+            
+    
+              });
+
+          
+        
+   
+       }); 
+     
+      } 
+  
+    });
+    
+    
+  },
+
+  ListNoti: async(Dados, setQuant, setUsuariosContServ, setCarreg)=> {
+   
+    await Auth.onAuthStateChanged( async function(user) {
+      if (user) {
+      const ID = user.uid;
+      const Setor = "Lista Grupos Serv";
+      const dados = await db.collection('users')
+      .doc(ID).
+      get()
+      .then(async(dados)=>{
+        const result = await dados.data();
+
+          await db.collection("noticias")
+          .where("estado", "==", result.estado)
+          .where("cidade", "==", result.cidade)
+          .where("instituicao", "==", result.instituicao)
+            .onSnapshot((querySnapshot) => {
+            setQuant(querySnapshot.size);
+            var res = []; 
+            querySnapshot.forEach((doc) => {
+             
+                res.push({
+                  id: doc.id,
+                  dateNoti: doc.data().dataDanoti,
+                  titulo: doc.data().Titulo,
+                  body:doc.data().body,
+                  ativo:doc.data().ativo,
+                });    
+              setCarreg(false);    
+            });
+
+            res.sort((a,b)=>{
+              if(a.dateNoti < b.dateNoti) {
                 return 1;
               } else {
                 return -1;
@@ -1633,6 +1697,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
       estado: Dados.estado,
       instituicao:"Polícia Militar",
       nomevitima: came,
+      condicionais:[],
       idvitima: id,
       localizacao:{lat: 0, lng: 0},
       userChat:[
@@ -1772,7 +1837,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     },
 
     EnviOcSalvar: async (Id, Vtr, AtenCop, CompVt,  Conduz, Viti, ObjAp, ResulOc, Relato, Prov, setAlert, setAlertTipo, Arq, Pdf,  setVisi2) => {   
-      console.log(Arq);
+
       if(Arq !== "" ){
           const fileName = await Date.now() + Arq.name;
           const storageRef = storage.ref();
@@ -2075,12 +2140,82 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     });
 
 
-    
+    },
 
+    CriandoNoti: async(Dados, Data, value, TituNoti , setAlertTipo, setAlert, Imgs, setVisi1)=> {
+      
+     await  setVisi1(true)
+     
+        let Url1 = "";
+        let Url2 = "";
+        let Url3 = "";
+        let Url4 = "";
 
+        if(Imgs[0].Foto !== ""){
+          const fileName = await Date.now() + Imgs[0].Foto.name;
+          const storageRef = await storage.ref();
+          const fileRef = await storageRef.child(`arquivo/${fileName}`);
+          await await fileRef.put(Imgs[0].Foto).then((doc)=> {
+            
+          });
+          Url1 =  await fileRef.getDownloadURL();
+        }
 
+        if(Imgs[1].Foto !== ""){
+          const fileName = await Date.now() + Imgs[1].Foto.name;
+          const storageRef = await storage.ref();
+          const fileRef = await storageRef.child(`arquivo/${fileName}`);
+          await await fileRef.put(Imgs[1].Foto).then((doc)=> {
+            
+          });
+          Url2 =  await fileRef.getDownloadURL();
+        }
 
+        if(Imgs[2].Foto !== ""){
+          const fileName = await Date.now() + Imgs[2].Foto.name;
+          const storageRef = await storage.ref();
+          const fileRef = await storageRef.child(`arquivo/${fileName}`);
+          await await fileRef.put(Imgs[2].Foto).then((doc)=> {
+            
+          });
+          Url3 =  await fileRef.getDownloadURL();
+        }
 
+        if(Imgs[3].Foto !== ""){
+          const fileName = await Date.now() + Imgs[3].Foto.name;
+          const storageRef = await storage.ref();
+          const fileRef = await storageRef.child(`arquivo/${fileName}`);
+          await await fileRef.put(Imgs[3].Foto).then((doc)=> {
+            
+          });
+          Url4 =  await fileRef.getDownloadURL();
+        }
+
+        await db.collection("noticias").add({
+          instituicao: Dados.instituicao,
+          cidade: Dados.cidade,
+          estado: Dados.estado,
+          ativo:true,
+          body:value,
+          Titulo:TituNoti,
+          dataDanoti:Data,
+          foto1:Url1,
+          foto2:Url2,
+          foto3:Url3,
+          foto4:Url4,
+          dataCriacao:firebase.firestore.FieldValue.serverTimestamp(),
+          }).then(() => {
+            setAlert("Notícia Criada Com Sucesso ");
+            setAlertTipo("success");
+            setVisi1(false);
+             
+          })
+          .catch((error) => {
+            setAlert("Ouve algum Erro! ");
+            setAlertTipo("danger");
+            setVisi1(false);
+          });  
+     
     },
 
   sairdaconta: async()=> {
@@ -2091,6 +2226,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     });
   },
   
+ 
 
 
 

@@ -24,7 +24,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Quant, setQuant] = useState(0);
       const [Pag1, setPag1] = useState(false);
       const [Pag2, setPag2] = useState(false);
-      const [Titulo, setTitulo] = useState("Ocorrencia");
+      const [Titulo, setTitulo] = useState("Ocorrências");
       const [Time, setTime] = useState("")
       const [UsuariosContServ, setUsuariosContServ] = useState([]);
       const [Lista, setLista] = useState(["list"]);
@@ -38,7 +38,25 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [VerA, setVerA] = useState(false);
       const [VerD, setVerD] = useState(false);
       const [Resu, setResu] = useState("");
+      const [VerResu, setVerResu] = useState(false);
+      const [Rua, setRua] = useState("");
+      const [VerRua, setVerRua] = useState(false);
       const [Bairro, setBairro] = useState("");
+      const [VerBairro, setVerBairro] = useState(false);
+      const [Vtr, setVtr] = useState("");
+      const [VerVtr, setVerVtr] = useState(false);
+      const [AtenCop, setAtenCop] = useState("");
+      const [VerAtenCop, setVerAtenCop] = useState(false);
+      const [CompVtr, setCompVtr] = useState("");
+      const [VerCompVtr, setVerCompVtr] = useState(false);
+      const [Condu, setCondu] = useState("");
+      const [VerCondu, setVerCondu] = useState(false);
+      const [Viti, setViti] = useState("");
+      const [VerViti, setVerViti] = useState(false);
+      const [Obj, setObj] = useState("");
+      const [VerObj, setVerObj] = useState(false);
+      const [Ocorr, setOcorr] = useState("");
+      const [VerOcrr, setVerOcrr] = useState(false);
       const [PesqBtn, setPesqBtn] = useState(false);
      
      
@@ -48,25 +66,32 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       }, [])
 
       useEffect(() => {
-     
-       }, [Lista])
+        console.log(DataA);
+       }, [DataA])
 
       useEffect(() => {
-      
-        Listando();   
+        Listando();
+       
        }, [UsuariosContServ])
 
        useEffect(() => {
         Listando();
        }, [Offset])
+
+       useEffect(() => {
+        if(Resu !== ""){
+            PesqResult();
+        }
+       }, [Resu])
+
      
       
   
      
           const ListOc = async ()=>{
             if (navigator.onLine) {
-             setCarreg(true);
-              await Api.ListOcorr(Dados, setQuant, setUsuariosContServ);
+             await setCarreg(true);
+              await Api.ListOcorr(Dados, setQuant, setUsuariosContServ, setCarreg);
              
             } else {
               setAlert("Sem Internet");
@@ -77,43 +102,43 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
           }
 
           const Listando = async ()=>{
-                
-                  const cal1 = Quant/Limit;
-                  const cal2 = Math.trunc(cal1);
-                  const cal3 = cal2*10;
-                  const cal4 = Quant - cal3;
-                  if(Offset === cal3) {
-                      
-                          const inicio = Offset;
-                          const fim = Quant;
-                          var Listinha =[];
-                          for (var i = inicio; i < fim; i++) {
-                            Listinha.push({
-                              list:UsuariosContServ[i],
-                            });
-                            setLista(Listinha);
-                          
-                    
 
-                          }
+         
 
-                  } else {
-
-                          const inicio = Offset;
-                          const fim = (Offset + Limit) 
-                          var Listinha =[];
-                          for (var i = inicio; i < fim; i++) {
-                            Listinha.push({
-                              list:UsuariosContServ[i],
-                            });
-                            setLista(Listinha);
-                           
-                   
-
-                        }
+              const cal1 = Quant/Limit;
+              const cal2 = Math.trunc(cal1);
+              const cal3 = cal2*10;
+              const cal4 = Quant - cal3;
+              if(Offset === cal3) {
                   
+                      const inicio = Offset;
+                      const fim = Quant;
+                      var Listinha =[];
+                      for (var i = inicio; i < fim; i++) {
+                        Listinha.push({
+                          list:UsuariosContServ[i],
+                        });
+                        setLista(Listinha);
+                      
+                
 
-                    } 
+                      }
+
+              } else {
+
+                      const inicio = Offset;
+                      const fim = (Offset + Limit) 
+                      var Listinha =[];
+                      for (var i = inicio; i < fim; i++) {
+                        Listinha.push({
+                          list:UsuariosContServ[i],
+                        });
+                        setLista(Listinha);
+
+                      }
+              
+                    }
+                    
 
                     var num= Cont + 1;
                     setCont(num);
@@ -121,7 +146,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       setCarreg(false); 
                     }          
                          
-          }
+                }
 
           function confirma() {
             setAlert(" ");
@@ -217,46 +242,24 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
                 const date = new Date() // or Date or Moment.js
 
-            const datando = async (jsDate, dateString)=>{
-                setDataP(jsDate)
-                let DatA = new Date(DataA).getTime();
-                let Dat = new Date(jsDate).getTime();
-                if(DatA > Dat){
-                  setVerD(true);
-                  let listanha = [];
-                  for(let i in UsuariosContServ ) {
-                    
-                    if( UsuariosContServ[i].dateIn > Dat ) {
-                      if( UsuariosContServ[i].dateIn < DatA ) {
-                        listanha.push({
-                          id: UsuariosContServ[i].id, 
-                          date: UsuariosContServ[i].date,
-                          ativo: UsuariosContServ[i].ativo, 
-                          dateIn: UsuariosContServ[i].dateIn,
-                          bairro:  UsuariosContServ[i].bairro,
-                          resultado: UsuariosContServ[i].resultado,
-                          condi: UsuariosContServ[i].condi,  
-                      });   
-                      }
-                     
-                    }
-                   
-                }
-               await  setQuant(listanha.length);
-                await setUsuariosContServ(listanha);
-
-                } else {
-                  setAlert("A data Depois tem que ser menor que a de Antes");
-                  setAlertTipo("danger");
-                }
-               
-            }
+           
 
             const DatandoA = (jsDate, dateString)=>{
-              setDataA(jsDate)
-              setVerA(true);
+              let currentDate = '';
+              let now =new Date(jsDate);
+              let Dia = now.getDate();
+              let Mes = (now.getMonth()+1);
+              let Ano = now.getFullYear();
+              Dia = Dia < 10 ? '0'+Dia : Dia;
+              Mes = Mes < 10 ? '0'+Mes : Mes;
+              currentDate = Ano+'-'+Mes+'-'+Dia;
+              let variac = new Date(currentDate +"T00:00:00.000").getTime();
+              setDataA(variac) 
+              setVerA(true)  
               setDataP(jsDate)
             }
+
+           
 
             const LimpandoPesq = ()=>{
               setDataP(new Date());
@@ -267,79 +270,436 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               ListOc();
               setBairro("");
               setResu("");
+              setRua("");
+              setVtr("");
+              setAtenCop("");
+              setCompVtr("");
+              setCondu("");
+              setViti("");
+              setObj("");
+              setOcorr("");
+              setVerOcrr(false);
+              setVerObj(false);
+              setVerViti(false);
+              setVerCondu(false);
+              setVerCompVtr(false);
+              setVerRua(false);
+              setVerResu(false);
+              setVerBairro(false);
+              setVerVtr(false);
+              setVerAtenCop(false);
             }
 
-            const Pesquivar = ()=> {
-              if(Bairro !== "" && Resu === ""){
-                let listra = [];
+
+            const datando = async (jsDate, dateString)=>{
+              setDataP(jsDate)
+              let currentDate = '';
+              let now =new Date(jsDate);
+              let Dia = now.getDate();
+              let Mes = (now.getMonth()+1);
+              let Ano = now.getFullYear();
+              Dia = Dia < 10 ? '0'+Dia : Dia;
+              Mes = Mes < 10 ? '0'+Mes : Mes;
+              currentDate = Ano+'-'+Mes+'-'+Dia;
+              let Dat  = new Date(currentDate +"T00:00:00.000").getTime();
+              console.log(Dat);
+              if(DataA > Dat){
+                setVerD(true);
+                let listanha = [];
                 for(let i in UsuariosContServ ) {
                   
-                    if( UsuariosContServ[i].bairro.toLowerCase() == Bairro.toLowerCase() ) {
-                      listra.push({
+                  if( UsuariosContServ[i].dateIn >= Dat ) {
+                    if( UsuariosContServ[i].dateIn <= DataA ) {
+                      listanha.push({
+                        id: UsuariosContServ[i].id, 
+                        date: UsuariosContServ[i].date,
+                        ativo: UsuariosContServ[i].ativo, 
+                        dateIn: UsuariosContServ[i].dateIn,
+                        bairro:  UsuariosContServ[i].bairro,
+                        resultado: UsuariosContServ[i].resultado,
+                        condi: UsuariosContServ[i].condi,
+                        vtr:  UsuariosContServ[i].vtr, 
+                        atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                        componentesVtr:  UsuariosContServ[i].componentesVtr,
+                        conduzidos:  UsuariosContServ[i].conduzidos,
+                        vitimas:  UsuariosContServ[i].vitimas,
+                        objetosApre:  UsuariosContServ[i].objetosApre,
+                          
+                    });   
+                    }
+                   
+                  }
+                 
+              }
+              await setLista(["list"]);
+              await  setQuant(listanha.length);
+              await setUsuariosContServ(listanha);
+
+              } else {
+                setAlert("A data Depois tem que ser menor que a de Antes");
+                setAlertTipo("danger");
+              }
+             
+          }
+
+            
+
+   
+
+            const PesqResult = ()=>{
+             
+              setVerResu(true);
+              let listra1 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].resultado.toLowerCase() == Resu.toLowerCase() ) {
+                    listra1.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,   
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra1.length);
+                setUsuariosContServ(listra1);
+            }
+
+
+            const PesqRua = ()=>{
+              if(Rua !== ""){
+                setVerRua(true);
+             
+              let listra2 = [];
+              for(let i in UsuariosContServ ) {
+              
+                  if( UsuariosContServ[i].rua.toLowerCase().includes(Rua.toLowerCase())  ) {
+                    
+                    listra2.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                
+                setLista(["list"]);
+                setQuant(listra2.length);
+                setUsuariosContServ(listra2);
+
+              }
+              
+            }
+
+            
+
+            const PesqBairro = ()=>{
+              if(Bairro !== ""){
+                setVerBairro(true);
+             
+                let listra3 = [];
+                for(let i in UsuariosContServ ) {
+                  
+                    if( UsuariosContServ[i].bairro.toLowerCase().includes(Bairro.toLowerCase())  ) {
+                      listra3.push({
                         id: UsuariosContServ[i].id, 
                         date: UsuariosContServ[i].date,
                         ativo: UsuariosContServ[i].ativo, 
                         dateIn: UsuariosContServ[i].dateIn,
                         bairro: UsuariosContServ[i].bairro,
                         resultado: UsuariosContServ[i].resultado,
-                        condi: UsuariosContServ[i].condi,  
+                        condi: UsuariosContServ[i].condi,
+                        rua:  UsuariosContServ[i].rua,
+                        vtr:  UsuariosContServ[i].vtr, 
+                        atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                        componentesVtr:  UsuariosContServ[i].componentesVtr,
+                        conduzidos:  UsuariosContServ[i].conduzidos,
+                        vitimas:  UsuariosContServ[i].vitimas,
+                        objetosApre:  UsuariosContServ[i].objetosApre,
                     });   
                     }
                    
                   }
-                   setQuant(listra.length);
-                  setUsuariosContServ(listra);
-                  setPesqBtn(true);
+                  setLista(["list"]);
+                   setQuant(listra3.length);
+                  setUsuariosContServ(listra3);
               }
-              if(Bairro === "" && Resu !== ""){
-                let listra = [];
-                for(let i in UsuariosContServ ) {
-                  
-                    if( UsuariosContServ[i].resultado == Resu ) {
-                      listra.push({
+             
+            }
+
+            const PesqVtr = ()=>{
+              if(Vtr !== ""){
+                setVerVtr(true);
+             
+              let listra4 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].vtr.toLowerCase().includes(Vtr.toLowerCase())  ) {
+                    listra4.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra4.length);
+                setUsuariosContServ(listra4);
+
+              }
+              
+            }
+
+            const PesqAtendCop = ()=>{
+              if(AtenCop !== ""){
+                setVerAtenCop(true);
+             
+              let listra5 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].atendenteCopom.toLowerCase().includes(AtenCop.toLowerCase())  ) {
+                    listra5.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra5.length);
+                setUsuariosContServ(listra5);
+
+              }
+              
+            }
+
+            const PesqCompVtr = ()=>{
+              if(CompVtr !== ""){
+                setVerCompVtr(true);
+             
+              let listra6 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].componentesVtr.toLowerCase().includes(CompVtr.toLowerCase())  ) {
+                    listra6.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra6.length);
+                setUsuariosContServ(listra6);
+
+              }
+              
+            }
+
+            const PesqCondu = ()=>{
+              if(Condu !== ""){
+                setVerCondu(true);
+             
+              let listra7 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].conduzidos.toLowerCase().includes(Condu.toLowerCase())  ) {
+                    listra7.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra7.length);
+                setUsuariosContServ(listra7);
+
+              }
+              
+            }
+
+            const PesqViti = ()=>{
+              if(Viti !== ""){
+                setVerViti(true);
+             
+              let listra8 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].vitimas.toLowerCase().includes(Viti.toLowerCase())  ) {
+                    listra8.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra8.length);
+                setUsuariosContServ(listra8);
+
+              }
+              
+            }
+
+            const PesqObj = ()=>{
+              if(Obj !== ""){
+                setVerObj(true);
+             
+              let listra9 = [];
+              for(let i in UsuariosContServ ) {
+                
+                  if( UsuariosContServ[i].objetosApre.toLowerCase().includes(Obj.toLowerCase())  ) {
+                    listra9.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra9.length);
+                setUsuariosContServ(listra9);
+
+              }
+              
+            }
+
+            const PesqOcrr = ()=>{
+              if(Ocorr !== ""){
+                setVerOcrr(true);
+             
+              let listra10 = [];
+              for(let i in UsuariosContServ ) {
+                for(let j in UsuariosContServ[i].condi ){
+                    if( UsuariosContServ[i].condi[j].nome.toLowerCase().includes(Ocorr.toLowerCase())  ) {
+                      listra10.push({
                         id: UsuariosContServ[i].id, 
                         date: UsuariosContServ[i].date,
                         ativo: UsuariosContServ[i].ativo, 
                         dateIn: UsuariosContServ[i].dateIn,
                         bairro: UsuariosContServ[i].bairro,
                         resultado: UsuariosContServ[i].resultado,
-                        condi: UsuariosContServ[i].condi,  
+                        condi: UsuariosContServ[i].condi,
+                        rua:  UsuariosContServ[i].rua,
+                        vtr:  UsuariosContServ[i].vtr, 
+                        atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                        componentesVtr:  UsuariosContServ[i].componentesVtr,
+                        conduzidos:  UsuariosContServ[i].conduzidos,
+                        vitimas:  UsuariosContServ[i].vitimas,
+                        objetosApre:  UsuariosContServ[i].objetosApre,
                     });   
                     }
-                   
+
                   }
-                   setQuant(listra.length);
-                  setUsuariosContServ(listra);
-                  setPesqBtn(true);
+                 
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra10.length);
+                setUsuariosContServ(listra10);
+
               }
+              
+            }
+
            
-
-              if(Bairro !== "" && Resu !== ""){
-                let listra = [];
-                for(let i in UsuariosContServ ) {
-                  
-                    if( UsuariosContServ[i].resultado == Resu ) {
-                      if( UsuariosContServ[i].bairro.toLowerCase() == Bairro.toLowerCase() ) {
-                      listra.push({
-                        id: UsuariosContServ[i].id, 
-                        date: UsuariosContServ[i].date,
-                        ativo: UsuariosContServ[i].ativo, 
-                        dateIn: UsuariosContServ[i].dateIn,
-                        bairro: UsuariosContServ[i].bairro,
-                        resultado: UsuariosContServ[i].resultado,
-                        condi: UsuariosContServ[i].condi,  
-                    }); 
-                  }  
-                    }
-                   
-                  }
-                   setQuant(listra.length);
-                  setUsuariosContServ(listra);
-                  setPesqBtn(true);
-              }
-          
-
-            }
             
                
                 
@@ -398,6 +758,40 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               />            
               <section className="content">
                 <div className="container-fluid">
+                <div className="row">
+                      <CaixaInforme 
+                      cor={"small-box bg-info"}
+                      valor={Quant}
+                      porcentagen={false}
+                      nome={"Quant. Ocorrência"}
+                      icon={"nav-icon fas fa-taxi"}
+                      link={false}
+                      />
+                      {/* <CaixaInforme 
+                      cor={"small-box bg-success"}
+                      valor={"53"}
+                      porcentagen={true}
+                      nome={"Rendimentos"}
+                      icon={"ion ion-stats-bars"}
+                      link={false}
+                      />
+                      <CaixaInforme 
+                      cor={"small-box bg-warning"}
+                      valor={"44"}
+                      porcentagen={false}
+                      nome={"Contas Subordinadas"}
+                      icon={"ion ion-person-add" }
+                      link={false}
+                      />
+                      <CaixaInforme 
+                      cor={"small-box bg-danger"}
+                      valor={"65"}
+                      porcentagen={false}
+                      nome={"Visitas"}
+                      icon={"ion ion-pie-graph"}
+                      link={false}
+                      />                            */}
+                   </div>
                   
                 <div className="row">
                   <section className="col-12">
@@ -446,6 +840,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 <select className="form-control"
                                 value={Resu}
                                 onChange={t=>setResu(t.target.value)} 
+                                disabled={VerResu}
                                 >
                                 <option>Pesquisar</option>
                                 <option>Condução ao DP</option>
@@ -461,25 +856,29 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             </div>
                             <div className="col-sm-2">
                             <div className="form-group">
-                                <label>Rua</label>
+                                <label>Rua da Ocorrência</label>
                                 <input 
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite a Rua "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={Rua}
+                                onChange={t=>setRua(t.target.value)}
+                                disabled={VerRua}
+                                onBlur={()=>PesqRua()}
                                 />
                             </div>
                             </div>  
                             <div className="col-sm-2">
                             <div className="form-group">
-                                <label>Bairro de Bacabal</label>
+                                <label>Bairro da Ocorrência</label>
                                 <input 
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite o Bairro"
+                                disabled={VerBairro}
                                 value={Bairro}
                                 onChange={t=>setBairro(t.target.value)}
+                                onBlur={()=>PesqBairro()}
                                 />
                                 
                             </div>
@@ -491,8 +890,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite A Vtr"
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                disabled={VerVtr}
+                                value={Vtr}
+                                onChange={t=>setVtr(t.target.value)}
+                                onBlur={()=>PesqVtr()}
                                 />
                             </div>
                             </div> 
@@ -503,8 +904,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite o Atendente"
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={AtenCop}
+                                onChange={t=>setAtenCop(t.target.value)}
+                                onBlur={()=>PesqAtendCop()}
+                                disabled={VerAtenCop}
                                 />
                             </div>
                             </div> 
@@ -515,8 +918,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite os Componentes "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={CompVtr}
+                                onChange={t=>setCompVtr(t.target.value)}
+                                onBlur={()=>PesqCompVtr()}
+                                disabled={VerCompVtr}
                                 />
                             </div>
                             </div>
@@ -527,8 +932,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite os Conduzidos "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={Condu}
+                                onChange={t=>setCondu(t.target.value)}
+                                onBlur={()=>PesqCondu()}
+                                disabled={VerCondu}
                                 />
                             </div>
                             </div>  
@@ -539,8 +946,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite as Vítimas "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={Viti}
+                                onChange={t=>setViti(t.target.value)}
+                                onBlur={()=>PesqViti()}
+                                disabled={VerViti}
                                 />
                             </div>
                             </div>  
@@ -551,8 +960,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite os objetos apreendidos "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={Obj}
+                                onChange={t=>setObj(t.target.value)}
+                                onBlur={()=>PesqObj()}
+                                disabled={VerObj}
                                 />
                             </div>
                             </div>  
@@ -564,23 +975,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite as Ocorrências "
-                                value={Bairro}
-                                onChange={t=>setBairro(t.target.value)}
+                                value={Ocorr}
+                                onChange={t=>setOcorr(t.target.value)}
+                                onBlur={()=>PesqOcrr()}
+                                disabled={VerOcrr}
                                 />
                             </div>
                             </div>  
-                            {PesqBtn === false ?
-                            <div className="col-sm-2">
-                            <div className="form-group">
-                            <Butao 
-                              style={"btn btn-sm btn-primary"}
-                              titulo={"Pesquisar"}
-                              onClick={()=>Pesquivar()}
-                              />
-                                
-                            </div>
-                            </div> 
-                            :
+                            
                             <div className="col-sm-2">
                             <div className="form-group">
                             <Butao 
@@ -590,7 +992,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                             </div>
                             </div> 
-                            }
+                            
                           
                                    
                     </div>
@@ -612,6 +1014,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             <thead>
                               <tr>
                                 <th>Data</th>
+                                <th>Ocorrência</th>
                                 <th>Bairro</th>
                                 <th>Resultado</th>
                                 <th>Status</th>
@@ -630,6 +1033,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                       <DataTime 
                                       DateIni={item.list.date}
                                       />
+                                      </td>
+                                      <td >
+                                        {item.list.condi[0] &&
+                                        <>
+                                           {item.list.condi[0].nome}
+                                        </>
+                                        }
+                                     
                                       </td>
                                       <td >
                                       {item.list.bairro}
@@ -675,7 +1086,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                         sizeUnit={'px'} 
                                         />
                                         :                                      
-                                      <p style={{color:"red", margin:"20px"}}>Não existe App Cadastrado ou Desbloqueado</p>
+                                      <p style={{color:"red", margin:"20px"}}>Não existe Ocorrência Cadastrada</p>
                                       }
                                       </>
                             }

@@ -132,24 +132,6 @@ const ExBo = ()=>{
   />
    <Modal visible={Visible} width="500" height="500" effect="fadeInUp" onClickAway={() =>closeModal()}>
                      
-
-                      
-                    
-                      
-                                
-                               
-                    {/* <div style={{width:"4000px", height:"500px" }}>
-                    <Condic
-                        setAlert={setAlert}
-                        setAlertTipo={setAlertTipo}
-                        Forms={Forms}
-                        setForms={setForms}
-                        activeChat={Id}
-                        setVirModal={setVisible}
-                        />
-               
-                       
-                    </div>  */}
                      <div className="ModalCond">
                        <div className="ModalP1" >
                        <div style={{width:"3000", height:"500" }}> 
