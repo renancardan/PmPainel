@@ -46,6 +46,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Vertito, setVertito] = useState("");
       const [Text, setText] = useState("");
       const [VerText, setVerText] = useState(false);
+      const [QuantVis, setQuantVis] = useState(0);
 
      
 
@@ -54,7 +55,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       }, [])
 
       useEffect(() => {
-        
+       
+          contandoVisita();
+    
        }, [Lista])
 
       useEffect(() => {
@@ -256,6 +259,16 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               setVerText(false);
             }
 
+            const contandoVisita = ()=>{
+              let cont=0;
+              if(Lista[0].list ){
+              for(let i in Lista ) {
+                cont += Lista[i].list.visitas
+              }
+            }
+              setQuantVis(cont);
+            }
+
 
             const datando = async (jsDate, dateString)=>{
               setDataP(jsDate)
@@ -281,7 +294,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         ativo: UsuariosContServ[i].ativo, 
                         body: UsuariosContServ[i].body,
                         titulo:UsuariosContServ[i].titulo,
-                          
+                        visitas:UsuariosContServ[i].visitas,  
                     });   
                     }
                    
@@ -319,6 +332,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       ativo: UsuariosContServ[i].ativo, 
                       body: UsuariosContServ[i].body,
                       titulo:UsuariosContServ[i].titulo,
+                      visitas:UsuariosContServ[i].visitas,
                   });   
                   }
                  
@@ -347,6 +361,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       ativo: UsuariosContServ[i].ativo, 
                       body: UsuariosContServ[i].body,
                       titulo:UsuariosContServ[i].titulo,
+                      visitas:UsuariosContServ[i].visitas,
                   });   
                   }
                  
@@ -424,20 +439,20 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       />
                        <CaixaInforme 
                       cor={"small-box bg-warning"}
-                      valor={"44"}
+                      valor={QuantVis}
                       porcentagen={false}
-                      nome={"Contas Subordinadas"}
+                      nome={"Visitas"}
                       icon={"ion ion-person-add" }
                       link={false}
                       />
-                       <CaixaInforme 
+                       {/* <CaixaInforme 
                       cor={"small-box bg-danger"}
-                      valor={"65"}
+                      valor={QuantVis}
                       porcentagen={false}
                       nome={"Visitas"}
                       icon={"ion ion-pie-graph"}
                       link={false}
-                      />              
+                      />               */}
                       {/* <CaixaInforme 
                       cor={"small-box bg-success"}
                       valor={"53"}
@@ -576,6 +591,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                               <tr>
                                 <th>Data</th>
                                 <th>Titulo</th>
+                                <th>Visitas</th>
                                 <th>Ações</th>
                                
                               </tr>
@@ -596,6 +612,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     
                                       <td >
                                       {item.list.titulo}
+                                      </td>
+
+                                      <td >
+                                      {item.list.visitas}
                                       </td>
                                    
                                    

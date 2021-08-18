@@ -16,6 +16,7 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, MsgDesativ
 const [Nome, setNome] = useState("");
 const [Titulo, setTitulo] = useState("Criar Notícia");
 const [TituNoti, setTituNoti] = useState("");
+const [TituAnun, setTituAnun] = useState("");
 const [value, setValue] = useState("");
 const [Data, setData] = useState(new Date());
 const [Hora, setHora] = useState("00");
@@ -43,7 +44,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
   
       if (navigator.onLine) {
                 
-        Api.CriandoNoti(Dados, Data, value, TituNoti , setAlertTipo, setAlert, Imgs, setVisi1);
+        Api.CriandoNoti(Dados, Data, value, TituNoti, TituAnun , setAlertTipo, setAlert, Imgs, setVisi1);
  
        
       } else {
@@ -192,16 +193,30 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
               <div className="row invoice-info">
                 <div className="col-sm-4 invoice-col">
                   <address>
-                    <strong>Digite o Titulo da Notícia:</strong><br />
+                    <strong>Digite o Titulo da Notícia Anúncio:</strong><br />
                     <div className="input_cadatro">
                             <textarea 
-                               rows={4}
+                               rows={2}
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Digite o Titulo da Notícia Anúncio"
+                                value={TituAnun}
+                                onChange={t=>setTituAnun(t.target.value)}
+                                maxlength="54"
+                                />
+
+                            </div> 
+                    <br />
+                    <strong>Digite o Titulo da Notícia :</strong><br />
+                    <div className="input_cadatro">
+                            <textarea 
+                               rows={3}
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Digite o Titulo "
                                 value={TituNoti}
                                 onChange={t=>setTituNoti(t.target.value)}
-                            
+                               
                                 />
 
                             </div> 

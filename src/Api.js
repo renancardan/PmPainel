@@ -1043,9 +1043,10 @@ export default {
                 res.push({
                   id: doc.id,
                   dateNoti: doc.data().dataDanoti,
-                  titulo: doc.data().Titulo,
+                  titulo: doc.data().TituloAnun,
                   body:doc.data().body,
                   ativo:doc.data().ativo,
+                  visitas:doc.data().visitas,
                 });    
               setCarreg(false);    
             });
@@ -2142,7 +2143,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
 
     },
 
-    CriandoNoti: async(Dados, Data, value, TituNoti , setAlertTipo, setAlert, Imgs, setVisi1)=> {
+    CriandoNoti: async(Dados, Data, value, TituNoti , TituAnun , setAlertTipo, setAlert, Imgs, setVisi1)=> {
       
      await  setVisi1(true)
      
@@ -2198,11 +2199,13 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
           ativo:true,
           body:value,
           Titulo:TituNoti,
+          TituloAnun:TituAnun,
           dataDanoti:Data,
           foto1:Url1,
           foto2:Url2,
           foto3:Url3,
           foto4:Url4,
+          visitas:0,
           dataCriacao:firebase.firestore.FieldValue.serverTimestamp(),
           }).then(() => {
             setAlert("Notícia Criada Com Sucesso ");
