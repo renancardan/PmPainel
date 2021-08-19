@@ -812,6 +812,17 @@ export default {
     
   },
 
+  VizualizandoNoti: async(Id, Dados, setInfor)=> {
+    const autenticado =  await Auth.currentUser;
+    const id = await autenticado.uid;
+    const Setor = "Vizualizar Conta Serv";
+    await db.collection("noticias").doc(Id)
+    .onSnapshot((doc) => {
+        setInfor(doc.data());
+    });
+ 
+  },
+
   VizualizandoOcorren: async(Id, Dados, setInfor)=> {
     const autenticado =  await Auth.currentUser;
     const id = await autenticado.uid;
@@ -1075,6 +1086,7 @@ export default {
     
     
   },
+  
 
 DadosGruposServ: async(Dados, Id, setInfor)=> {
   const autenticado =  await Auth.currentUser;
@@ -2220,6 +2232,166 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
           });  
      
     },
+
+    EditandoNoti: async(Dados, Id, Data, value, TituNoti , TituAnun , setAlertTipo, setAlert, Imgs, setVisi1)=> {
+      
+      await  setVisi1(true)
+      
+         let Url1 = "";
+         let Url2 = "";
+         let Url3 = "";
+         let Url4 = "";
+ 
+         if(Imgs[0].Foto !== ""){
+           if(Imgs[0].Foto.name){
+            const fileName = await Date.now() + Imgs[0].Foto.name;
+            const storageRef = await storage.ref();
+            const fileRef = await storageRef.child(`arquivo/${fileName}`);
+            await await fileRef.put(Imgs[0].Foto).then((doc)=> {
+              
+            });
+            Url1 =  await fileRef.getDownloadURL();
+
+           } else {
+              Url1 = Imgs[0].Foto 
+           }
+          
+         }
+ 
+         if(Imgs[1].Foto !== ""){
+          if(Imgs[1].Foto.name){
+           const fileName = await Date.now() + Imgs[1].Foto.name;
+           const storageRef = await storage.ref();
+           const fileRef = await storageRef.child(`arquivo/${fileName}`);
+           await await fileRef.put(Imgs[1].Foto).then((doc)=> {
+             
+           });
+           Url2 =  await fileRef.getDownloadURL();
+          } else {
+            Url2 = Imgs[1].Foto 
+         }
+         }
+ 
+         if(Imgs[2].Foto !== ""){
+          if(Imgs[2].Foto.name){
+           const fileName = await Date.now() + Imgs[2].Foto.name;
+           const storageRef = await storage.ref();
+           const fileRef = await storageRef.child(`arquivo/${fileName}`);
+           await await fileRef.put(Imgs[2].Foto).then((doc)=> {
+             
+           });
+           Url3 =  await fileRef.getDownloadURL();
+          } else {
+            Url3 = Imgs[2].Foto 
+         }
+         }
+ 
+         if(Imgs[3].Foto !== ""){
+          if(Imgs[3].Foto.name){
+           const fileName = await Date.now() + Imgs[3].Foto.name;
+           const storageRef = await storage.ref();
+           const fileRef = await storageRef.child(`arquivo/${fileName}`);
+           await await fileRef.put(Imgs[3].Foto).then((doc)=> {
+             
+           });
+           Url4 =  await fileRef.getDownloadURL();
+         }
+        } else {
+          Url4 = Imgs[3].Foto 
+       }
+ 
+         await db.collection("noticias")
+         .doc(Id)
+         .update({
+           body:value,
+           Titulo:TituNoti,
+           TituloAnun:TituAnun,
+           dataDanoti:Data,
+           foto1:Url1,
+           foto2:Url2,
+           foto3:Url3,
+           foto4:Url4,
+    
+           }).then(() => {
+             setAlert("Notícia Editada Com Sucesso ");
+             setAlertTipo("success");
+             setVisi1(false);
+              
+           })
+           .catch((error) => {
+             setAlert("Ouve algum Erro! ");
+             setAlertTipo("danger");
+             setVisi1(false);
+           });  
+      
+     },
+     ExcluirNoti: async( Id,  setAlertTipo, setAlert)=> {
+            setAlert(" ");
+              setAlertTipo("");
+     
+ 
+      await db.collection("noticias")
+      .doc(Id)
+      .delete().then(() => {
+          setAlert("Notícia Excluida Com Sucesso ");
+          setAlertTipo("Danger");
+       
+           
+        })
+        .catch((error) => {
+          setAlert("Ouve algum Erro! ");
+          setAlertTipo("danger");
+         
+        });  
+   
+  },
+
+     AtivarNoti: async( id,  setAlertTipo, setAlert)=> {
+      
+     
+ 
+         await db.collection("noticias")
+         .doc(id)
+         .update({
+           ativo:true,
+    
+           }).then(() => {
+             setAlert("Notícia Ativada Com Sucesso ");
+             setAlertTipo("success");
+          
+              
+           })
+           .catch((error) => {
+             setAlert("Ouve algum Erro! ");
+             setAlertTipo("danger");
+            
+           });  
+      
+     },
+
+     DesativarNoti: async(id,  setAlertTipo, setAlert)=> {
+      
+     
+ 
+      await db.collection("noticias")
+      .doc(id)
+      .update({
+        ativo:false,
+ 
+        }).then(() => {
+          setAlert("Notícia Desativada Com Sucesso ");
+          setAlertTipo("success");
+       
+           
+        })
+        .catch((error) => {
+          setAlert("Ouve algum Erro! ");
+          setAlertTipo("danger");
+         
+        });  
+   
+  },
+
 
   sairdaconta: async()=> {
     await Auth.signOut().then( async () => {

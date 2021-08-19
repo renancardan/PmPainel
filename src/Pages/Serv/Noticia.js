@@ -15,6 +15,8 @@ import Api from '../../Api';
 import 'moment/locale/pt-br.js';
 import { DatePicker, DatePickerInput } from 'rc-datepicker';
 import CriarNoti from './CriarNoti';
+import Vizuali from './VizualizarNoti';
+import EditarNoti from './EditarNoti';
 import 'rc-datepicker/lib/style.css';
 
 
@@ -25,6 +27,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Quant, setQuant] = useState(0);
       const [Pag1, setPag1] = useState(false);
       const [Pag2, setPag2] = useState(false);
+      const [Pag3, setPag3] = useState(false);
       const [Titulo, setTitulo] = useState("Notícias");
       const [Time, setTime] = useState("")
       const [UsuariosContServ, setUsuariosContServ] = useState([]);
@@ -152,6 +155,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
           const Fechar = ()=>{
             setPag2(false);
             setPag1(false);
+            setPag3(false);
           }
 
 
@@ -171,6 +175,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                 setId(id);
                 setPag1(true);
                 setPag2(true);
+
+              }
+
+              const Pagina3 = async (id)=>{
+                setId(id);
+                setPag1(true);
+                setPag2(true);
+                setPag3(true);
 
               }
 
@@ -375,6 +387,27 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               
             }
 
+            const Desativando = (id)=>{
+              Api.DesativarNoti(id,  setAlertTipo, setAlert);
+            }
+
+            const Ativando = (id)=>{
+              Api.AtivarNoti(id,  setAlertTipo, setAlert);
+            }
+
+            const MsgExcluir = (id, Titulo)=>{
+              
+              setAlert("Ok");
+              setAlertTipo("Excluir");
+              setNome(Titulo)
+              setId(id);
+            }
+
+            const Excluindo = ()=>{
+              
+              Api.ExcluirNoti(Id, setAlertTipo, setAlert)
+            }
+
                    
                
       
@@ -388,36 +421,22 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             {Alert !== " " && AlertTipo === "danger" &&
                   <SweetAlert  danger title={Alert} confirmBtnBsStyle="danger" onConfirm={confirma} onCancel={cancelar} />
                 }
-
-
-            { Alert !== " " && AlertTipo === "Desativar" &&
+            { Alert !== " " && AlertTipo === "Excluir" &&
               <SweetAlert
               warning
               showCancel
               confirmBtnText="Sim"
               cancelBtnText="Não"
               confirmBtnBsStyle="danger"
-              onConfirm={()=>Desativar()}
+              onConfirm={()=>Excluindo()}
               onCancel={cancelar}
               focusCancelBtn
             >
-              Tem certeza que deseja Desativar a condicional {Nome}!
+              Tem certeza que deseja Excluir a Notícia {Nome}!
             </SweetAlert>
             }
-            { Alert !== " " && AlertTipo === "ativar" &&
-              <SweetAlert
-              warning
-              showCancel
-              confirmBtnText="Sim"
-              cancelBtnText="Não"
-              confirmBtnBsStyle="danger"
-              onConfirm={()=>Ativar()}
-              onCancel={cancelar}
-              focusCancelBtn
-            >
-              Tem certeza que deseja ativar a condicional {Nome}!
-            </SweetAlert>
-            }
+
+           
             { Pag1 === false ?
             <div className="content-wrapper">
                
@@ -625,19 +644,35 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
-                                    onClick={()=>Pagina1(item.list.id)}
+                                    onClick={()=>Pagina2(item.list.id)}
                                     />
 
                                     <Butao 
                                     style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
-                                    onClick={()=>Pagina2(item.list.id)}
+                                    onClick={()=>Pagina3(item.list.id)}
                                     />
+                                    {item.list.ativo === true ?
                                      <Butao 
+                                     style={"btn btn-xs btn-secondary"}
+                                     titulo={"Desativar"}
+                                     onClick={()=>Desativando(item.list.id)}
+                                     />
+                                    :
+                                    <Butao 
                                     style={"btn btn-xs btn-warning"}
                                     titulo={"Ativar"}
-                                    onClick={()=>Pagina2(item.list.id)}
+                                    onClick={()=>Ativando(item.list.id)}
                                     />
+
+                                    }
+
+                                    <Butao 
+                                    style={"btn btn-xs btn-danger"}
+                                    titulo={"Excluir"}
+                                    onClick={()=>MsgExcluir(item.list.id, item.list.titulo)}
+                                    />
+                                    
                                                              
                                                            
                                     </td>
@@ -694,16 +729,31 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
         :
         <>
-         <EditOc
-            setAlert={setAlert}
-            setAlertTipo={setAlertTipo}
-            Avisando={Avisando}
-            Fechar={Fechar}
-            Dados={Dados}
-            Id={Id}
-            Alert={Alert}
-            AlertTipo={AlertTipo}
-            />
+        {Pag3 === false ?
+          <Vizuali
+          setAlert={setAlert}
+          setAlertTipo={setAlertTipo}
+          Avisando={Avisando}
+          Fechar={Fechar}
+          Dados={Dados}
+          Id={Id}
+          Alert={Alert}
+          AlertTipo={AlertTipo}
+          />
+        :
+        <EditarNoti
+          setAlert={setAlert}
+          setAlertTipo={setAlertTipo}
+          Avisando={Avisando}
+          Fechar={Fechar}
+          Dados={Dados}
+          Id={Id}
+          Alert={Alert}
+          AlertTipo={AlertTipo}
+          />
+
+        }
+       
         </>
 
         }
