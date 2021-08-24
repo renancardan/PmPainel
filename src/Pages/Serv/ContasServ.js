@@ -409,7 +409,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     
                                    
                                     <Butao 
-                                    style={"btn btn-xs btn-primary"}
+                                    style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
                                     onClick={()=>Pagina1(item.list.id, item.list.nome)}
                                     />
@@ -452,7 +452,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                </div>
             </div>
           </section>
-          <section className="content">
+          {/* <section className="content">
                 <div className="container-fluid">
                   
                 <div className="row">
@@ -557,7 +557,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     </section>       
                </div>
             </div>
-          </section>
+          </section> */}
         </div>
         :
         <>

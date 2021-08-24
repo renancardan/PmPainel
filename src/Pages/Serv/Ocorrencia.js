@@ -15,6 +15,7 @@ import Api from '../../Api';
 import 'moment/locale/pt-br.js';
 import { DatePicker, DatePickerInput } from 'rc-datepicker';
 import 'rc-datepicker/lib/style.css';
+import Checkbox from '../../Components/Checkbox';
 
 
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo,
@@ -58,6 +59,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Ocorr, setOcorr] = useState("");
       const [VerOcrr, setVerOcrr] = useState(false);
       const [PesqBtn, setPesqBtn] = useState(false);
+      const [Exc, setExc] = useState(true);
      
      
 
@@ -66,8 +68,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       }, [])
 
       useEffect(() => {
-        console.log(DataA);
-       }, [DataA])
+        PesqExcluidos();
+       }, [Exc])
 
       useEffect(() => {
         Listando();
@@ -83,6 +85,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             PesqResult();
         }
        }, [Resu])
+
+       useEffect(() => {
+       console.log(Lista)
+       }, [Lista])
 
      
       
@@ -324,6 +330,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         conduzidos:  UsuariosContServ[i].conduzidos,
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
+                        excluir: UsuariosContServ[i].excluir,
                           
                     });   
                     }
@@ -367,7 +374,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       componentesVtr:  UsuariosContServ[i].componentesVtr,
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
-                      objetosApre:  UsuariosContServ[i].objetosApre,   
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,   
                   });   
                   }
                  
@@ -402,6 +410,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -440,6 +449,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         conduzidos:  UsuariosContServ[i].conduzidos,
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
+                        excluir: UsuariosContServ[i].excluir,
                     });   
                     }
                    
@@ -474,6 +484,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -509,6 +520,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -544,6 +556,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -579,6 +592,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -614,6 +628,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -649,6 +664,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
                   });   
                   }
                  
@@ -684,6 +700,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         conduzidos:  UsuariosContServ[i].conduzidos,
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
+                        excluir: UsuariosContServ[i].excluir,
                     });   
                     }
 
@@ -699,8 +716,44 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               
             }
 
-           
-            
+            const PesqExcluidos = ()=>{
+              if(Exc !== true){
+             
+             
+              let listra11 = [];
+              for(let i in UsuariosContServ ) {
+                console.log(UsuariosContServ[i].excluir)
+                  if( UsuariosContServ[i].excluir === Exc)   {
+                    listra11.push({
+                      id: UsuariosContServ[i].id, 
+                      date: UsuariosContServ[i].date,
+                      ativo: UsuariosContServ[i].ativo, 
+                      dateIn: UsuariosContServ[i].dateIn,
+                      bairro: UsuariosContServ[i].bairro,
+                      resultado: UsuariosContServ[i].resultado,
+                      condi: UsuariosContServ[i].condi,
+                      rua:  UsuariosContServ[i].rua,
+                      vtr:  UsuariosContServ[i].vtr, 
+                      atendenteCopom:  UsuariosContServ[i].atendenteCopom,
+                      componentesVtr:  UsuariosContServ[i].componentesVtr,
+                      conduzidos:  UsuariosContServ[i].conduzidos,
+                      vitimas:  UsuariosContServ[i].vitimas,
+                      objetosApre:  UsuariosContServ[i].objetosApre,
+                      excluir: UsuariosContServ[i].excluir,
+                  });   
+                  }
+                 
+                }
+                setLista(["list"]);
+                 setQuant(listra11.length);
+                setUsuariosContServ(listra11);
+
+              }
+              
+            }
+          
+        
+             
                
                 
             
@@ -834,6 +887,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                               />
                             </div>
                             </div> 
+                          
                             <div className="col-sm-2">
                             <div className="form-group">
                                 <label>Resultado Final</label>
@@ -1006,8 +1060,12 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     
                       <div className="card-header">
                       
-                        <h3 className="card-title" style={{ marginBottom: "10px"}}>Lista de Ocorrência  </h3> 
-
+                        <h3 className="card-title" style={{ marginBottom: "10px", marginRight: "20px"}}>Lista de Ocorrência  </h3> 
+                        <Checkbox 
+                      label={"Tirar as Ocorrencias Excluidas"} 
+                      res={Exc} 
+                      onChange={(value)=>{setExc(value)}} 
+                      />
                       </div>
                         <div class="card-body table-responsive p-0">
                           <table class="table table-hover text-nowrap">
@@ -1027,8 +1085,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             <tbody >
                             {Lista.map((item, key)=>(
     
-                            
-                                    <tr key={item.list.id}  style={{backgroundColor: item.list.ativo=== true ?"#98C0FF":"#FFF"}}>
+                                   
+
+                                    
+                                    <tr key={item.list.id}  style={{backgroundColor: item.list.ativo=== true ?"#98C0FF": item.list.excluir === false ? "#FFF": "#FF7878"}}>
                                     <td >
                                       <DataTime 
                                       DateIni={item.list.date}

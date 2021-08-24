@@ -274,7 +274,7 @@ const ExBo = ()=>{
                    
 
                       <Butao 
-                        style={"btn btn-sm btn-success"}
+                        style={"btn btn-sm btn-primary"}
                         titulo={"Salvar"}
                         onClick={()=>EnviandoOc()}
                         />

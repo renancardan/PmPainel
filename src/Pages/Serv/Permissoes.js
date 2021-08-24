@@ -305,8 +305,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     
                                    
                                     <Butao 
-                                    style={"btn btn-xs btn-info"}
-                                    titulo={"Vizualizar"}
+                                    style={"btn btn-xs btn-success"}
+                                    titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id, item.list.nome)}
                                     />
                                                              

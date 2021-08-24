@@ -563,7 +563,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
               <div className="row no-print">
                 <div className="col-12">
                 <Butao 
-                style={"btn .btn-sm btn-info"}
+                style={"btn .btn-sm btn-primary"}
                 titulo={"Salvar"}
                 onClick={()=>Editando()}
                 />  

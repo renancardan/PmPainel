@@ -57,7 +57,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
           LevarTemp();
       }, [])
       useEffect(() => {
-        console.log("chatlist");
+       
         PegarList();
     }, [])
 

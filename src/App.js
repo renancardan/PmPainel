@@ -39,14 +39,16 @@ function App() {
                 ObtendoDados();                        
               }, []);
 
-             useEffect(() => {  
-               MsgAvisando();
-             
+             useEffect(() => { 
+              
+                MsgAvisando();
+  
              }, [Dados])
               
               
               useEffect(() => {
-                bloqueio();          
+ 
+                  bloqueio();         
                }, [Dados]);
 
               useEffect(() => {
@@ -58,10 +60,15 @@ function App() {
                 60000);
               }, [])
              
+              useEffect(() => {
+                setInterval(() =>{}, 
+                10000);
+              }, [])
 
              
               
                     const bloqueio = () => {
+                      
                       if(Conta === "serv" && User !== "V23736478" && User !== "L23252679") {
                         if(Dados.conta.serv.desbloqueado === false){
                           localStorage.setItem('roma', "B23987845");

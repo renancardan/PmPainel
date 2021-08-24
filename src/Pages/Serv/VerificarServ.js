@@ -5,7 +5,7 @@ export default ({IndoLogar }) => {
     return (
 
         <div className="login">
-             <img className='imagem_top' src='../../assets/cityhandserv.png' style={{ }} alt="" />
+             <img className='imagem_top' src='../../assets/logoapp.jpeg' style={{ }} alt="" />
                  
                  <img className='imagem_aviao' src='../../assets/aviao.png' style={{ }} alt="" /> 
                     <img className='imagem_ambulancia' src='../../assets/ambulanciabranca.png' style={{ }} alt="" />
@@ -16,7 +16,7 @@ export default ({IndoLogar }) => {
                      <h3 className="tituloQuadro" >Verifique seu Email</h3>
                      </div>
                      <div className="conteudo">
-                      <p> Por favor va no seu email verificar ele </p>
+                      <p> Por favor va no seu email verificar ele, observação o email pode ter ido para lixeira da sua caixa de email </p>
                          
                       <div className="input_cadatro">
                         <Butao 

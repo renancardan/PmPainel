@@ -244,17 +244,20 @@ export default {
     await Auth.onAuthStateChanged( async function(user) {
       if (user) {
       const id = user.uid;
-      const dados = await db.collection('users').doc(id).get();
-      const result = await dados.data();
-      setDados(result);
-      setLoading(false);
+      const dados = await db.collection('users').doc(id)
+      .onSnapshot((doc) => {
+        setDados(doc.data());
+        setLoading(false);
+    });
+      
+     
      
       } else {
         console.log("não está logado");
         setLoading(false);
       }
     });
-    return "ok";
+    
   },
 
   AtualizandoUsersServ: async(Nome, Telefone, Estado, Cidade, Inst, ContaTipo, setDados)=> {
@@ -700,16 +703,7 @@ export default {
       get()
       .then(async(dados)=>{
         const result = await dados.data();
-        await db.collection("movimentacao").add({
-          id:ID,
-          instituicao: result.instituicao,
-          cidade: result.cidade,
-          estado: result.estado,
-          Conta: result.conta.serv.tipo,
-          acao:"Vizualizar",
-          setor: Setor,
-          data:firebase.firestore.FieldValue.serverTimestamp(),
-          });
+      
 
           await db.collection("users")
           .where("estado", "==", result.estado)
@@ -999,7 +993,7 @@ export default {
                   conduzidos: doc.data().conduzidos,
                   vitimas: doc.data().vitimas,
                   objetosApre: doc.data().objetosApre,
-
+                  excluir: doc.data().excluir,
                 });    
               }
               setCarreg(false);    
@@ -1744,7 +1738,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
       resultado: "",
       relato:"",
       providencias:"",
-      
+      excluir:false,
       }).then(async (doc)=>{
        setAlert("Ocorrência Cirada Com sucesso");
        setAlertTipo("success");
@@ -2026,7 +2020,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
     },
 
 
-    ConcluirOc: async(data)=> {
+    ConcluirOc: async(data, Exc)=> {
       const autenticado =  await Auth.currentUser;
       const id = await autenticado.uid;
        await db.collection('ocorrencia')
@@ -2034,6 +2028,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
        .update({
         ativo: false,
         dataFim: firebase.firestore.FieldValue.serverTimestamp(),
+        excluir:Exc,
     })
     .then(() => {
        

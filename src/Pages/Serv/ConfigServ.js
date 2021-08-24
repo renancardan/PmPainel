@@ -468,7 +468,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     />
                     :
                     <Butao 
-                    style={"btn btn-sm btn-success"}
+                    style={"btn btn-sm btn-warning"}
                     titulo={"Ativar"}
                     onClick={()=>AtivarAviso()}
                     />
@@ -531,7 +531,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     />
                     :
                     <Butao 
-                    style={"btn btn-sm btn-success"}
+                    style={"btn btn-sm btn-warning"}
                     titulo={"Ativar"}
                     onClick={()=>CriarAvisoApp()}
                     />
@@ -539,7 +539,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                    </>
                    :
                    <Butao 
-                   style={"btn btn-sm btn-success"}
+                   style={"btn btn-sm btn-warning"}
                    titulo={"Ativar"}
                    onClick={()=>CriarAvisoApp()}
                    />
@@ -607,7 +607,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     <td>
                                    {item.list.ativo=== false ?
                                     <Butao 
-                                    style={"btn btn-xs btn-success"}
+                                    style={"btn btn-xs btn-warning"}
                                     titulo={"Ativar"}
                                     onClick={()=>MsgAtivar(item.list.id, item.list.numero)}
                                     />

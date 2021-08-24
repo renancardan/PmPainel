@@ -40,14 +40,14 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
-          <MenuLink 
+          {/* <MenuLink 
               Linkto={"/aplicativo"}
               Icon={"nav-icon fas fa-tablet"}
               Titulo={"APLICATIVOS"}
               Notificacao={false}
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
-              />
+              /> */}
            <MenuLink 
               Linkto={"/condicionais"}
               Icon={"nav-icon fas fa-sitemap"}
@@ -56,14 +56,14 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
-          <MenuLink 
+          {/* <MenuLink 
               Linkto={"/serv"}
               Icon={"nav-icon fas fa-signal"}
               Titulo={"GRÁFICOS"}
               Notificacao={false}
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
-              />
+              /> */}
             <MenuLink 
               Linkto={"/ocorrencia"}
               Icon={"nav-icon fas fa-taxi"}

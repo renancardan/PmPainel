@@ -313,7 +313,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     {item.list.ativo===true ?
                                     <>
                                     <Butao 
-                                    style={"btn btn-xs btn-info"}
+                                    style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id, item.list.nome)}
                                     />
@@ -326,12 +326,12 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                       :
                                       <>
                                       <Butao 
-                                      style={"btn btn-xs btn-info"}
+                                      style={"btn btn-xs btn-success"}
                                       titulo={"Editar"}
                                       onClick={()=>Pagina2(item.list.id, item.list.nome)}
                                       />  
                                       <Butao 
-                                      style={"btn btn-xs btn-success"}
+                                      style={"btn btn-xs btn-warning"}
                                       titulo={"Ativar"}
                                       onClick={()=>MsgAtivar(item.list.id, item.list.nome)}
                                       /> 

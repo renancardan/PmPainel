@@ -12,14 +12,19 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, }) => {
   const [Grupo, setGrupo] = useState();
   const [ListGrupo, setListGrupo] = useState([]);
 
-  useEffect(() => {
-    console.log(Grupo);
-    }, [Grupo]);
+  
 
 
  useEffect(() => {
  Vizualizar();
  }, []);
+
+ useEffect(() => {
+   if(Infor.grupo){
+    setGrupo(Infor.grupo.nome)
+   }
+
+  }, [Infor]);
 
  useEffect(() => {
 listandoGrupos();
@@ -116,7 +121,6 @@ listandoGrupos();
                         <>
                         <Select 
                         type={null}
-                        placeholder={Infor.grupo.nome}
                         icon={"fas "}
                         value={Grupo}
                         onChange={e=>setGrupo(e.target.value)}

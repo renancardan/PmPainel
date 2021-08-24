@@ -130,24 +130,7 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, }) => {
                   
                   {/* /.col */}
                 </div>
-                <div className="row no-print">
-                  <div className="col-12">
-                 
-                        <Butao 
-                        style={"btn .btn-sm btn-danger"}
-                        titulo={"Bloquear"}
-                        onClick={null}
-                        />  
-                        
-                        <Butao 
-                      style={"btn .btn-sm btn-warning"}
-                      titulo={"Desbloquear"}
-                      onClick={null}
-                      />  
-                      
-                   
-                  </div>
-                </div>
+              
               </div> 
 
           {/* /.invoice */}

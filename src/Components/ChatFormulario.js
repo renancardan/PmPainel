@@ -42,6 +42,8 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
     const [ResulOc, setResulOc] = useState("");
     const [Relato, setRelato] = useState("");
     const [Prov, setProv] = useState("");
+    const [ExcOc, setExcOc] = useState("Não");
+    const [Exc, setExc] = useState(false);
     
     
 
@@ -51,8 +53,8 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
     }, [data]);
 
     useEffect(()=>{  
-       
-     }, []);
+       Excluindo()
+     }, [ExcOc]);
 
     useEffect(()=>{  
         ListandoList();
@@ -254,7 +256,7 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
       const ConclusaoOc = ()=>{
         setAlert(" ");
         setAlertTipo(" ");
-        Api.ConcluirOc(data);
+        Api.ConcluirOc(data, Exc);
         setActiveChat(null);
     }
 
@@ -264,6 +266,14 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
       }
       const fecharFormu = ()=>{
         setFormu(true);
+      }
+
+      const Excluindo = ()=>{
+          if(ExcOc === "Sim"){
+            setExc(true);
+          }else{
+            setExc(false);
+          }
       }
           
      
@@ -329,6 +339,18 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
             </div>
             <div style={{ overflow: 'auto'}} >
             <div className="chatWindow--body1">
+                        <div className="row">
+                        <div className="col-sm-12">
+                        <label>Excluir Ocorrência</label>
+                                <select className="form-control"
+                                value={ExcOc}
+                                onChange={t=>setExcOc(t.target.value)}
+                                >
+                                <option>Não</option>
+                                <option>Sim</option>
+                                </select>
+                            </div>
+                            </div>
                 <h5>Fomulário de Ocorrência</h5>
               
                     <div className="card card-warning">
