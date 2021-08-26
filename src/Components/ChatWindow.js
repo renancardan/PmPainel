@@ -301,18 +301,20 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
             </div>
             <div className="chatWindow--headerbuttons">
 
-                   
+            {Dados.grupo.menu.chat.caixaChat.btn_formulario === true && 
                     <div className="chatWindow--btn1"
                      onClick={()=>AbrirFormu()}
                     >
                         <p className="textButao" >FORMULARIO</p>
                     </div>
-                    
+                    }
+                 {Dados.grupo.menu.chat.caixaChat.btn_maps === true &&     
                     <div className="chatWindow--btn"
                     onClick={AbrirMaps}
                     >
                         <RoomIcon style={{color: MapsCaixa?'#5d0bf7':'#919191'}} />
                     </div>
+                    }
 
                 </div>
             </div>
@@ -381,11 +383,11 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
                      
             </>
             }   */}
-          
+              {Dados.grupo.menu.chat.caixaChat.btn_enviar === true &&  
                         <div  onClick={handleSendClick} className="chatWindow--btn">
                             <SendIcon style={{color: '#5d0bf7'}} />
                         </div>
-         
+                    }
             </div>
         </div>
         </div>

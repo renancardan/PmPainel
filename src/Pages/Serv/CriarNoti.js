@@ -476,6 +476,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
              </div>
                 
               </div>
+              {Dados.grupo.menu.noticias.caixaCriarNoticia.btn_salvar === true &&
               <div className="row no-print">
                 <div className="col-12">
                 <Butao 
@@ -485,6 +486,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                 />  
                 </div>
               </div>
+              }
             </div> 
             </div>
             </div>

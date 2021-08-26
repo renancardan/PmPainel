@@ -80,6 +80,7 @@ const [Titulo, setTitulo] = useState("Editar Condicional");
                 
               </div>
               <div className="row no-print">
+              {Dados.grupo.menu.condicionais.editarCondicional.btn_salvar === true &&
                 <div className="col-12">
                 <Butao 
                 style={"btn .btn-sm btn-primary"}
@@ -87,6 +88,7 @@ const [Titulo, setTitulo] = useState("Editar Condicional");
                 onClick={()=>Editando()}
                 />  
                 </div>
+              }
               </div>
             </div> 
             </div>

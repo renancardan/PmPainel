@@ -420,6 +420,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         <>
                         
  {/* general form elements disabled */}
+ {Dados.grupo.menu.configuracao.criarAvisoPm.Ver === true &&
 <div className="card card-warning">
   <div className="card-header">
     <h3 className="card-title">Criar Avisos Para Polícia</h3>
@@ -461,17 +462,26 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                  {Avisando[0] ?
                  <>
                  {Avisando[0].ativo === true ?
+                 <>
+                 {Dados.grupo.menu.configuracao.criarAvisoPm.btn_desativar === true &&
                     <Butao 
                     style={"btn btn-sm btn-secondary"}
                     titulo={"Desativar"}
                     onClick={()=>DesativarAviso()}
                     />
+                 }
+                    </>
                     :
+                    
+                    <>
+                    {Dados.grupo.menu.configuracao.criarAvisoPm.btn_ativar === true &&
                     <Butao 
                     style={"btn btn-sm btn-warning"}
                     titulo={"Ativar"}
                     onClick={()=>AtivarAviso()}
                     />
+                      }
+                    </>
                  }
                  </>
                  :
@@ -491,8 +501,10 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
   </div>
   {/* /.card-body */}
 </div>
+   }
 {/* /.card */}
 {/* general form elements disabled */}
+{Dados.grupo.menu.configuracao.criarAvisoApp.Ver === true &&
 <div className="card card-success">
   <div className="card-header">
     <h3 className="card-title">Criar Avisos Para o App Cliente</h3>
@@ -524,17 +536,25 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                  {AvApp[0] ?
                  <>
                  { AvApp[0].ativo === true ?
+                 <>
+                 {Dados.grupo.menu.configuracao.criarAvisoApp.btn_desativar === true &&
                     <Butao 
                     style={"btn btn-sm btn-secondary"}
                     titulo={"Desativar"}
                     onClick={()=>DesApp(AvApp[0].id)}
                     />
+                 }
+                   </>
                     :
+                    <>
+                      {Dados.grupo.menu.configuracao.criarAvisoApp.btn_ativar === true &&
                     <Butao 
                     style={"btn btn-sm btn-warning"}
                     titulo={"Ativar"}
                     onClick={()=>CriarAvisoApp()}
                     />
+                      }
+                    </>
                  }  
                    </>
                    :
@@ -555,7 +575,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
   </div>
   {/* /.card-body */}
 </div>
-
+   }
+                  {Dados.grupo.menu.configuracao.ListaTelefone.Ver === true &&
                     <div className="card card-info">
                         <strong style={{marginTop:"10px", marginLeft:"10px"}}>Cadastre um Telefone:</strong><br />
                         <div style={{height:"50px", width:"500px", display:"flex",  justifyContent:"space-between" }}>
@@ -571,11 +592,13 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         </div>
                         <div style={{marginTop:"4px",width:"250px"}}>
+                        {Dados.grupo.menu.configuracao.ListaTelefone.btn_cadastrarTele === true &&
                         <Butao 
                         style={"btn btn-sm btn-success"}
                         titulo={"Cadastrar Telefone"}
                         onClick={()=>CriandoTelefone()}
                         />
+                          }
                         </div>
                         </div>
                                
@@ -606,25 +629,33 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     <td>{item.list.numero}</td>                           
                                     <td>
                                    {item.list.ativo=== false ?
+                                   <>
+                                   {Dados.grupo.menu.configuracao.ListaTelefone.btn_desbloquear === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-warning"}
                                     titulo={"Ativar"}
                                     onClick={()=>MsgAtivar(item.list.id, item.list.numero)}
                                     />
+                                   }
+                                    </>
                                    :
+                                   <>
+                                   {Dados.grupo.menu.configuracao.ListaTelefone.btn_bloquear === true &&
                                    <Butao 
                                    style={"btn btn-xs btn-secondary"}
                                    titulo={"Desativar"}
                                    onClick={()=>MsgDesativar(item.list.id, item.list.numero)}
                                    />
+                                    }
+                                   </>
                                    } 
-                                   
+                                    {Dados.grupo.menu.configuracao.ListaTelefone.btn_excluir === true &&
                                    <Butao 
                                    style={"btn btn-xs btn-danger"}
                                    titulo={"Excluir"}
                                    onClick={()=>MsgExcluir(item.list.id, item.list.numero)}
                                    />
-
+                                    }
                                     
                                                              
                                                            
@@ -657,6 +688,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                    }
                         </>
                         }
                     </section>       

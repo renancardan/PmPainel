@@ -369,6 +369,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         :
                         <>
+                        {Dados.grupo.menu.contas.listaContasServ.Ver === true &&
                     <div className="card card-info">
                     
                       <div className="card-header">
@@ -407,14 +408,14 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                    
                                     <td>
                                     
-                                   
+                                    {Dados.grupo.menu.contas.listaContasServ.btn_vizualizar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
                                     onClick={()=>Pagina1(item.list.id, item.list.nome)}
                                     />
                                    
-                                      
+                                    }
                                                                         
                                                            
                                     </td>
@@ -446,6 +447,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                        }
                         </>
                         }
                     </section>       

@@ -246,6 +246,8 @@ const ExBo = ()=>{
                       {Pdf !== "" ?
                       <>
                       <a href={Pdf} target="_blank" style={{margin:"15px"}}>Link do B.O</a>
+                      {Dados.grupo.menu.ocorrencia.editarOcorrencia.btn_escolherBO === true &&
+                      <>
                       <Butao 
                         style={"btn btn-sm btn-danger"}
                         titulo={"Excluir B.O"}
@@ -253,8 +255,11 @@ const ExBo = ()=>{
                         />
                       <br /><br />
                       </>
+                      }
+                      </>
                       :
                       <>
+                        {Dados.grupo.menu.ocorrencia.editarOcorrencia.btn_escolherBO === true &&
                        <div class="form-group">
                         <label for="exampleInputFile">Enviar B.O</label>
                         <div class="input-group">
@@ -263,7 +268,9 @@ const ExBo = ()=>{
                         onChange={(e)=>setArq(e.target.files[0])} 
                         />
                       </div>
-                      </div><br />
+                      </div>
+                      }
+                      <br />
                       </>
                       }
                       
@@ -272,13 +279,13 @@ const ExBo = ()=>{
 
                      
                    
-
+                      {Dados.grupo.menu.ocorrencia.editarOcorrencia.btn_salvar === true &&
                       <Butao 
                         style={"btn btn-sm btn-primary"}
                         titulo={"Salvar"}
                         onClick={()=>EnviandoOc()}
                         />
-                     
+                      }
                     </address>
                   </div>
                   {/* /.col */}
@@ -350,7 +357,8 @@ const ExBo = ()=>{
                   {/* /.col */}
                   <div className="col-sm-4 invoice-col">
                     <address>
-                  
+                    {Dados.grupo.menu.ocorrencia.editarOcorrencia.btn_mudarcondicional === true &&
+                    <>
                       <strong>Ocorrencia</strong><br />
                       <Butao 
                         style={"btn btn-xs btn-success"}
@@ -358,6 +366,8 @@ const ExBo = ()=>{
                         onClick={()=>AbrirModal()}
                         />
                       <br />
+                      </>
+                    }
                       {Infor.condicionais &&
                       <>
                          {Infor.condicionais.map((item, key)=>(

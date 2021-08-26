@@ -264,14 +264,16 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         :
                         <>
+                  {Dados.grupo.menu.permissao.listaGrupo.Ver === true &&
                     <div className="card card-primary">
                         <div style={{margin:"10px", width:"250px"}}>
+                        {Dados.grupo.menu.permissao.listaGrupo.btn_criarGrupo=== true &&
                         <Butao 
                         style={"btn btn-sm btn-success"}
                         titulo={"Criar Grupo"}
                         onClick={()=>Pagina1()}
                         />
-
+                        }
                         </div>
                     
                       <div className="card-header">
@@ -303,13 +305,13 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                    
                                     <td>
                                     
-                                   
+                                    {Dados.grupo.menu.permissao.listaGrupo.btn_editar=== true &&
                                     <Butao 
                                     style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id, item.list.nome)}
                                     />
-                                                             
+                                    }                        
                                                            
                                     </td>
                                   </tr>
@@ -340,6 +342,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                          }
                         </>
                         }
                     </section>       

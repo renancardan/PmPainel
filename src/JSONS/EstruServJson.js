@@ -16,6 +16,7 @@ export default  {
                 nome:"Geral",
                 menu:{
                     chat:{
+                        Ver:true,
                         caixaChat:{
                             Ver:true,
                             btn_iniciarOc:true,
@@ -28,6 +29,7 @@ export default  {
                             },
                     },
                     condicionais:{
+                        Ver:true,
                         listaCondicionais:{
                             Ver:true,
                             btn_editar:true,
@@ -45,6 +47,7 @@ export default  {
                             },
                             },
                     ocorrencia:{
+                        Ver:true,
                         listaOcorrencia:{
                             Ver:true,
                             btn_editar:true,
@@ -62,6 +65,7 @@ export default  {
                             },
                     },
                     noticias:{
+                        Ver:true,
                         listaNoticia:{
                             Ver:true,
                             btn_editar:true,
@@ -83,6 +87,7 @@ export default  {
                             },
                     },
                     permissao:{
+                        Ver:true,
                         listaGrupo:{
                             Ver:true,
                             btn_criarGrupo:true,
@@ -98,6 +103,7 @@ export default  {
                             },
                     },
                     contas:{
+                        Ver:true,
                         listaContasServ:{
                             Ver:true,
                             btn_vizualizar:true,
@@ -109,6 +115,7 @@ export default  {
                         }
                     },
                     configuracao:{
+                        Ver:true,
                         criarAvisoPm:{
                             Ver:true,
                             btn_ativar:true,

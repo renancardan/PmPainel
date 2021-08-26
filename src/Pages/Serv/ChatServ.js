@@ -285,17 +285,20 @@ useEffect(() => {
                         sizeUnit={'px'} 
                         />
                         :
-                        
-                    <div className="card ">
+                        <>
+                    {Dados.grupo.menu.chat.caixaChat.Ver === true && 
+                      <>
+                       <div className="card ">
                         <div className="app-window">
                             <div className="contatos">
                                 <div className="topo">
-                
+                                {Dados.grupo.menu.chat.caixaChat.btn_iniciarOc === true &&
                                 <div className="chatWindow--btn1"
                                 onClick={()=>PergCriarOc()}
                                 >
                                   <p className="textButao" >INICIAR UMA OCORRENCIA</p>
                               </div>
+                                }
                                 </div>
                                 <div className="busca">
                          
@@ -454,13 +457,13 @@ useEffect(() => {
                                          ))
                 
                                       }
-    
+                                  {Dados.grupo.menu.chat.caixaChat.btn_addCondicionais === true &&  
                                     <Butao 
                                         style={"btn .btn-sm btn-info"}
                                         titulo={"Add Condicionais"}
                                         onClick={()=>AdicionaCond()}
                                         />  
-                                       
+                                  } 
                                         </div>
                                     {/* /.card-body */}
                                   </div>
@@ -480,6 +483,9 @@ useEffect(() => {
                          }
                         </div>                            
                     </div>
+                      </>
+                    }  
+                   </>
                         }
                     </section>       
                </div>

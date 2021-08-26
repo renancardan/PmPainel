@@ -518,7 +518,9 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                       <div className="FotoArqui" >
                       <img src={Img4} alt="imagem" className="FotoQua" />
 
-                      {Imgs[3].Foto === "" ?   
+                      {Imgs[3].Foto === "" ? 
+                      <> 
+                        {Dados.grupo.menu.noticias.editarNoticia.btn_escolherArquivo === true && 
                       <div class="input-group">
                         <input type="file"
                          accept="image/*"
@@ -526,8 +528,11 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                         onChange={(e)=>ColocarImg4(e)} 
                         />
                       </div>
+                        }
+                      </>
                       :
                       <div className="row no-print">
+                      {Dados.grupo.menu.noticias.editarNoticia.btn_excluir === true && 
                      <div className="col-12">
                     <Butao 
                      style={"btn .btn-sm btn-danger"}
@@ -535,6 +540,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                      onClick={()=>ExcImg4()}
                      />  
                      </div>
+                      }
                      </div>
 
                       } 
@@ -560,6 +566,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
              </div>
                 
               </div>
+              {Dados.grupo.menu.noticias.editarNoticia.btn_salvar === true &&
               <div className="row no-print">
                 <div className="col-12">
                 <Butao 
@@ -569,6 +576,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                 />  
                 </div>
               </div>
+              }
             </div> 
             </div>
             </div>

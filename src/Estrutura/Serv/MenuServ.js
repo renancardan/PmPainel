@@ -9,7 +9,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
   const Desbloquear = () => {
     Api.DesbloqueioContaServ();
   }
-    
+   
   return (
   <div>
   <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -32,14 +32,18 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
       {/* Sidebar Menu */}
       <nav className="mt-2">
         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <MenuLink 
-              Linkto={"/chat"}
-              Icon={"nav-icon fas fa-comments"}
-              Titulo={"CHAT"}
-              Notificacao={false}
-              NotiEstilo={"right badge badge-danger"}
-              ValorNoti={"New"}
-              />
+        {Dados.grupo.menu.chat.Ver === true &&
+         <MenuLink 
+         Linkto={"/chat"}
+         Icon={"nav-icon fas fa-comments"}
+         Titulo={"CHAT"}
+         Notificacao={false}
+         NotiEstilo={"right badge badge-danger"}
+         ValorNoti={"New"}
+         />
+
+        }
+       
           {/* <MenuLink 
               Linkto={"/aplicativo"}
               Icon={"nav-icon fas fa-tablet"}
@@ -48,6 +52,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               /> */}
+        {Dados.grupo.menu.condicionais.Ver === true &&
            <MenuLink 
               Linkto={"/condicionais"}
               Icon={"nav-icon fas fa-sitemap"}
@@ -56,6 +61,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+        }
           {/* <MenuLink 
               Linkto={"/serv"}
               Icon={"nav-icon fas fa-signal"}
@@ -64,6 +70,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               /> */}
+             {Dados.grupo.menu.ocorrencia.Ver === true &&
             <MenuLink 
               Linkto={"/ocorrencia"}
               Icon={"nav-icon fas fa-taxi"}
@@ -72,6 +79,8 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+              }
+              {Dados.grupo.menu.noticias.Ver === true &&
                <MenuLink 
               Linkto={"/noticia"}
               Icon={"nav-icon fas fa-newspaper"}
@@ -80,6 +89,8 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+              }
+              {Dados.grupo.menu.permissao.Ver === true &&
             <MenuLink 
               Linkto={"/permissoes"}
               Icon={"nav-icon fas fa-check-square"}
@@ -88,6 +99,8 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+              }
+              {Dados.grupo.menu.contas.Ver === true &&
             <MenuLink 
               Linkto={"/contaserv"}
               Icon={"nav-icon fas fa-desktop"}
@@ -96,7 +109,8 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
-              
+                }
+              {Dados.grupo.menu.configuracao.Ver === true &&
               <MenuLink 
               Linkto={"/config"}
               Icon={"nav-icon fas  fa-cogs"}
@@ -105,6 +119,7 @@ export default ({sair , Dados, CriarDados, ApagarDados}) => {
               NotiEstilo={"right badge badge-danger"}
               ValorNoti={"New"}
               />
+              }
           <li className="nav-item">
             <div className="input_cadatro">
                         <Butao 

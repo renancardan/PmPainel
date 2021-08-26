@@ -16,6 +16,8 @@ import 'moment/locale/pt-br.js';
 import { DatePicker, DatePickerInput } from 'rc-datepicker';
 import 'rc-datepicker/lib/style.css';
 import Checkbox from '../../Components/Checkbox';
+import ViOcrr from '../../Components/VizuOc'
+
 
 
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo,
@@ -25,6 +27,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
       const [Quant, setQuant] = useState(0);
       const [Pag1, setPag1] = useState(false);
       const [Pag2, setPag2] = useState(false);
+      const [Pag3, setPag3] = useState(false);
       const [Titulo, setTitulo] = useState("Ocorrências");
       const [Time, setTime] = useState("")
       const [UsuariosContServ, setUsuariosContServ] = useState([]);
@@ -171,6 +174,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
           const Fechar = ()=>{
             setPag2(false);
             setPag1(false);
+            setPag3(false);
           }
 
 
@@ -192,6 +196,12 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                 setPag1(true);
                 setPag2(true);
 
+              }
+              const Pagina3 = async ()=>{
+              
+                setPag1(true);
+                setPag2(true);
+                setPag3(true);
               }
 
                 const MsgDesativar = (id, nome)=>{
@@ -294,6 +304,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
               setVerBairro(false);
               setVerVtr(false);
               setVerAtenCop(false);
+              setExc(true);
             }
 
 
@@ -331,6 +342,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
                         excluir: UsuariosContServ[i].excluir,
+                        periodo: UsuariosContServ[i].periodo,
+                        numero: UsuariosContServ[i].numero,
                           
                     });   
                     }
@@ -375,7 +388,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       conduzidos:  UsuariosContServ[i].conduzidos,
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
-                      excluir: UsuariosContServ[i].excluir,   
+                      excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,   
                   });   
                   }
                  
@@ -411,6 +426,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -450,6 +467,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
                         excluir: UsuariosContServ[i].excluir,
+                        periodo: UsuariosContServ[i].periodo,
+                        numero: UsuariosContServ[i].numero,
                     });   
                     }
                    
@@ -485,6 +504,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -521,6 +542,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -557,6 +580,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -593,6 +618,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -629,6 +656,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -665,6 +694,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -701,6 +732,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         vitimas:  UsuariosContServ[i].vitimas,
                         objetosApre:  UsuariosContServ[i].objetosApre,
                         excluir: UsuariosContServ[i].excluir,
+                        periodo: UsuariosContServ[i].periodo,
+                        numero: UsuariosContServ[i].numero,
                     });   
                     }
 
@@ -740,6 +773,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                       vitimas:  UsuariosContServ[i].vitimas,
                       objetosApre:  UsuariosContServ[i].objetosApre,
                       excluir: UsuariosContServ[i].excluir,
+                      periodo: UsuariosContServ[i].periodo,
+                      numero: UsuariosContServ[i].numero,
                   });   
                   }
                  
@@ -1054,20 +1089,37 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     </div>
                     {/* /.card-body */}
                     </div>
-                    <div className="card card-primary">
+                    {Dados.grupo.menu.ocorrencia.listaOcorrencia.Ver === true &&
+                    <div className="card card-primary" >
 
                      {/* <DatePicker locale='pt-br'  onChange={null} value={date} /> */}
                     
                       <div className="card-header">
                       
                         <h3 className="card-title" style={{ marginBottom: "10px", marginRight: "20px"}}>Lista de Ocorrência  </h3> 
-                        <Checkbox 
-                      label={"Tirar as Ocorrencias Excluidas"} 
-                      res={Exc} 
-                      onChange={(value)=>{setExc(value)}} 
-                      />
+                        {Exc === true ?
+                         <Checkbox 
+                         label={"Tirar as Ocorrencias Excluidas"} 
+                         res={Exc} 
+                         onChange={(value)=>{setExc(value)}} 
+                         />
+                        
+                        :
+                        <string>Foi tirada todas as ocorrências Excluidas</string>
+                        }
+                        
+                        
                       </div>
                         <div class="card-body table-responsive p-0">
+                        <div className="col-sm-4">
+                            <div className="form-group" style={{"margin":10}}>
+                            <Butao 
+                            style={"btn btn-sm btn-info"}
+                            titulo={"Vizualizar Todos os campos"}
+                            onClick={()=>Pagina3()}
+                            />
+                            </div>
+                            </div> 
                           <table class="table table-hover text-nowrap">
                             <thead>
                               <tr>
@@ -1118,19 +1170,20 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                    
                                     <td>
                                     
-                                   
+                                    {Dados.grupo.menu.ocorrencia.listaOcorrencia.btn_vizualizar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
                                     onClick={()=>Pagina1(item.list.id)}
                                     />
-
+                                    }
+                                    {Dados.grupo.menu.ocorrencia.listaOcorrencia.btn_editar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id)}
                                     />
-                                                             
+                                    }                        
                                                            
                                     </td>
                                   </tr>
@@ -1161,6 +1214,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                        }
                         </>
                         }
                     </section>       
@@ -1186,6 +1240,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
 
         :
         <>
+         {Pag3 === false ?
          <EditOc
             setAlert={setAlert}
             setAlertTipo={setAlertTipo}
@@ -1196,7 +1251,15 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             Alert={Alert}
             AlertTipo={AlertTipo}
             />
+            :
+            <ViOcrr
+            Lista={Lista}
+            Avisando={Avisando}
+            Fechar={Fechar}
+            />
+          }
         </>
+       
 
         }
          

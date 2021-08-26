@@ -83,6 +83,7 @@ const [Titulo, setTitulo] = useState("Criar Condicional");
                 
               </div>
               <div className="row no-print">
+              {Dados.grupo.menu.condicionais.criarCondicional.btn_salvar === true &&
                 <div className="col-12">
                 <Butao 
                 style={"btn .btn-sm btn-info"}
@@ -90,6 +91,7 @@ const [Titulo, setTitulo] = useState("Criar Condicional");
                 onClick={()=>criando()}
                 />  
                 </div>
+              }
               </div>
             </div> 
             </div>

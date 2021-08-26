@@ -317,18 +317,20 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados,  setAlert, setAlertTi
             </div>
             </div>
             <div className="chatWindow--headerbuttons">
+                     {Dados.grupo.menu.chat.caixaChat.btn_concluido === true && 
                     <div className="chatWindow--btn3"
                      onClick={()=>Concluir()}
                     >
                         <p className="textButao" >CONCLUIDO</p>
                     </div>
-                   
+                    }
+                    {Dados.grupo.menu.chat.caixaChat.btn_chat === true && 
                     <div className="chatWindow--btn1"
                      onClick={()=>fecharFormu()}
                     >
                         <p className="textButao" >CHAT</p>
                     </div>
-                    
+                    }
                     <div className="chatWindow--btn"
                     onClick={AbrirMaps}
                     >

@@ -168,17 +168,25 @@ listandoGrupos();
                 <div className="row no-print">
                   <div className="col-12">
                   {Infor.conta.serv.desbloqueado === true ?
+                  <>
+                  {Dados.grupo.menu.contas.contaServ.btn_bloquear === true &&
                         <Butao 
                         style={"btn .btn-sm btn-danger"}
                         titulo={"Bloquear"}
                         onClick={()=>MsgBloque()}
-                        />  
+                        />
+                  } 
+                        </> 
                         :
+                        <>
+                         {Dados.grupo.menu.contas.contaServ.btn_desbloquear === true &&
                         <Butao 
                       style={"btn .btn-sm btn-warning"}
                       titulo={"Desbloquear"}
                       onClick={()=>Desbloqueando()}
-                      />  
+                      /> 
+                         }
+                      </> 
                       }
                    
                   </div>

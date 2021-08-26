@@ -588,8 +588,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                     </div>
                     {/* /.card-body */}
                     </div>
+                    {Dados.grupo.menu.noticias.listaNoticia.Ver === true &&
                     <div className="card card-danger">
-
+                      {Dados.grupo.menu.noticias.listaNoticia.btn_criarNoticia === true &&
                     <div style={{margin:"10px", width:"250px"}}>
                         <Butao 
                         style={"btn btn-sm btn-success"}
@@ -598,7 +599,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
 
                         </div>
-                    
+                      }
                       <div className="card-header">
                       
                         <h3 className="card-title" style={{ marginBottom: "10px"}}>Lista de Notícias  </h3> 
@@ -640,39 +641,49 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                    
                                     <td>
                                     
-                                   
+                                    {Dados.grupo.menu.noticias.listaNoticia.btn_vizualizar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-info"}
                                     titulo={"Vizualizar"}
                                     onClick={()=>Pagina2(item.list.id)}
                                     />
-
+                                    }
+                                    {Dados.grupo.menu.noticias.listaNoticia.btn_editar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
                                     onClick={()=>Pagina3(item.list.id)}
                                     />
+                                    }
                                     {item.list.ativo === true ?
+                                    <>
+                                    {Dados.grupo.menu.noticias.listaNoticia.btn_desativa === true &&
                                      <Butao 
                                      style={"btn btn-xs btn-secondary"}
                                      titulo={"Desativar"}
                                      onClick={()=>Desativando(item.list.id)}
                                      />
+                                    }
+                                    </>
                                     :
+                                    <>
+                                    {Dados.grupo.menu.noticias.listaNoticia.btn_ativar === true &&
+                                      
                                     <Butao 
                                     style={"btn btn-xs btn-warning"}
                                     titulo={"Ativar"}
                                     onClick={()=>Ativando(item.list.id)}
                                     />
-
                                     }
-
+                                    </>
+                                    }
+                                    {Dados.grupo.menu.noticias.listaNoticia.btn_excluir === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-danger"}
                                     titulo={"Excluir"}
                                     onClick={()=>MsgExcluir(item.list.id, item.list.titulo)}
                                     />
-                                    
+                                    }
                                                              
                                                            
                                     </td>
@@ -704,6 +715,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                          }
                         </>
                         }
                     </section>       

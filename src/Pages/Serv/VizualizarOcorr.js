@@ -208,6 +208,8 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, Alert, Ale
                         Varia={Infor.idvitima}
                         setVizul={null}
                         />
+                      {Dados.grupo.menu.ocorrencia.vizualizarOcorrencia.btn_maps === true &&
+                      <>
                         {AtuaMaps === true &&
                          <Maps 
                          MapsCaixa={MapsCaixa}
@@ -217,6 +219,8 @@ export default ({Dados, Avisando, Fechar, Id, setAlert, setAlertTipo, Alert, Ale
                        
                         </>
                        }
+                       </>
+                    }
                       
                 </div>
                 </div>

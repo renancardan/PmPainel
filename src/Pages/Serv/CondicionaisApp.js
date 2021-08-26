@@ -264,7 +264,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
                         :
                         <>
+                        {Dados.grupo.menu.condicionais.listaCondicionais.Ver === true &&
                     <div className="card card-warning">
+                      {Dados.grupo.menu.condicionais.listaCondicionais.btn_criarCondicional === true &&
                         <div style={{margin:"10px", width:"250px"}}>
                         <Butao 
                         style={"btn btn-sm btn-success"}
@@ -273,7 +275,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                         />
 
                         </div>
-                    
+                      }
                       <div className="card-header">
                       
                         <h3 className="card-title" style={{ marginBottom: "10px"}}>Lista de Condicionais  </h3> 
@@ -312,30 +314,37 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     
                                     {item.list.ativo===true ?
                                     <>
+                                  {Dados.grupo.menu.condicionais.listaCondicionais.btn_editar === true &&
                                     <Butao 
                                     style={"btn btn-xs btn-success"}
                                     titulo={"Editar"}
                                     onClick={()=>Pagina2(item.list.id, item.list.nome)}
                                     />
+                                      }
+                                      {Dados.grupo.menu.condicionais.listaCondicionais.btn_desativar === true &&
                                     <Butao 
                                       style={"btn btn-xs btn-secondary"}
                                       titulo={"Desativar"}
                                       onClick={()=>MsgDesativar(item.list.id, item.list.nome)}
-                                      /> 
+                                      />
+                                      } 
                                       </>
                                       :
                                       <>
+                                      {Dados.grupo.menu.condicionais.listaCondicionais.btn_editar === true &&
                                       <Butao 
                                       style={"btn btn-xs btn-success"}
                                       titulo={"Editar"}
                                       onClick={()=>Pagina2(item.list.id, item.list.nome)}
-                                      />  
+                                      /> 
+                                      }
+                                      {Dados.grupo.menu.condicionais.listaCondicionais.btn_ativar === true && 
                                       <Butao 
                                       style={"btn btn-xs btn-warning"}
                                       titulo={"Ativar"}
                                       onClick={()=>MsgAtivar(item.list.id, item.list.nome)}
                                       /> 
-                                
+                                      }
                                       </>
                                     }                                     
                                                            
@@ -368,6 +377,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                             />
                          </div>
                         </div>
+                        }
                         </>
                         }
                     </section>       
@@ -399,8 +409,9 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             Nome={Nome}
             />
         }
-        </>
         
+        </>
+   
          }
       </div>
 
