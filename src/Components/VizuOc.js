@@ -3,25 +3,27 @@ import { Link } from 'react-router-dom';
 import Butao from './Butao_list';
 import DataTime from './DateFormat';
 import Header from './Header';
-
+import jsPDF  from 'jspdf';
 
 export default ({Lista, Avisando, Fechar}) => {
 
   const Salvando = ()=>{
-    var pegar_dados  = document.getElementById('dados').innerHTML;
-    var janela = window.open('', '', 'width=800, heigth=600'  );
-    janela.document.write('<html><head>');
-    janela.document.write('<title>Lista de Ocorrências</title></head>');
-    janela.document.write('<body>');
-    janela.document.write(pegar_dados);
-    janela.document.write('</body></html>');
-    janela.document.close();
-    janela.print();
+    var doc = new jsPDF({
+      "orientation":"l", 
+      "unit":"px", 
+      "format":"a4",
+      "hotfixes":["px_scaling", "fill_close"],
+    });
+    doc.html(document.querySelector("#dados"), {
+      callback: function(pdf){
+        pdf.save("mypdf.pdf");
+      }
+    });
   }
 
         return (
 
-          <div className="content-wrapper" id="dados">
+          <div className="content-wrapper" >
             <Header 
             Titulo={"Lista de  Ocorrências"}
             Avisando={Avisando}
@@ -51,7 +53,7 @@ export default ({Lista, Avisando, Fechar}) => {
     </div>
     </div> 
    
-     <table style={{"borderCollapse":"collapse", "border":"1px solid #000", "margin":20}} >
+     <table style={{"borderCollapse":"collapse", "border":"1px solid #000", "margin":20}} id="dados" >
        <thead>
          <tr>
            <th style={{"borderCollapse":"collapse", "border":"1px solid #000"}} >Nº Copom</th>

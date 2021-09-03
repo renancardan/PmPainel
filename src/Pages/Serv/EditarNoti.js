@@ -433,7 +433,7 @@ const [Imgs, setImgs] = useState([{Foto:""}, {Foto:""}, {Foto:""}, {Foto:""}]);
                 <div className="col-sm-8 invoice-col">
                   <address>
                   <label for="exampleInputFile">Imagens</label>
-                    <div className="FotosArqui">
+                    <div className="FotosArqui1">
                     <div className="FotoArqui" >
                      
                       <img src={Img1} alt="imagem" className="FotoQua" />

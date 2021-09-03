@@ -134,6 +134,9 @@ export default  {
                             btn_excluir:true,
                             },
                     },
+                    anuncio:{
+                        Ver:false,
+                      },
 
 
                     }

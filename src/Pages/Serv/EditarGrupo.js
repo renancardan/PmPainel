@@ -311,6 +311,9 @@ configuracao:{
       btn_excluir:res60,
       },
 },
+anuncio:{
+  Ver:false,
+},
    
   }
 

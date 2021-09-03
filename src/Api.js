@@ -162,6 +162,9 @@ export default {
                                                   btn_excluir:true,
                                                   },
                                           },
+                                          anuncio:{
+                                            Ver:false,
+                                          },
                                                     }
                                                 }
                                     })
@@ -315,6 +318,9 @@ export default {
                                                   btn_desbloquear:true,
                                                   btn_excluir:true,
                                                   },
+                                          },
+                                          anuncio:{
+                                            Ver:false,
                                           },
                                                     }
                                                 }
@@ -787,6 +793,48 @@ export default {
     
     
   },
+  ListAnuncio: async(Dados, setQuant, setUsuariosContServ)=> {
+   
+    await Auth.onAuthStateChanged( async function(user) {
+      if (user) {
+      const ID = user.uid;
+      const Setor = "Lista de Condicionais";
+      const dados = await db.collection('users')
+      .doc(ID).
+      get()
+      .then(async(dados)=>{
+        const result = await dados.data();
+       
+          await db.collection("anuncios")
+          .where("estado", "==", result.estado)
+          .where("cidade", "==", result.cidade)
+          .where("instituicao", "==", result.instituicao)
+            .onSnapshot((querySnapshot) => {
+            setQuant(querySnapshot.size);
+            var res = []; 
+            querySnapshot.forEach((doc) => {
+                res.push({
+                  id: doc.id,
+                  nome: doc.data().nome,
+                  ativo: doc.data().ativo,
+                });      
+            });
+            setUsuariosContServ(res);
+    
+              });
+
+          
+        
+   
+       }); 
+     
+      } 
+  
+    });
+    
+    
+  },
+
 
   CriarCondicionalServ: async(Dados, Nome, setAlertTipo, setAlert)=> {
     const autenticado =  await Auth.currentUser;
@@ -1027,6 +1075,16 @@ export default {
     const id = await autenticado.uid;
     const Setor = "Vizualizar Conta Serv";
     await db.collection("noticias").doc(Id)
+    .onSnapshot((doc) => {
+        setInfor(doc.data());
+    });
+ 
+  },
+  
+  VizualizandoAnun: async(Id, Dados, setInfor)=> {
+    const autenticado =  await Auth.currentUser;
+    const id = await autenticado.uid;
+    await db.collection("anuncios").doc(Id)
     .onSnapshot((doc) => {
         setInfor(doc.data());
     });
@@ -2447,6 +2505,126 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
           });  
      
     },
+    CriandoAnun: async(Dados,  setAlertTipo, setAlert, Imgs, Nome)=> {
+      
+      
+      
+         let Url1 = "";
+      
+ 
+         if(Imgs.name !== ""){
+           
+           const fileName = await Date.now() + Imgs.name;
+           const storageRef = await storage.ref();
+           const fileRef = await storageRef.child(`arquivo/${fileName}`);
+           await await fileRef.put(Imgs).then((doc)=> {
+             
+           });
+           Url1 =  await fileRef.getDownloadURL();
+         }
+ 
+
+ 
+         await db.collection("anuncios").add({
+           instituicao: Dados.instituicao,
+           cidade: Dados.cidade,
+           estado: Dados.estado,
+           ativo:false,
+           nome:Nome,
+           foto:Url1,
+           visitas:0,
+           QuantVi:0,
+           dataCriacao:firebase.firestore.FieldValue.serverTimestamp(),
+           link:"",
+           DataIni:"",
+           DataFim:"",
+           }).then(() => {
+             setAlert("Anuncio Criado Com Sucesso ");
+             setAlertTipo("success");
+           
+              
+           })
+           .catch((error) => {
+             setAlert("Ouve algum Erro! ");
+             setAlertTipo("danger");
+           
+           });  
+      
+     },
+
+     EditandoAnun: async(Dados, Id, setAlertTipo, setAlert, Imgs, Nome, Link, DataIni, DataFim, res1, Viz, Img1  )=> {
+      
+      console.log(Imgs);
+      
+      let Url1 = "";
+   
+
+      if(Imgs.name ){
+        
+        const fileName = await Date.now() + Imgs.name;
+        const storageRef = await storage.ref();
+        const fileRef = await storageRef.child(`arquivo/${fileName}`);
+        await await fileRef.put(Imgs).then((doc)=> {
+          
+        });
+        Url1 =  await fileRef.getDownloadURL();
+        await db.collection("anuncios")
+        .doc(Id)
+        .update({
+          instituicao: Dados.instituicao,
+          cidade: Dados.cidade,
+          estado: Dados.estado,
+          ativo:res1,
+          nome:Nome,
+          foto:Url1,
+          QuantVi:Viz,
+          link:Link,
+          DataIni:DataIni,
+          DataFim:DataFim,
+          }).then(() => {
+            setAlert("Anuncio Criado Com Sucesso ");
+            setAlertTipo("success");
+          
+             
+          })
+          .catch((error) => {
+            setAlert("Ouve algum Erro! ");
+            setAlertTipo("danger");
+          
+          });  
+
+      } else {
+         await db.collection("anuncios")
+      .doc(Id)
+      .update({
+        instituicao: Dados.instituicao,
+        cidade: Dados.cidade,
+        estado: Dados.estado,
+        ativo:res1,
+        nome:Nome,
+        QuantVi:Viz,
+        link:Link,
+        DataIni:DataIni,
+        DataFim:DataFim,
+        }).then(() => {
+          setAlert("Anuncio Criado Com Sucesso ");
+          setAlertTipo("success");
+        
+           
+        })
+        .catch((error) => {
+          setAlert("Ouve algum Erro! ");
+          setAlertTipo("danger");
+        
+        });  
+
+      }
+
+
+
+     
+   
+  },
 
     EditandoNoti: async(Dados, Id, Data, value, TituNoti , TituAnun , setAlertTipo, setAlert, Imgs, setVisi1)=> {
       

@@ -56,17 +56,53 @@
     height: 170px;
     display: flex;
     justify-content: space-between;
-   
+    flex-direction: column;
 
   }
 
+  .FotosArqui1 {
+    width: 600px;
+    height: 170px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+  }
   .FotoQua {
     width: 120px;
     height: 120px;
     border: 1px solid #ccc;
     object-fit: cover;
-   
+    justify-content: center;
 
+  }
+
+  .FotoQua2 {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    object-fit: cover;
+    justify-content: center;
+
+  }
+
+  .FotoQua1 {
+    width: 400px;
+    height: 100px;
+    border: 1px solid #ccc;
+    object-fit: cover;
+    justify-content: center;
+
+  }
+
+  .FotoQuaAnun {
+    width: 400px;
+    height: 100px;
+    border: 1px solid #ccc;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   
@@ -99,6 +135,58 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 15px;
+  }
+  .Document {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+   
+
+  }
+
+  .Relatorio {
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fff;
+   
+
+  }
+  .RelatCent {
+   
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+  }
+
+  .RelatAssi {
+   height: 100px;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #000;
+  }
+  .RelatEsq {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    
+  }
+  .RelatDire {
+    width: 70%;
+    display: flex;
+    border-left: 1px solid #000;
+    
   }
   .topo--avatar {
     width: 40px;

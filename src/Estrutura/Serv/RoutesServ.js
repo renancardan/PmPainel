@@ -9,6 +9,7 @@ import Config from '../../Pages/Serv/ConfigServ';
 import Chat from '../../Pages/Serv/ChatServ';
 import Ocorrencia from '../../Pages/Serv/Ocorrencia';
 import Noticia from '../../Pages/Serv/Noticia';
+import Anuncio from '../../Pages/Serv/Anuncios'
 
 
 export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertTipo, setAlertTipo, Avisando, setAvisando }) => {
@@ -130,6 +131,20 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
             </Route>
             <Route exact path= "/noticia">
                 <Noticia
+                    Dados={Dados}
+                    setDados={setDados}
+                    Loading={Loading}
+                    setLoading={setLoading}
+                    Alert={Alert}
+                    setAlert={setAlert}
+                    AlertTipo={AlertTipo}
+                    setAlertTipo={setAlertTipo}
+                    Avisando={Avisando}
+                    setAvisando={setAvisando}
+                />
+            </Route>
+            <Route exact path= "/anuncio">
+                <Anuncio
                     Dados={Dados}
                     setDados={setDados}
                     Loading={Loading}
