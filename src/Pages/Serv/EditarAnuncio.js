@@ -6,6 +6,7 @@ import Campo from '../../Components/Campo';
 import Header from '../../Components/Header';
 import { DatePicker, DatePickerInput } from 'rc-datepicker';
 import Checkbox from '../../Components/Checkbox';
+import DataTime from '../../Components/DateFormat';
 
 
 
@@ -18,9 +19,14 @@ const [Link, setLink] = useState("");
 const [DataIni, setDataIni] = useState(new Date());
 const [DataFim, setDataFim] = useState(new Date());
 const [res1, setres1] = useState(false);
+const [res2, setres2] = useState(false);
 const [Viz, setViz] = useState(0);
 const [Infor, setInfor] = useState("nulo");
 const [Mudar, setMudar] = useState(false);
+const [Noticia, setNoticia] = useState([{"list":0,}]);
+const [Pesquisa, setPesquisa] = useState("");
+const [Not, setNot] = useState("")
+const [idNot, setidNot] = useState("")
 
 
 useEffect(() => {
@@ -33,12 +39,14 @@ useEffect(() => {
 useEffect( async ()=> {
   if(Infor !== "nulo"){
    await setres1(Infor.ativo);
+   await setres2(Infor.noticia);
+   await setidNot(Infor.idNot);
+   await setNot(Infor.nomeNot);
     await setNome(Infor.nome);
    await  setLink(Infor.link);
     await setDataIni(Infor.DataIni);
     await setDataFim(Infor.DataFim);
     await setImg1(Infor.foto);
-   
     await setViz(Infor.QuantVi);
     await setMudar(true);
      }
@@ -62,7 +70,7 @@ useEffect( async ()=> {
     && Nome !=="           " ){
       if (navigator.onLine) {
                 
-        Api.EditandoAnun(Dados, Id, setAlertTipo, setAlert, Imgs, Nome, Link, DataIni, DataFim, res1, Viz, Img1  );
+        Api.EditandoAnun(Dados, Id, setAlertTipo, setAlert, Imgs, Nome, Link, DataIni, DataFim, res1, Viz, Img1, res2, idNot, Not  );
  
        
       } else {
@@ -121,7 +129,7 @@ useEffect( async ()=> {
      
     if (navigator.onLine) {
       
-      await Api.VizualizandoAnun(Id, Dados, setInfor);
+      await Api.VizualizandoAnun(Id, Dados, setInfor, setNoticia);
       
      } else {
        setAlert("Sem Internet");
@@ -129,8 +137,14 @@ useEffect( async ()=> {
      }
   }
 
-  const Peencher = async ()=>{
-   
+  const Peencher = async (id, titulo)=>{
+   setNot(titulo);
+   setidNot(id);
+  }
+
+  const excluir = ()=>{
+    setNot("");
+   setidNot("");
   }
 
   
@@ -176,18 +190,14 @@ useEffect( async ()=> {
                             </div> 
                     <br />
                     <strong>Digite a Quantidade Vizualizações:</strong><br />
-                    <div className="input_cadatro">
-                              <Campo 
-                                  type={"text"}
-                                  placeholder= {Viz}
-                                  icon={"fas "}
-                                  value={Viz}
-                                  onChange={e=>setViz(e.target.value)}
-                                  mask={null}
-                                />
-
-                            </div> 
-                    <br />
+                        <input 
+                        type="number" 
+                        className="form-control" 
+                        placeholder="Digite a quantidade" 
+                        value={Viz}
+                        onChange={t=>setViz(parseInt(t.target.value))}
+                        /><br />
+                  
                     <strong>Digite o Link:</strong><br />
                     <div className="input_cadatro">
                               <Campo 
@@ -222,9 +232,18 @@ useEffect( async ()=> {
                                 {Mudar === true   &&
                                 <>
                                  <Checkbox 
-                                 label={"Ativando a Notícia"} 
+                                 label={"Ativando o Anuncio"} 
                                  res={res1} 
                                  onChange={(value)=>{setres1(value)}} 
+                                 /> <br />
+                                 </>
+                                }
+                                  {Mudar === true   &&
+                                <>
+                                 <Checkbox 
+                                 label={"Ativando a Notícia"} 
+                                 res={res2} 
+                                 onChange={(value)=>{setres2(value)}} 
                                  /> <br />
                                  </>
                                 }
@@ -271,7 +290,66 @@ useEffect( async ()=> {
                    </div>
                   </address>
                 </div>
-                
+                <div className="col-sm-8 invoice-col">
+                  <address>
+                  <strong>Notícia:</strong><br />
+                  <strong>{Not}</strong>
+                  {Not !== "" &&
+                   <Butao 
+                   style={"btn .btn-xs btn-danger"}
+                   titulo={"Excluir "}
+                   onClick={()=>excluir()}
+                   />
+                  }
+                  <br />
+                  <strong>Procure a Notícia:</strong><br />
+                  <input type="search" 
+                        placeholder="Procurar Notícia"
+                        onChange={e=>{setPesquisa(e.target.value)}}
+                        value={Pesquisa}
+                        />
+                         <div className="CaixaPesquisada">
+                           {Noticia[0].id &&
+                                <>
+
+                                { Noticia.filter((val)=>{
+                              if (Pesquisa == "") {
+                                return val;
+                              }else if (val.titulo.toLowerCase().includes(Pesquisa.toLowerCase())) {
+                                return val;
+                              }
+                            }).map((item, key)=>(
+                          
+                              <>
+                             
+                                
+                                 <div className="CaixaEndPes" >
+                                 <string>{item.titulo}</string> <br />
+                                 <DataTime 
+                                  DateIni={item.dateNoti/1000}
+                                  /> 
+                                 <div className="chatWindow--btn1"
+                                 onClick={()=> Peencher(item.id, item.titulo)}
+                                 >
+                                 <p className="textButao" >Add</p>
+                                 </div>
+                                 </div>
+                                  <br /> 
+                               
+                              
+                             
+                             
+                   
+                           
+                              </>
+                            ))}
+                            </>
+
+                           }
+                      
+              </div>
+                  </address>
+                </div>
               </div>
               <div className="row no-print">
              

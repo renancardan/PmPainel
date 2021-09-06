@@ -288,6 +288,8 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                 <th>Nome</th>
                                 
                                 <th>Ativo</th>
+
+                                <th>Vizualização</th>
                                 
                                 <th>Ações</th>
                               </tr>
@@ -309,7 +311,7 @@ export default ({Dados, setDados, Loading,  setLoading,  Alert, setAlert, AlertT
                                     }                                   
                                                                
                                     </td>
-                                   
+                                    <td>{item.list.visita}</td>
                                     <td>
                                     
                                    

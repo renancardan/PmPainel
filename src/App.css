@@ -273,6 +273,18 @@
 
   }
 
+  .CaixaPesquisada {
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    height: 300px;
+    margin-top: 30px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+  }
+
   .contentarea {
     flex: 1;
     display: flex;

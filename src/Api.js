@@ -817,6 +817,7 @@ export default {
                   id: doc.id,
                   nome: doc.data().nome,
                   ativo: doc.data().ativo,
+                  visita: doc.data().visitas,
                 });      
             });
             setUsuariosContServ(res);
@@ -1081,13 +1082,44 @@ export default {
  
   },
   
-  VizualizandoAnun: async(Id, Dados, setInfor)=> {
+  VizualizandoAnun: async(Id, Dados, setInfor, setNoticia)=> {
     const autenticado =  await Auth.currentUser;
     const id = await autenticado.uid;
     await db.collection("anuncios").doc(Id)
     .onSnapshot((doc) => {
         setInfor(doc.data());
     });
+
+    await db.collection("noticias")
+    .where("estado", "==", "Maranhão" )
+    .where("cidade", "==", "Bacabal")
+    .where("instituicao", "==", "Polícia Militar")
+    .get()
+    .then((querySnapshot) => {
+      var res = []; 
+      querySnapshot.forEach((doc) => {
+       
+          res.push({
+            id: doc.id,
+            dateNoti: doc.data().dataDanoti,
+            titulo: doc.data().TituloAnun,
+          });    
+       
+      });
+     
+
+      res.sort((a,b)=>{
+        if(a.dateNoti < b.dateNoti) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    console.log(res);
+      setNoticia(res);
+    
+
+        });
  
   },
 
@@ -2538,6 +2570,9 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
            link:"",
            DataIni:"",
            DataFim:"",
+           noticia:false,
+           idNot:"",
+           nomeNot:"",
            }).then(() => {
              setAlert("Anuncio Criado Com Sucesso ");
              setAlertTipo("success");
@@ -2552,7 +2587,7 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
       
      },
 
-     EditandoAnun: async(Dados, Id, setAlertTipo, setAlert, Imgs, Nome, Link, DataIni, DataFim, res1, Viz, Img1  )=> {
+     EditandoAnun: async(Dados, Id, setAlertTipo, setAlert, Imgs, Nome, Link, DataIni, DataFim, res1, Viz, Img1, res2, idNot, Not )=> {
       
       console.log(Imgs);
       
@@ -2581,6 +2616,10 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
           link:Link,
           DataIni:DataIni,
           DataFim:DataFim,
+          noticia:res2,
+          idNot: idNot,
+           nomeNot: Not,
+
           }).then(() => {
             setAlert("Anuncio Criado Com Sucesso ");
             setAlertTipo("success");
@@ -2606,6 +2645,9 @@ EditarGrupo: async(Dados, Id, nome, Valor, setAlertTipo, setAlert)=> {
         link:Link,
         DataIni:DataIni,
         DataFim:DataFim,
+        noticia:res2,
+        idNot: idNot,
+        nomeNot: Not,
         }).then(() => {
           setAlert("Anuncio Criado Com Sucesso ");
           setAlertTipo("success");
