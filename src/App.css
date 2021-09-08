@@ -640,6 +640,10 @@ aside.emoji-picker-react {
 .imgChat {
  width: 100px;
 }
+
+.imgChat1 {
+  width: 400px;
+ }
 .messageDate {
   font-size: 11px;
   color: #999;

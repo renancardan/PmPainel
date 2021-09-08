@@ -90,15 +90,7 @@ export default ({Forms, setForms, activeChat, setVirModal, setAlert, setAlertTip
                 }
                
                
-              {/* <CheckboxCond
-              key={key} 
-              label={item.nome}
-              Forms={Forms}
-              id={item.id} 
-              res={false}
-              activeChat={activeChat}
-              onChange={(value, chek)=>{addCond(value, chek)}} 
-              />  */}
+     
              
                 </>
               ))}

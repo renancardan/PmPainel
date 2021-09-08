@@ -280,15 +280,14 @@ export default ({ AbrirMaps, MapsCaixa, data, Nome, Dados, Vizul, setVizul, Vari
             }
             <Modal visible={Visible} width="500" height="500" effect="fadeInUp" onClickAway={() =>closeModal()}>
                     <div>
-                    <video width="500" height="500" controls
-                    preload="auto"
-                source src={Body} type="video/mp4" type="video/ogg"
-                >
+                    <img className="imgChat1"
+                 src={Body} 
+                />
 
                     
                
-                </video>
-                        <a href="javascript:void(0);" onClick={() => closeModal()}>Close</a>
+                
+                        <a href="javascript:void(0);" onClick={() => closeModal()}>Fechar</a>
                     </div>
                 </Modal>
             <div className="chatWindow--header">
